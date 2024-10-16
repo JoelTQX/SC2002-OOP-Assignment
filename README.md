@@ -10,8 +10,8 @@ The primary goal of this assignment is to:
 ## Project Overview
 This project involves developing a Hospital Management System (HMS) that automates hospital operations, such as patient management, appointment scheduling, staff management, and billing. The system aims to enhance hospital efficiency, streamline processes, and improve patient care.
 
-Key Features:
-User Roles:
+### Key Features:
+#### 1. User Roles:
 
 Patient: Manage personal records and appointments.
 Doctor: Manage patient records and appointment schedules.

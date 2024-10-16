@@ -39,3 +39,7 @@ This project includes:
 - UML Class Diagram
 - Detailed design considerations and OO concepts applied
 - Reflection on development challenges and improvements
+
+## Acknowledgments
+
+## References

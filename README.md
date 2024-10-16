@@ -1,5 +1,5 @@
 # Hospital Management System (HMS)
-Objective
+## Objective
 The primary goal of this assignment is to:
 
 - Apply Object-Oriented (OO) concepts in a real-world application.

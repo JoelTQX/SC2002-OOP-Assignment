@@ -1,16 +1,24 @@
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Iterator;
 import org.apache.poi.ss.usermodel.*;  // Common classes for both .xls and .xlsx
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class PatientListReader {
-
-    public static void main(String[] args) {
-        try (FileInputStream file = new FileInputStream(new File("C:\\Users\\jingj\\Desktop\\Code\\SC2002-OOP-Assignment\\Patient_List.xlsx"))) {
-            
+public class PatientListReader implements DataReader {
+	
+	private String filePath;
+	
+	public PatientListReader(String filePath) {
+        this.filePath = filePath;
+    }
+	
+	public void read() throws FileNotFoundException, IOException {
+        	try (FileInputStream file = new FileInputStream(new File(this.filePath))) {
+        	
             // Create Workbook instance for .xlsx file
             XSSFWorkbook workbook = new XSSFWorkbook(file);
 

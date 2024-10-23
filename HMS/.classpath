@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-22">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/commons-collections4-4.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/commons-compress-1.18.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/poi-4.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/poi-ooxml-4.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/poi-ooxml-schemas-4.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/xmlbeans-3.1.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

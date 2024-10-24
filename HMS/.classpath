@@ -6,11 +6,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/commons-collections4-4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/commons-compress-1.18.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/poi-4.1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/poi-ooxml-4.1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/poi-ooxml-schemas-4.1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/xmlbeans-3.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Dependancies/commons-collections4-4.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Dependancies/commons-compress-1.18.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Dependancies/poi-4.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Dependancies/poi-ooxml-4.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Dependancies/poi-ooxml-schemas-4.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Dependancies/xmlbeans-3.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,5 +1,6 @@
 package boundaries;
 import entities.Password;
+import entities.User;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
@@ -45,7 +46,17 @@ public class Authenticator {
             }
         }
     }
-
+    public void testLogin(String userID, String password, List<User> patientRecords) {
+    	for(User patient : patientRecords) {
+    		if(userID.equals(patient.userID)) {
+    			if(password.equals(patient.Password)) {
+    				System.out.println("Successful Login for " + patient.name);
+    				return;
+    			}
+    		}
+    	}
+    	System.out.println("Unsuccessful Login... Try Again...");
+    }
     /**
      * Gets the current permitted state.
      *

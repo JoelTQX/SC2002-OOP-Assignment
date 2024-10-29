@@ -1,68 +1,47 @@
-package Objects;
+package helper;
 
-
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+// AppointmentManagement class
 public class AppointmentManagement {
 
-    // Attributes
-    private Patient patient;
-    private Doctor doctor;
-    private Date date;
-    private String typeOfService;
-    private String status;
+    // List to hold all appointments
+    private List<Appointment> appointments;
 
     // Constructor
-    public AppointmentManagement(Patient patient, Doctor doctor, Date date, String typeOfService, String status) {
-        this.patient = patient;
-        this.doctor = doctor;
-        this.date = date;
-        this.typeOfService = typeOfService;
-        this.status = status;
+    public AppointmentManagement() {
+        this.appointments = new ArrayList<>();
     }
 
-    // mutator methods 
-    public void setDate(Date date) {
-        this.date = date;
+    // Mutator Method
+    // Method to add an appointment
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-    
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setTypeOfService(String typeOfService) {
-        this.typeOfService = typeOfService;
+     // Method for doctor to record appointment outcome
+     public void recordAppointmentOutcome(Appointment appointment, String serviceType, 
+     List<Medication> medications, String notes) {
+     appointment.setTypeOfService(serviceType);
+     appointment.setMedications(medications);
+     appointment.setConsultationNotes(notes);
+     appointment.setStatus("Completed");
+     System.out.println("Appointment outcome recorded successfully.");
     }
 
-    
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    // Acessor Methods 
+    // Method to view all upcoming appointments for a doctor
+    public List<Appointment> getUpcomingAppointments(Doctor doctor) {
+        List<Appointment> upcomingAppointments = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (appointment.getDoctor().equals(doctor) && appointment.getDate().after(new Date())) {
+                upcomingAppointments.add(appointment);
+            }
+        }
+        return upcomingAppointments;
     }
 
-    //accessor methods
    
-    public Date getDate() {
-        return date;
-    }
-   
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getTypeOfService() {
-        return typeOfService;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
 }

@@ -11,23 +11,25 @@ public class AppointmentManagement {
     private List<Appointment> appointments;
 
     // Constructor
-    public AppointmentManagement() {
-        this.appointments = new ArrayList<>();
+    public AppointmentManagement() 
+    {
+        this.appointments = new ArrayList<>();  // Create the array list 
     }
 
     // Mutator Method
     // Method to add an appointment
-    public void addAppointment(Appointment appointment) {
+    public void addAppointment(Appointment appointment) 
+    {
         appointments.add(appointment);
     }
 
     // Method for doctor to record a new consultation outcome within an appointment
-    public void recordConsultationOutcome(Appointment appointment, String serviceType, 
-                                          List<MedicationDispensed> medications, String notes) {
-        Consultation consultation = new Consultation(serviceType, "Completed");
-        consultation.setConsultationNotes(notes);
+    public void recordConsultationOutcome(Appointment appointment, String serviceType, List<MedicationDispensed> medications, String notes) 
+    {
+        Consultation consultation = new Consultation(serviceType, "Completed");         //Mark consult as DONE
+        consultation.setConsultationNotes(notes);   // Add consult notes
         
-        // Add medications to the consultation
+        // Add medications to the consult
         for (MedicationDispensed medication : medications) {
             consultation.addMedication(medication);
         }
@@ -39,7 +41,8 @@ public class AppointmentManagement {
 
     // Accessor Methods
     // Method to view all upcoming appointments for a doctor
-    public List<Appointment> getUpcomingAppointments(Doctor doctor) {
+    public List<Appointment> getUpcomingAppointments(Doctor doctor) 
+    {
         List<Appointment> upcomingAppointments = new ArrayList<>();
         for (Appointment appointment : appointments) {
             if (appointment.getDoctor().equals(doctor) && appointment.getDate().after(new Date())) {
@@ -50,7 +53,8 @@ public class AppointmentManagement {
     }
 
     // Method to show ALL appointments 
-    public List<Appointment> getAllAppointments() {
+    public List<Appointment> getAllAppointments()
+    {
         return appointments;
     }
 }

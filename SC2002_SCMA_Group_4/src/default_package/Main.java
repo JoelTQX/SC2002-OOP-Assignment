@@ -1,3 +1,4 @@
+package default_package;
 import java.io.FileNotFoundException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ import entities.Password;
 import entities.Staff;
 import helpers.CSVUtils;
 import helpers.OffOnline;
+
 
 /**
  * The main Application Class of the HMS (Hospital Management System) Portal Application.

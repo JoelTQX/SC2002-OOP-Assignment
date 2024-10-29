@@ -1,5 +1,4 @@
-package Objects;
-
+package helper;
 
 // Appointment class
 class Appointment {
@@ -55,12 +54,12 @@ class Appointment {
 }
 
 // Medication class
-class Medication {
+class MedicationDispensed {
 
     private String name;
     private String status; // e.g., "Pending", "Dispensed"
 
-    public Medication(String name) {
+    public MedicationDispensed(String name) {
         this.name = name;
         this.status = "Pending"; // default status
     }

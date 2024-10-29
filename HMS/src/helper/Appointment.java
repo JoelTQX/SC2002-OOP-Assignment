@@ -1,106 +1,66 @@
-package helper;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+package Objects;
 
 
-// Appointment class, with list of consultations in order to record the outcome of mutliple past consultations 
+// Appointment class
 class Appointment {
-    private Doctor doctor;
-    private Date date;
-    private List<Consultation> consultations;
 
-    // Constructor
-    public Appointment(Doctor doctor, Date date) 
-    {
+    private Doctor doctor;
+    private Patient patient;
+    private Date date;
+    private String typeOfService;
+    private String status;
+  
+    //Constructor
+    public Appointment(Doctor doctor, Date date, String typeOfService, String status) {
         this.doctor = doctor;
         this.date = date;
-        this.consultations = new ArrayList<>();
-    }
-
-    // Method to add a consultation to the appointment
-    public void addConsultation(Consultation consultation) {
-        consultations.add(consultation);
-
-    }
-
-    // Accessor methods
-    
-    public Doctor getDoctor() 
-    {
-        return doctor;
-    }
-
-    public Date getDate() 
-    {
-        return date;
-    }
-
-    public List<Consultation> getConsultations()    // Implmented as a list to allow for multiple 
-    {
-        return consultations;
-    }
-}
-
-
-// Consultation class to represent each individual past consultation 
-class Consultation {
-    private String typeOfService;           // e.g., "Consultation", "Follow-up"
-    private String consultationNotes;
-    private String status;                  // e.g., "Pending", "Completed"
-    private List<MedicationDispensed> medications;
-
-    // Constructor methods 
-    public Consultation(String typeOfService, String status) {
+        this.patient = patient; 
         this.typeOfService = typeOfService;
         this.status = status;
-        this.medications = new ArrayList<>();
+    
     }
 
-    // Mutator methods
-    public void setConsultationNotes(String consultationNotes) {
-        this.consultationNotes = consultationNotes;
-    }
-
+    // mutators methods
+   
     public void setStatus(String status) {
         this.status = status;
     }
 
-    public void addMedication(MedicationDispensed medication) {
-        this.medications.add(medication);
+    public void setTypeOfService(String typeOfService) {
+        this.typeOfService = typeOfService;
     }
 
-    // Accessor methods
-    public String getTypeOfService() {
-        return typeOfService;
+    // accessor methods 
+    public Doctor getDoctor() {
+        return doctor;
+    }
+    
+    public Patient getPatient()
+    {
+        return patient; 
     }
 
-    public String getConsultationNotes() {
-        return consultationNotes;
+    public Date getDate() {
+        return date;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public List<MedicationDispensed> getMedications() {
-        return medications;
-    }
 }
 
-// MedicationDispensed class to store medication details for each consultation
-class MedicationDispensed {
+// Medication class
+class Medication {
+
     private String name;
     private String status; // e.g., "Pending", "Dispensed"
 
-    // Constructor
-    public MedicationDispensed(String name) {
+    public Medication(String name) {
         this.name = name;
-        this.status = "Pending"; // Default status
+        this.status = "Pending"; // default status
     }
 
-    // Accessor methods
     public String getName() {
         return name;
     }
@@ -109,7 +69,6 @@ class MedicationDispensed {
         return status;
     }
 
-    // Mutator method to update medication status
     public void setStatus(String status) {
         this.status = status;
     }

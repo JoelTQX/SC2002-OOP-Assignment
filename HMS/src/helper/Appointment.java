@@ -1,5 +1,6 @@
 package Objects;
 
+import entities.Doctor;
 
 // Appointment class
 class Appointment {

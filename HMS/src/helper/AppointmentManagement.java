@@ -3,6 +3,8 @@ package helper;
 
 import java.util.Date;
 
+import entities.Doctor;
+
 public class AppointmentManagement {
 
     // Attributes

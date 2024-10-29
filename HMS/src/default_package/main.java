@@ -1,5 +1,6 @@
 package default_package;
-
+import entities.Password;
+import boundaries.Authenticator;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -19,7 +20,7 @@ public class main {
         String userType = "";
 
         // Authentication process
-        /*Authenticator authenticator = new Authenticator(); // Instantiate Authenticator object
+        Authenticator authenticator = new Authenticator(); // Instantiate Authenticator object
         for (int attempt = 0; attempt < 3; attempt++) { // Three attempts to log in
             System.out.print("Enter Hospital ID: ");
             networkID = scanner.nextLine().toUpperCase();
@@ -97,7 +98,6 @@ public class main {
                 patientDirectory.displayMenu();
             }
         }
-	}*/
+	}
 
-}
 }

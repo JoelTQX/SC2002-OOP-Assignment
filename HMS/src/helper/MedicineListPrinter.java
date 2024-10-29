@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class MedicineListReader implements DataReader {
+public class MedicineListPrinter implements DataPrinter {
 	
-	public void read(){
+	public void print(){
     	String csvFile = "C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Medicine_List.csv";
         String line;
 

@@ -21,17 +21,23 @@ public class AppointmentManagement {
         appointments.add(appointment);
     }
 
-     // Method for doctor to record appointment outcome
-     public void recordAppointmentOutcome(Appointment appointment, String serviceType, 
-     List<Medication> medications, String notes) {
-     appointment.setTypeOfService(serviceType);
-     appointment.setMedications(medications);
-     appointment.setConsultationNotes(notes);
-     appointment.setStatus("Completed");
-     System.out.println("Appointment outcome recorded successfully.");
+    // Method for doctor to record a new consultation outcome within an appointment
+    public void recordConsultationOutcome(Appointment appointment, String serviceType, 
+                                          List<MedicationDispensed> medications, String notes) {
+        Consultation consultation = new Consultation(serviceType, "Completed");
+        consultation.setConsultationNotes(notes);
+        
+        // Add medications to the consultation
+        for (MedicationDispensed medication : medications) {
+            consultation.addMedication(medication);
+        }
+
+        // Add the consultation to the appointment
+        appointment.addConsultation(consultation);
+        System.out.println("Consultation outcome recorded successfully for the appointment.");
     }
 
-    // Acessor Methods 
+    // Accessor Methods
     // Method to view all upcoming appointments for a doctor
     public List<Appointment> getUpcomingAppointments(Doctor doctor) {
         List<Appointment> upcomingAppointments = new ArrayList<>();
@@ -43,5 +49,8 @@ public class AppointmentManagement {
         return upcomingAppointments;
     }
 
-   
+    // Method to show ALL appointments 
+    public List<Appointment> getAllAppointments() {
+        return appointments;
+    }
 }

@@ -26,6 +26,7 @@ class Appointment {
     }
 
     // Accessor methods
+    
     public Doctor getDoctor() 
     {
         return doctor;

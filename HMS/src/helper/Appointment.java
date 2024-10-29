@@ -1,4 +1,4 @@
-package Objects;
+package helper;
 
 import entities.Doctor;
 
@@ -8,6 +8,7 @@ class Appointment {
     private Doctor doctor;
     private Patient patient;
     private Date date;
+    private StartTime starttime; 
     private String typeOfService;
     private String status;
   
@@ -16,6 +17,7 @@ class Appointment {
         this.doctor = doctor;
         this.date = date;
         this.patient = patient; 
+        this.starttime = starttime; 
         this.typeOfService = typeOfService;
         this.status = status;
     
@@ -32,7 +34,8 @@ class Appointment {
     }
 
     // accessor methods 
-    public Doctor getDoctor() {
+    public Doctor getDoctor() 
+    {
         return doctor;
     }
     
@@ -41,36 +44,20 @@ class Appointment {
         return patient; 
     }
 
-    public Date getDate() {
+    public Date getDate()
+    {
         return date;
     }
 
-    public String getStatus() {
+    public StartTime startime()
+    {
+
+    }
+
+    public String getStatus() 
+    {
         return status;
     }
 
 }
 
-// Medication class
-class Medication {
-
-    private String name;
-    private String status; // e.g., "Pending", "Dispensed"
-
-    public Medication(String name) {
-        this.name = name;
-        this.status = "Pending"; // default status
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-}

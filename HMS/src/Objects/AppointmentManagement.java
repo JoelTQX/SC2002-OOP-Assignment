@@ -1,4 +1,4 @@
-package helper;
+package Objects;
 
 
 import java.util.Date;
@@ -48,18 +48,14 @@ public class AppointmentManagement {
     public Date getDate() {
         return date;
     }
-
    
     public Doctor getDoctor() {
         return doctor;
     }
 
- 
-    // Getter and Setter for status
     public String getStatus() {
         return status;
     }
-
 
     public String getTypeOfService() {
         return typeOfService;

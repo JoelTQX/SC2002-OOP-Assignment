@@ -1,4 +1,5 @@
-package hospital_management_system;
+package helper;
+
 
 import java.util.Date;
 

@@ -1,45 +1,57 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+
+import java.io.BufferedWriter;
+import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
-import org.apache.poi.ss.usermodel.*;  // Common classes for both .xls and .xlsx
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PatientListWriter implements DataWriter {
 	
-	private String filePath;
-	
-	
-	public PatientListWriter(String filePath) {
-        this.filePath = filePath;
-    }
-	
-	public void write(int x,int y,String message) throws FileNotFoundException, IOException {
-        try (FileInputStream file = new FileInputStream(new File(this.filePath))) {
-        	   // Create Workbook instance for .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+	public void write(int x, int y,String message){
+    	String csvFile = "C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Patient_List.csv";
+        String line;
 
-            // Get the first sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            
-            Row row = sheet.getRow(y);
-            if (row == null) {
-                row = sheet.createRow(y);  // Create the row if it doesn't exist
+        List<String[]> rows = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = reader.readLine()) != null) {
+                rows.add(line.split(","));  // Split each row into columns
             }
-            Cell cell = row.getCell(x);
-            if (cell == null) {
-                cell = row.createCell(x);  // Create the cell if it doesn't exist
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        while (rows.size() <= x) {
+            // Add a new empty row with a placeholder column (adjust if needed)
+            rows.add(new String[] {""});
+        }
+
+        // Get the target row
+        String[] targetRow = rows.get(x);
+
+        // Ensure the row has enough columns (expand it if needed)
+        if (y >= targetRow.length) {
+            String[] expandedRow = new String[y + 1];
+            System.arraycopy(targetRow, 0, expandedRow, 0, targetRow.length);
+            for (int i = targetRow.length; i <= y; i++) {
+                expandedRow[i] = "";  // Fill new cells with empty strings
             }
-            cell.setCellValue(message);
-            
-            try(FileOutputStream fileout= new FileOutputStream(new File("C:\\Users\\jingj\\Desktop\\Code\\SC2002-OOP-Assignment\\Patient_List.xlsx"))){
-            	workbook.write(fileout);
-            } 
-            file.close();
-            workbook.close();
-        }}
-        
-	}
+            rows.set(x, expandedRow);  // Update the row in the list
+        }
+
+        // Modify the specific cell
+        rows.get(x)[y] = message;
+
+        // Write the modified data back to the CSV file
+        try (PrintWriter writer = new PrintWriter(new FileWriter(csvFile))) {
+            for (String[] row : rows) {
+                writer.println(String.join(",", row));  // Join columns with commas
+            }
+            System.out.println("CSV updated successfully!");
+        } 
+        catch (IOException e) {
+        e.printStackTrace();
+        }
+    }
+}

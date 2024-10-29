@@ -1,65 +1,27 @@
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
-import org.apache.poi.ss.usermodel.*;  // Common classes for both .xls and .xlsx
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class MedicineListReader implements DataReader {
 	
-	private String filePath;
-	
-	public MedicineListReader(String filePath) {
-        this.filePath = filePath;
-    }
-	
-	public void read() throws FileNotFoundException, IOException {
-        	try (FileInputStream file = new FileInputStream(new File(this.filePath))) {
-        	
-            // Create Workbook instance for .xlsx file
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
+	public void read(){
+    	String csvFile = "C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Medicine_List.csv";
+        String line;
 
-            // Get the first sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+            // Optional: Read header line
+            String header = reader.readLine();
+            System.out.println(header);
 
-            // Iterate through rows
-            Iterator<Row> rowIterator = sheet.iterator();
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-
-                // Iterate through all cells in the current row
-                Iterator<Cell> cellIterator = row.cellIterator();
-                while (cellIterator.hasNext()) {
-                    Cell cell = cellIterator.next();
-
-                    // Check the type of each cell and print accordingly
-                    switch (cell.getCellType()) {
-                        case NUMERIC:
-                            System.out.print(cell.getNumericCellValue() + "\t");
-                            break;
-                        case STRING:
-                            System.out.print(cell.getStringCellValue() + "\t");
-                            break;
-                        case BOOLEAN:
-                            System.out.print(cell.getBooleanCellValue() + "\t");
-                            break;
-                        case FORMULA:
-                            System.out.print(cell.getCellFormula() + "\t");
-                            break;
-                        default:
-                            System.out.print("Unknown Value\t");
-                    }
-                }
-                System.out.println();  // Print new line after each row
+            // Read the rest of the lines
+            while ((line = reader.readLine()) != null) {
+                String[] cells = line.split(",");
+                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]);
             }
-           file.close();
-           workbook.close();
-
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
+

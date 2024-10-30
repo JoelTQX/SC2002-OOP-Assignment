@@ -11,11 +11,11 @@ public class Authenticator {
 		this.dataStorage = dataStorage;
 	}
 	
-	public User authenticate(String userID, String userPass) throws NoSuchAlgorithmException {
+	public User authenticate(String userID, String userPass){
 		User user = dataStorage.getPatientRecords().getPatientByID(userID);
 		if(user == null) user = dataStorage.getStaffRecords().getStaffByID(userID);
 		if(user != null) {
-			if(user.validatePassword(Password.hashPassword(userPass))) return user;
+			if(user.validatePassword(userPass)) return user;
 		}
 		
 		return null;

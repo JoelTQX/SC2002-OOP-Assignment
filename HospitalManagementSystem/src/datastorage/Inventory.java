@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entities.Medicine;
-import controllers.MedicineController;
 
 public class Inventory {
 	private List<Medicine> inventory;
-	private MedicineController medicineControl;
 	
 	//Constructor
 	public Inventory() {
 		this.inventory = new ArrayList<Medicine>();
-		this.medicineControl = new MedicineController();
 	}
 	
 	//To add Medicine to Inventory

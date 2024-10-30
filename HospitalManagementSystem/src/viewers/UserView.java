@@ -5,9 +5,11 @@ import java.util.Scanner;
 import controllers.ControllerInterface;
 import controllers.DoctorController;
 import controllers.PatientController;
+import controllers.PharmacistController;
 import controllers.UserController;
 import entities.Doctor;
 import entities.Patient;
+import entities.Pharmacist;
 import entities.User;
 
 public class UserView implements ViewInterface{
@@ -52,7 +54,10 @@ public class UserView implements ViewInterface{
 			DoctorController doctorControl = new DoctorController(user);
 			viewer = new DoctorView(doctorControl, inputScanner);
 		}
-		
+		else if(user instanceof Pharmacist) {
+			PharmacistController pharmacistControl = new PharmacistController(userControl);//was new PharmacistController(user,userControl)
+			viewer = new PharmacistView(pharmacistControl, inputScanner);
+		}
 		while(viewer.displayMenu()) {
 			//Continues till User Logs Out
 		}

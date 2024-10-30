@@ -27,13 +27,38 @@ public class PatientView implements ViewInterface{
 		System.out.println("What Do You Want To Do?: ");
 		
 		int userChoice = inputScanner.nextInt();
+		
+		switch(userChoice){
+			case 1: 
+				viewMedicalRecord();
+				break;
+			case 2:
+				updatePersonalInformation();
+				break;
+			case 3: 
+				viewAvailableSlots();
+				break;
+		}
 		if(userChoice == 1) viewMedicalRecord();
 		else if(userChoice == 9) return false;
 		return true;
+	}
+	
+
+
+
+
+	private void viewMedicalRecord() {
+		System.out.println("User ID: " + patientControl.getUserID());
+	}
+	
+	private void updatePersonalInformation() {
+		// TODO Auto-generated method stub
 		
 	}
 	
-	public void viewMedicalRecord() {
-		System.out.println("User ID: " + patientControl.getUserID());
+	private void viewAvailableSlots() {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -3,7 +3,7 @@ package controllers;
 import datastorage.Authenticator;
 import datastorage.DataStorage;
 import entities.User;
-import datastorage.Password;
+import datastorage.Inventory;
 
 public class UserController {
 	private DataStorage dataStorage;
@@ -20,5 +20,9 @@ public class UserController {
 	public void changePassword(User user, String newUserPass) {
 		user.changePassword(newUserPass);
 		System.out.println("Password has been updated.");
+	}
+	
+	public Inventory getInventory() {
+		return dataStorage.getInventory();
 	}
 }

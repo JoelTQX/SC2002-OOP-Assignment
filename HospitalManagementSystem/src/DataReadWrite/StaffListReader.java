@@ -12,7 +12,7 @@ import entities.Administrator;
 
 public class StaffListReader implements DataReader {
 	
-	String csvFile = "C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Staff_List.csv";
+	String csvFile = "dataFiles/Staff_List.csv";
     String line;
 	
 	public void populateData(DataStorage dataStorage) {

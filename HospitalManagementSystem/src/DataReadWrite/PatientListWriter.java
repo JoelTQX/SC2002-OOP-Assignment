@@ -11,7 +11,7 @@ import java.util.List;
 public class PatientListWriter implements DataWriter {
 	
 	public void write(int x, int y,String message){
-    	String csvFile = "C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Patient_List.csv";
+		String csvFile = "dataFiles/Patient_List.csv";
         String line;
 
         List<String[]> rows = new ArrayList<>();

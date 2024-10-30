@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class PatientListPrinter implements DataPrinter {
     public void print(){
-    	String csvFile = "C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Patient_List.csv";
+    	String csvFile = "dataFiles/Patient_List.csv";
         String line;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {

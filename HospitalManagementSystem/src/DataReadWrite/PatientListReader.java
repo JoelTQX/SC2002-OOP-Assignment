@@ -12,7 +12,7 @@ import datastorage.PatientRecords;
 
 public class PatientListReader implements DataReader {
 	
-	String csvFile = "C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Patient_List.csv";
+	String csvFile = "dataFiles/Patient_List.csv";
     String line;
 	
 	public void populateData(DataStorage dataStorage) {

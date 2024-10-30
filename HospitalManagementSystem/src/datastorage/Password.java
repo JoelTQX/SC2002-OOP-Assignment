@@ -20,9 +20,7 @@ public class Password {
      * @param hashedPassword The hashed password to set.
      */
     public Password(String hashedPassword) throws NoSuchAlgorithmException {
-
         this.HashedPassword = hashedPassword;
-
     }
 
     /**

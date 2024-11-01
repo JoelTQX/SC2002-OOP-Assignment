@@ -1,9 +1,22 @@
+// Yet to implement the r/w to file functionality
 package entities;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.Appointment.AppointmentStatus;
+
 public class Appointment {
+
+    // Enum to represent the possible statuses of an appointment
+    public enum AppointmentStatus {
+        SCHEDULED,   // Used when an appointment has been scheduled by the patient but is awaiting confirmation by the doctor
+        CONFIRMED,   // Used when the doctor has accepted and confirmed the appointment
+        CANCELLED,   // Used when the appointment has been cancelled by either the patient or the doctor
+        COMPLETED,   // Used when the appointment has been completed
+        PENDING      // Used when the appointment request is sent and waiting for the doctor’s response to either confirm or decline
+    }   //PEINDING maybe used when paitient suggest just a day but not specific time slot ? can be reassigned later 
+        
 
     // Attributes to hold basic appointment details
     private String patientId;

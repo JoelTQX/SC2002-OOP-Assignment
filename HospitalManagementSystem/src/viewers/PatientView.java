@@ -2,6 +2,7 @@ package viewers;
 
 import java.util.Scanner;
 
+import DataReadWrite.PatientListWriter;
 import controllers.PatientController;
 
 public class PatientView implements ViewInterface{
@@ -51,11 +52,35 @@ public class PatientView implements ViewInterface{
 	private void viewMedicalRecord() {
 		System.out.println("Patient ID: " + patientControl.getUserID());
 		System.out.println("Patient Name: " + patientControl.getUserName());
+		System.out.println("Patient Gender: " + patientControl.getUserGender());
+		System.out.println("Patient Date Of Birth: " + patientControl.getUserDOB());
+		System.out.println("Patient Email: " + patientControl.getUserContactInfo());
+		System.out.println("Patient Blood Type: " + patientControl.getUserBloodType());
 		
 	}
 	
 	private void updatePersonalInformation() {
-		// TODO Auto-generated method stub
+		System.out.println("------ Update Personal Information ------");
+		System.out.println("1. Email Address");
+		System.out.println("2. Contact Information");
+		System.out.println("3. Exit");
+		
+		int userChoice = inputScanner.nextInt();
+		
+		switch(userChoice){
+			case 1: 
+				System.out.println("Enter New Email Address");
+				Scanner input=new Scanner(System.in);
+				String email = input.nextLine();
+				patientControl.setPatientContactInfo(email);
+				PatientListWriter writer=new PatientListWriter();
+				writer.write(patientControl.getUserID(),6,email);
+				System.out.println("Email Address Updated");
+				break;
+			case 2:
+				System.out.println("Enter New Contact Information");
+				break;
+		}
 		
 	}
 	

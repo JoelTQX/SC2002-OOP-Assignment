@@ -6,11 +6,11 @@ import entities.User;
 
 public class PharmacistController {
 	
-	private UserController userControl;
+	private User userControl;
 	private MedicineController medicineControl;
 	
-	public PharmacistController(UserController userControl) {
-		this.userControl = userControl;
+	public PharmacistController(User user) {
+		this.userControl = user;
 		this.medicineControl = new MedicineController();
 	}
 	/*public Inventory getInventory() {

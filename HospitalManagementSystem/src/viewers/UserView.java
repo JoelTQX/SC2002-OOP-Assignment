@@ -2,12 +2,16 @@ package viewers;
 
 import java.util.Scanner;
 
+import controllers.AdministratorController;
 import controllers.DoctorController;
 import controllers.PatientController;
+import controllers.PharmacistController;
 import controllers.UserController;
 import entities.User;
+import entities.Administrator;
 import entities.Doctor;
 import entities.Patient;
+import entities.Pharmacist;
 
 public class UserView implements ViewInterface {
     private boolean isLoggedIn;
@@ -50,7 +54,13 @@ public class UserView implements ViewInterface {
         } else if (user instanceof Doctor) {
             viewer = new DoctorView(new DoctorController(user), inputScanner);
             isLoggedIn=false;
-        }
+        }else if (user instanceof Pharmacist) {
+            viewer = new PharmacistView(new PharmacistController(user), inputScanner);
+            isLoggedIn=false;
+        }//else if (user instanceof Administrator) {
+            //viewer = new AdministratorView(new AdministratorController(user), inputScanner);
+            //isLoggedIn=false;
+        //}
         
         while (viewer.displayMenu()) {
             // Continues till user logs out

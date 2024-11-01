@@ -1,18 +1,21 @@
 package entities;
 
 import DataReadWrite.PatientListWriter;
+import DataReadWrite.StaffListWriter;
 
 public abstract class User {
 	private String userID;
 	private String userPass;
 	private boolean firstLogin;
 	private String userName;
+	private String gender;
 	
-	public User(String userID, String userName,String userPass, boolean firstLogin) {
+	public User(String userID, String userName,String userPass, boolean firstLogin,String gender) {
 		this.userID = userID;
 		this.userName=userName;
 		this.userPass = userPass;
 		this.firstLogin = firstLogin;
+		this.gender=gender;
 	}
 	
 	public String getUserID() {
@@ -21,6 +24,10 @@ public abstract class User {
 	
 	public String getUserName() {
 		return this.userName;
+	}
+	
+	public String getUserGender() {
+		return this.gender;
 	}
 	
 	public boolean validatePassword(String userPass) {
@@ -39,7 +46,11 @@ public abstract class User {
 		if (this instanceof Patient) {
 			PatientListWriter writer=new PatientListWriter();
 			writer.write(this.userID,1,newUserPass);
-			writer.write(this.userID,11,"false");
+			writer.write(this.userID,2,"FALSE");
+		}else if (this instanceof Staff) {
+			StaffListWriter writer=new StaffListWriter();
+			writer.write(this.userID,1,newUserPass);
+			writer.write(this.userID,2,"FALSE");
 		}
 	}
 	

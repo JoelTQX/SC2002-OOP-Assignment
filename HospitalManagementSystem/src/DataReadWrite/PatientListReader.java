@@ -22,15 +22,15 @@ public class PatientListReader implements DataReader {
 	                String[] cells = line.split(",");
 	                String patientid = cells[0];
 	                String password=cells[1];
-	                String name=cells[2];
-	                String dob=cells[3];
-	                String gender=cells[4];
-	                String bloodtype=cells[5];
-	                String contactinfo=cells[6];
-	                boolean firstlogin=Boolean.parseBoolean(cells[11]);
+	                String name=cells[3];
+	                String dob=cells[4];
+	                String gender=cells[5];
+	                String bloodtype=cells[6];
+	                String contactinfo=cells[7];
+	                boolean firstlogin=Boolean.parseBoolean(cells[2]);
 	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]);
 	                
-	                Patient patient = new Patient(patientid,name,password, firstlogin);
+	                Patient patient = new Patient(patientid,name,password, firstlogin,dob,bloodtype,contactinfo,gender);
 	                dataStorage.getPatientRecords().addPatient(patient);
 			 }
 		 }catch (Exception e) {

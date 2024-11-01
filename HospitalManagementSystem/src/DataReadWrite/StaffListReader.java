@@ -27,15 +27,15 @@ public class StaffListReader implements DataReader {
 	                String gender = cells[4];
 	                boolean firstlogin = Boolean. parseBoolean(cells[5]);
 	                if(staffid.charAt(0)=='D') {
-	                	Staff doctor=new Doctor(staffid,password,firstlogin,role);
+	                	Staff doctor=new Doctor(staffid,name,password,true,role);
 	                	dataStorage.getStaffRecords().addStaff(doctor);
 	                }
 	                else if(staffid.charAt(0)=='P') {
-	                	Staff pharmacist=new Pharmacist(staffid,password,firstlogin,role);
+	                	Staff pharmacist=new Pharmacist(staffid,name,password,true,role);
 	                	dataStorage.getStaffRecords().addStaff(pharmacist);
 	                }
 	                else if(staffid.charAt(0)=='a') {
-	                	Staff admin=new Administrator(staffid,password,firstlogin,role);
+	                	Staff admin=new Administrator(staffid,name,password,true,role);
 	                	dataStorage.getStaffRecords().addStaff(admin);
 	                }
 	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]);

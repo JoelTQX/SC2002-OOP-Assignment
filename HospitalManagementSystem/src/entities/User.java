@@ -6,15 +6,21 @@ public abstract class User {
 	private String userID;
 	private String userPass;
 	private boolean firstLogin;
+	private String userName;
 	
-	public User(String userID, String userPass, boolean firstLogin) {
+	public User(String userID, String userName,String userPass, boolean firstLogin) {
 		this.userID = userID;
+		this.userName=userName;
 		this.userPass = userPass;
 		this.firstLogin = firstLogin;
 	}
 	
 	public String getUserID() {
 		return this.userID;
+	}
+	
+	public String getUserName() {
+		return this.userName;
 	}
 	
 	public boolean validatePassword(String userPass) {
@@ -33,6 +39,7 @@ public abstract class User {
 		if (this instanceof Patient) {
 			PatientListWriter writer=new PatientListWriter();
 			writer.write(this.userID,1,newUserPass);
+			writer.write(this.userID,11,"false");
 		}
 	}
 	

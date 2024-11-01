@@ -103,4 +103,5 @@ public class PatientListWriter implements DataWriter {
         e.printStackTrace();
         }
     }
+	
 }

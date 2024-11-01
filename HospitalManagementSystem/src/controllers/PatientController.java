@@ -13,4 +13,7 @@ public class PatientController implements ControllerInterface{
 	public String getUserID() {
 		return patientUser.getUserID();
 	}
+	public String getUserName() {
+		return patientUser.getUserName();
+	}
 }

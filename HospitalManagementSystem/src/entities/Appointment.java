@@ -8,7 +8,7 @@ public class Appointment {
     // Attributes to hold basic appointment details
     private String patientId;
     private String doctorId;
-    private String status;
+    private AppointmentStatus status; // Using AppointmentStatus enum for status
     private String appointmentDate;
     private String appointmentTime; // Now in hourly format (e.g., "10:00", "15:00")
     private String appointmentType;
@@ -23,9 +23,9 @@ public class Appointment {
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.appointmentDate = appointmentDate;
-        this.appointmentTime = appointmentTime; // New hourly appointment time
+        this.appointmentTime = appointmentTime; // Hourly appointment time
         this.appointmentType = appointmentType;
-        this.status = "Scheduled"; // Default status is "Scheduled"
+        this.status = AppointmentStatus.SCHEDULED; // Default status is SCHEDULED
         this.doctorAccepted = false; // Default to not accepted by doctor
         this.medicinesDispensed = new ArrayList<>(); // Initializes empty list for medicines
     }
@@ -56,11 +56,11 @@ public class Appointment {
         this.doctorId = doctorId;
     }
 
-    public String getStatus() {
+    public AppointmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AppointmentStatus status) {
         this.status = status;
     }
 

@@ -1,3 +1,5 @@
+// Yet to implement the r/w to file functionality
+
 package entities;
 
 import java.util.ArrayList;
@@ -5,98 +7,105 @@ import java.util.List;
 
 public class AppointmentManager {
 
-    // List to store all appointments
-    private List<Appointment> appointments;
+    private List<Appointment> appointments; // List of all appointments
 
-    // Constructor initializes the appointments list
+    // Constructor initializes the list of appointments
     public AppointmentManager() {
         this.appointments = new ArrayList<>();
     }
 
-    // Patient Functions (No role validation or printing)
-
-    // Method to get the next available appointment for a specific doctor
-    public Appointment getAvailableAppointments(String doctorId) {
+    // Method to check if an hourly slot is available for a doctor on a specific date
+    public boolean isSlotAvailable(String doctorId, String date, String time) {
         for (Appointment appointment : appointments) {
-            // Check if the appointment is for the specified doctor and is available
-            if (appointment.getDoctorId().equals(doctorId) && appointment.getStatus().equals("Available")) {
-                return appointment;
+            // Checks for an existing appointment at the same date, time, and doctor
+            if (appointment.getDoctorId().equals(doctorId) && 
+                appointment.getAppointmentDate().equals(date) && 
+                appointment.getAppointmentTime().equals(time) && 
+                !appointment.getStatus().equals("Cancelled")) {
+                return false; // Slot is already booked
             }
         }
-        return null; // Return null if no available appointment is found
+        return true; // Slot is available
     }
 
-    // Method to add a new appointment for a patient, setting its status as "Scheduled"
-    public void addAppointment(Appointment appointment) {
-        appointment.setStatus("Scheduled"); // Set appointment status to "Scheduled"
-        appointments.add(appointment); // Add the appointment to the list
+    // Method to get a list of available slots for a doctor on a specific date
+    public List<String> getAvailableSlots(String doctorId, String date) {
+        List<String> availableSlots = new ArrayList<>();
+        
+        // Define working hours, e.g., 9 AM to 5 PM (Hourly slots)
+        String[] workingHours = {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"};
+        
+        // Check each hour to see if it's available
+        for (String hour : workingHours) {
+            if (isSlotAvailable(doctorId, date, hour)) {
+                availableSlots.add(hour); // Add available slot to the list
+            }
+        }
+        return availableSlots; // Return all available slots for the specified date
     }
 
-    // Method to update the date and time of an existing appointment
-    public void updateAppointment(Appointment appointment, String newDate, String newTime) {
-        appointment.setAppointmentDate(newDate); // Update appointment date
-        appointment.setAppointmentTime(newTime); // Update appointment time
+    // Method to schedule a new appointment if the slot is available
+    public boolean scheduleAppointment(Appointment appointment) {
+        if (isSlotAvailable(appointment.getDoctorId(), appointment.getAppointmentDate(), appointment.getAppointmentTime())) {
+            appointments.add(appointment); // Adds appointment if available
+            return true; // Successfully scheduled
+        } else {
+            return false; // Slot not available
+        }
     }
 
-    // Method to cancel a patient's appointment, setting its status as "Cancelled"
+    // Method to reschedule an appointment to a new date and time if the slot is available
+    public boolean rescheduleAppointment(Appointment appointment, String newDate, String newTime) {
+        if (isSlotAvailable(appointment.getDoctorId(), newDate, newTime)) {
+            appointment.setAppointmentDate(newDate); // Update to new date
+            appointment.setAppointmentTime(newTime); // Update to new time
+            return true; // Rescheduled successfully
+        } else {
+            return false; // New slot is not available
+        }
+    }
+
+    // Method to cancel an appointment
     public void cancelAppointment(Appointment appointment) {
-        appointment.setStatus("Cancelled"); // Set appointment status to "Cancelled"
+        appointment.setStatus("Cancelled"); // Set status to cancelled
     }
 
-    // Method to retrieve a list of all scheduled appointments for a specific patient
-    public List<Appointment> getScheduledAppointments(String patientId) {
-        List<Appointment> result = new ArrayList<>();
-        for (Appointment appointment : appointments) {
-            // Add appointments that are for the patient and not yet completed
-            if (appointment.getPatientId().equals(patientId) && !appointment.getStatus().equals("Completed")) {
-                result.add(appointment);
-            }
-        }
-        return result; // Return the list of scheduled appointments
-    }
-
-    // Method to retrieve a list of completed appointments for a specific patient
-    public List<Appointment> getCompletedAppointments(String patientId) {
-        List<Appointment> result = new ArrayList<>();
-        for (Appointment appointment : appointments) {
-            // Add appointments that are completed for the specified patient
-            if (appointment.getPatientId().equals(patientId) && appointment.getStatus().equals("Completed")) {
-                result.add(appointment);
-            }
-        }
-        return result; // Return the list of completed appointments
-    }
-
-    // Doctor Functions (No role validation or printing)
-
-    // Method to retrieve upcoming confirmed appointments for a specific doctor
+    // Method to retrieve all upcoming appointments for a specific doctor
     public List<Appointment> getUpcomingAppointments(String doctorId) {
         List<Appointment> result = new ArrayList<>();
         for (Appointment appointment : appointments) {
-            // Add appointments that are confirmed and for the specified doctor
             if (appointment.getDoctorId().equals(doctorId) && appointment.getStatus().equals("Confirmed")) {
-                result.add(appointment);
+                result.add(appointment); // Adds confirmed appointments to the list
             }
         }
-        return result; // Return the list of upcoming appointments
+        return result;
     }
 
-    // Method to add a new availability slot for a doctor
-    public void addAvailability(String doctorId, String date, String time) {
-        // Create a new available appointment slot for the doctor
-        Appointment newAvailableSlot = new Appointment(null, doctorId, date, time, "Available");
-        appointments.add(newAvailableSlot); // Add the available slot to the list
+    // Method to retrieve all scheduled appointments for a patient
+    public List<Appointment> getScheduledAppointments(String patientId) {
+        List<Appointment> result = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (appointment.getPatientId().equals(patientId) && !appointment.getStatus().equals("Completed")) {
+                result.add(appointment); // Adds scheduled (but not completed) appointments
+            }
+        }
+        return result;
     }
 
-    // Method for a doctor to accept or decline an appointment request
+    // Method to retrieve past completed appointments for a patient
+    public List<Appointment> getCompletedAppointments(String patientId) {
+        List<Appointment> result = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (appointment.getPatientId().equals(patientId) && appointment.getStatus().equals("Completed")) {
+                result.add(appointment); // Adds completed appointments
+            }
+        }
+        return result;
+    }
+
+    // Method to accept or decline an appointment request by the doctor
     public void acceptAppointment(Appointment appointment, boolean accept) {
         appointment.setDoctorAccepted(accept); // Set acceptance status
-        appointment.setStatus(accept ? "Confirmed" : "Cancelled"); // Update status based on acceptance
-    }
-
-    // Method for a doctor to complete an appointment, adding consultation notes
-    public void completeAppointment(Appointment appointment, String notes) {
-        appointment.setConsultationNotes(notes); // Set consultation notes
-        appointment.setStatus("Completed"); // Mark the appointment as completed
+        appointment.setStatus(accept ? "Confirmed" : "Cancelled"); // Update status accordingly
     }
 }

@@ -1,78 +1,114 @@
-package controllers;
+// Yet to implement the r/w to file functionality
+
+package entities;
+
+import java.util.List;
 
 public class AppointmentController {
 
-    // Reference to the AppointmentManager to handle the logic for managing appointments
     private AppointmentManager appointmentManager;
 
-    // Constructor to initialize AppointmentManager
+    // Constructor receives an instance of AppointmentManager
     public AppointmentController(AppointmentManager appointmentManager) {
         this.appointmentManager = appointmentManager;
     }
 
-    // Private helper method to check the role of the user before allowing operation
+    // Method to validate the user's role before performing actions
     private void validateRole(String role, String requiredRole) {
-        // If the user's role does not match the required role, throw a security exception
         if (!role.equals(requiredRole)) {
             throw new SecurityException("Access denied. Only " + requiredRole + " can perform this operation.");
         }
     }
 
-    // Patient Operations
+    // Patient Operation: View available slots for a specific doctor on a specific date
+    public void viewAvailableSlots(String role, String doctorId, String date) {
+        validateRole(role, "Patient"); // Checks if user is a patient
+        List<String> availableSlots = appointmentManager.getAvailableSlots(doctorId, date);
+        displaySlots(availableSlots);
+    }
 
-    // Method for a patient to schedule an appointment
+    // Patient Operation: Schedules an appointment if slot is available
     public void scheduleAppointment(String role, Appointment appointment) {
-        validateRole(role, "Patient"); // Ensure the user has "Patient" role
-        appointmentManager.addAppointment(appointment); // Delegate to appointmentManager
+        validateRole(role, "Patient"); // Checks if user is a patient
+        boolean success = appointmentManager.scheduleAppointment(appointment);
+        if (success) {
+            displayMessage("Appointment scheduled successfully.");
+        } else {
+            displayMessage("The selected slot is not available. Please choose another time.");
+        }
     }
 
-    // Method for a patient to reschedule an appointment with a new date and time
+    // Patient Operation: Reschedules an appointment to a new date and time
     public void rescheduleAppointment(String role, Appointment appointment, String newDate, String newTime) {
-        validateRole(role, "Patient"); // Ensure the user has "Patient" role
-        appointmentManager.updateAppointment(appointment, newDate, newTime); // Update appointment details
+        validateRole(role, "Patient"); // Checks if user is a patient
+        boolean success = appointmentManager.rescheduleAppointment(appointment, newDate, newTime);
+        if (success) {
+            displayMessage("Appointment rescheduled successfully.");
+        } else {
+            displayMessage("The selected slot is not available for rescheduling.");
+        }
     }
 
-    // Method for a patient to cancel an appointment
+    // Patient Operation: Cancels an existing appointment
     public void cancelAppointment(String role, Appointment appointment) {
-        validateRole(role, "Patient"); // Ensure the user has "Patient" role
-        appointmentManager.cancelAppointment(appointment); // Cancel the appointment
+        validateRole(role, "Patient"); // Checks if user is a patient
+        appointmentManager.cancelAppointment(appointment);
+        displayMessage("Appointment cancelled successfully.");
     }
 
-    // Method for a patient to view their scheduled appointments
-    public void viewScheduledAppointments(String role, String patientId, AppointmentView view) {
-        validateRole(role, "Patient"); // Ensure the user has "Patient" role
-        view.displayAppointments(appointmentManager.getScheduledAppointments(patientId)); // Display appointments
+    // Patient Operation: View the status of scheduled appointments
+    public void viewScheduledAppointments(String role, String patientId) {
+        validateRole(role, "Patient"); // Checks if user is a patient
+        List<Appointment> appointments = appointmentManager.getScheduledAppointments(patientId);
+        displayAppointments(appointments);
     }
 
-    // Method for a patient to view past appointment outcome records
-    public void viewPastAppointmentOutcomeRecords(String role, String patientId, AppointmentView view) {
-        validateRole(role, "Patient"); // Ensure the user has "Patient" role
-        view.displayAppointments(appointmentManager.getCompletedAppointments(patientId)); // Display completed appointments
+    // Patient Operation: View outcome records of past appointments
+    public void viewPastAppointments(String role, String patientId) {
+        validateRole(role, "Patient"); // Checks if user is a patient
+        List<Appointment> appointments = appointmentManager.getCompletedAppointments(patientId);
+        displayAppointments(appointments);
     }
 
-    // Doctor Operations
-
-    // Method for a doctor to set their availability for appointments
-    public void setAvailabilityForAppointments(String role, String doctorId, String date, String time) {
-        validateRole(role, "Doctor"); // Ensure the user has "Doctor" role
-        appointmentManager.addAvailability(doctorId, date, time); // Add availability
+    // Doctor Operation: Accept or decline an appointment request
+    public void acceptOrDeclineAppointment(String role, Appointment appointment, boolean accept) {
+        validateRole(role, "Doctor"); // Checks if user is a doctor
+        appointmentManager.acceptAppointment(appointment, accept);
+        displayMessage("Appointment " + (accept ? "accepted." : "declined."));
     }
 
-    // Method for a doctor to accept or decline an appointment request
-    public void acceptOrDeclineAppointmentRequest(String role, Appointment appointment, boolean accept) {
-        validateRole(role, "Doctor"); // Ensure the user has "Doctor" role
-        appointmentManager.acceptAppointment(appointment, accept); // Accept or decline appointment
+    // Doctor Operation: View all upcoming appointments for the doctor
+    public void viewUpcomingAppointments(String role, String doctorId) {
+        validateRole(role, "Doctor"); // Checks if user is a doctor
+        List<Appointment> appointments = appointmentManager.getUpcomingAppointments(doctorId);
+        displayAppointments(appointments);
     }
 
-    // Method for a doctor to record the outcome of an appointment
-    public void recordAppointmentOutcome(String role, Appointment appointment, String notes) {
-        validateRole(role, "Doctor"); // Ensure the user has "Doctor" role
-        appointmentManager.completeAppointment(appointment, notes); // Record outcome notes
+    // Helper method to display available slots for a doctor on a specific date
+    private void displaySlots(List<String> slots) {
+        if (slots.isEmpty()) {
+            System.out.println("No available slots.");
+        } else {
+            System.out.println("Available slots:");
+            for (String slot : slots) {
+                System.out.println(slot);
+            }
+        }
     }
 
-    // Method for a doctor to view their upcoming appointments
-    public void viewUpcomingAppointments(String role, String doctorId, AppointmentView view) {
-        validateRole(role, "Doctor"); // Ensure the user has "Doctor" role
-        view.displayAppointments(appointmentManager.getUpcomingAppointments(doctorId)); // Display upcoming appointments
+    // Helper method to display appointments
+    private void displayAppointments(List<Appointment> appointments) {
+        if (appointments.isEmpty()) {
+            System.out.println("No appointments to display.");
+        } else {
+            for (Appointment appointment : appointments) {
+                System.out.println(appointment.displayAppointmentDetails());
+            }
+        }
+    }
+
+    // Helper method to display custom messages
+    private void displayMessage(String message) {
+        System.out.println(message);
     }
 }

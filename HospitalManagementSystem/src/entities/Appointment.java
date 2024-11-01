@@ -1,36 +1,50 @@
+// Yet to implement the r/w to file functionality
 package entities;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.Appointment.AppointmentStatus;
+
 public class Appointment {
 
-    // Attributes
+    // Enum to represent the possible statuses of an appointment
+    public enum AppointmentStatus {
+        SCHEDULED,   // Used when an appointment has been scheduled by the patient but is awaiting confirmation by the doctor
+        CONFIRMED,   // Used when the doctor has accepted and confirmed the appointment
+        CANCELLED,   // Used when the appointment has been cancelled by either the patient or the doctor
+        COMPLETED,   // Used when the appointment has been completed
+        PENDING      // Used when the appointment request is sent and waiting for the doctor’s response to either confirm or decline
+    }   //PEINDING maybe used when paitient suggest just a day but not specific time slot ? can be reassigned later 
+        
+
+    // Attributes to hold basic appointment details
     private String patientId;
     private String doctorId;
-    private String status;
+    private AppointmentStatus status; // Using AppointmentStatus enum for status
     private String appointmentDate;
-    private String appointmentTime;
+    private String appointmentTime; // Now in hourly format (e.g., "10:00", "15:00")
     private String appointmentType;
     private String consultationNotes;
-    private boolean doctorAccepted; // New attribute to track doctor acceptance status
+    private boolean doctorAccepted; // Indicates if the doctor has accepted the appointment
 
-    // List to hold multiple medicines dispensed
+    // List to track multiple medicines dispensed during this appointment
     private List<MedicineDispensed> medicinesDispensed;
 
-    // Constructor
+    // Constructor to initialize a new appointment with essential details
     public Appointment(String patientId, String doctorId, String appointmentDate, String appointmentTime, String appointmentType) {
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.appointmentDate = appointmentDate;
-        this.appointmentTime = appointmentTime;
+        this.appointmentTime = appointmentTime; // Hourly appointment time
         this.appointmentType = appointmentType;
-        this.status = "Scheduled";
-        this.doctorAccepted = false; // Default to false
-        this.medicinesDispensed = new ArrayList<>();
+        this.status = AppointmentStatus.SCHEDULED; // Default status is SCHEDULED
+        this.doctorAccepted = false; // Default to not accepted by doctor
+        this.medicinesDispensed = new ArrayList<>(); // Initializes empty list for medicines
     }
 
-    // Getters and Setters
+    // Getter and setter methods for each attribute, allowing controlled access
+
     public boolean isDoctorAccepted() {
         return doctorAccepted;
     }
@@ -55,11 +69,11 @@ public class Appointment {
         this.doctorId = doctorId;
     }
 
-    public String getStatus() {
+    public AppointmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AppointmentStatus status) {
         this.status = status;
     }
 
@@ -76,7 +90,7 @@ public class Appointment {
     }
 
     public void setAppointmentTime(String appointmentTime) {
-        this.appointmentTime = appointmentTime;
+        this.appointmentTime = appointmentTime; // Allows updating of the hourly time
     }
 
     public String getAppointmentType() {
@@ -99,19 +113,19 @@ public class Appointment {
         return medicinesDispensed;
     }
 
-    // Method to add a medicine to the list
+    // Adds a new medicine to the list of dispensed medicines for this appointment
     public void addMedicineDispensed(String medicineName, String dosage) {
         this.medicinesDispensed.add(new MedicineDispensed(medicineName, dosage));
     }
 
-    // Method to update the status of all dispensed medicines
+    // Marks all medicines in the list as dispensed (fulfilled by pharmacist)
     public void markAllMedicinesAsDispensed() {
         for (MedicineDispensed medicine : medicinesDispensed) {
             medicine.markAsDispensed();
         }
     }
 
-    // Utility method to display appointment and medication details
+    // Displays appointment details in a formatted string for easy viewing
     public String displayAppointmentDetails() {
         StringBuilder details = new StringBuilder(String.format("Appointment with Dr. %s on %s at %s, Status: %s\n",
                 doctorId, appointmentDate, appointmentTime, status));

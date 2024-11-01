@@ -12,148 +12,75 @@ public class AppointmentManager {
         this.appointments = new ArrayList<>();
     }
 
-    // Role validation method
-    private void validateRole(String role, String requiredRole) {
-        if (!role.equals(requiredRole)) {
-            throw new SecurityException("Access denied. Only " + requiredRole + " can perform this operation.");
-        }
-    }
+    // Patient Functions (No role validation or printing)
 
-    // Patient Functions
-
-    public void viewMedicalRecord(String role, String patientId) {
-        validateRole(role, "Patient");
-        // Logic to retrieve and display patient's medical record
-        System.out.println("Displaying medical record for patient ID: " + patientId);
-    }
-
-
-    public void viewAvailableAppointmentSlots(String role, String doctorId) {
-        validateRole(role, "Patient");
-        System.out.println("Available Appointment Slots with Dr. " + doctorId + ":");
+    public Appointment getAvailableAppointments(String doctorId) {
         for (Appointment appointment : appointments) {
             if (appointment.getDoctorId().equals(doctorId) && appointment.getStatus().equals("Available")) {
-                System.out.println(appointment.displayAppointmentDetails());
+                return appointment;
             }
         }
+        return null;
     }
 
-    public void scheduleAppointment(String role, Appointment appointment) {
-        validateRole(role, "Patient");
+    public void addAppointment(Appointment appointment) {
         appointment.setStatus("Scheduled");
         appointments.add(appointment);
-        System.out.println("Appointment scheduled successfully.");
     }
 
-    public void rescheduleAppointment(String role, String patientId, String appointmentId, String newDate, String newTime) {
-        validateRole(role, "Patient");
-        for (Appointment appointment : appointments) {
-            if (appointment.getPatientId().equals(patientId) && appointment.getStatus().equals("Scheduled")) {
-                appointment.setAppointmentDate(newDate);
-                appointment.setAppointmentTime(newTime);
-                System.out.println("Appointment rescheduled successfully.");
-                return;
-            }
-        }
-        System.out.println("No matching appointment found for rescheduling.");
+    public void updateAppointment(Appointment appointment, String newDate, String newTime) {
+        appointment.setAppointmentDate(newDate);
+        appointment.setAppointmentTime(newTime);
     }
 
-    public void cancelAppointment(String role, String patientId, String appointmentId) {
-        validateRole(role, "Patient");
-        for (Appointment appointment : appointments) {
-            if (appointment.getPatientId().equals(patientId) && appointment.getStatus().equals("Scheduled")) {
-                appointment.setStatus("Cancelled");
-                System.out.println("Appointment cancelled successfully.");
-                return;
-            }
-        }
-        System.out.println("No matching appointment found to cancel.");
+    public void cancelAppointment(Appointment appointment) {
+        appointment.setStatus("Cancelled");
     }
 
-    public void viewScheduledAppointments(String role, String patientId) {
-        validateRole(role, "Patient");
-        System.out.println("Scheduled Appointments for patient ID: " + patientId);
+    public List<Appointment> getScheduledAppointments(String patientId) {
+        List<Appointment> result = new ArrayList<>();
         for (Appointment appointment : appointments) {
             if (appointment.getPatientId().equals(patientId) && !appointment.getStatus().equals("Completed")) {
-                System.out.println(appointment.displayAppointmentDetails());
+                result.add(appointment);
             }
         }
+        return result;
     }
 
-    public void viewPastAppointmentOutcomeRecords(String role, String patientId) {
-        validateRole(role, "Patient");
-        System.out.println("Past Appointment Outcome Records for patient ID: " + patientId);
+    public List<Appointment> getCompletedAppointments(String patientId) {
+        List<Appointment> result = new ArrayList<>();
         for (Appointment appointment : appointments) {
             if (appointment.getPatientId().equals(patientId) && appointment.getStatus().equals("Completed")) {
-                System.out.println(appointment.displayAppointmentDetails());
+                result.add(appointment);
             }
         }
+        return result;
     }
 
-    // Doctor Functions
+    // Doctor Functions (No role validation or printing)
 
-    public void viewPatientMedicalRecords(String role, String doctorId) {
-        validateRole(role, "Doctor");
-        System.out.println("Viewing medical records for patients under Dr. " + doctorId);
-        // Logic to view all medical records for patients under the care of the doctor
-    }
-
-    public void updatePatientMedicalRecords(String role, String patientId, String newDiagnosis, String newTreatment) {
-        validateRole(role, "Doctor");
-        System.out.println("Updating medical record for patient ID: " + patientId);
-        // Logic to update a patient’s medical record with new diagnoses and treatments
-    }
-
-    public void viewPersonalSchedule(String role, String doctorId) {
-        validateRole(role, "Doctor");
-        System.out.println("Upcoming Appointments for Dr. " + doctorId);
+    public List<Appointment> getUpcomingAppointments(String doctorId) {
+        List<Appointment> result = new ArrayList<>();
         for (Appointment appointment : appointments) {
-            if (appointment.getDoctorId().equals(doctorId) && !appointment.getStatus().equals("Cancelled")) {
-                System.out.println(appointment.displayAppointmentDetails());
+            if (appointment.getDoctorId().equals(doctorId) && appointment.getStatus().equals("Confirmed")) {
+                result.add(appointment);
             }
         }
+        return result;
     }
 
-    public void setAvailabilityForAppointments(String role, String doctorId, String date, String time) {
-        validateRole(role, "Doctor");
+    public void addAvailability(String doctorId, String date, String time) {
         Appointment newAvailableSlot = new Appointment(null, doctorId, date, time, "Available");
         appointments.add(newAvailableSlot);
-        System.out.println("Availability slot added for Dr. " + doctorId);
     }
 
-    public void acceptOrDeclineAppointmentRequest(String role, String doctorId, String appointmentId, boolean accept) {
-        validateRole(role, "Doctor");
-        for (Appointment appointment : appointments) {
-            if (appointment.getDoctorId().equals(doctorId) && appointment.getStatus().equals("Scheduled")) {
-                appointment.setDoctorAccepted(accept);
-                appointment.setStatus(accept ? "Confirmed" : "Cancelled");
-                System.out.println("Appointment " + (accept ? "accepted." : "declined."));
-                return;
-            }
-        }
-        System.out.println("No matching appointment found.");
+    public void acceptAppointment(Appointment appointment, boolean accept) {
+        appointment.setDoctorAccepted(accept);
+        appointment.setStatus(accept ? "Confirmed" : "Cancelled");
     }
 
-    public void viewUpcomingAppointments(String role, String doctorId) {
-        validateRole(role, "Doctor");
-        System.out.println("Upcoming Appointments for Dr. " + doctorId);
-        for (Appointment appointment : appointments) {
-            if (appointment.getDoctorId().equals(doctorId) && appointment.getStatus().equals("Confirmed")) {
-                System.out.println(appointment.displayAppointmentDetails());
-            }
-        }
-    }
-
-    public void recordAppointmentOutcome(String role, String doctorId, String appointmentId, String notes) {
-        validateRole(role, "Doctor");
-        for (Appointment appointment : appointments) {
-            if (appointment.getDoctorId().equals(doctorId) && appointment.getStatus().equals("Confirmed")) {
-                appointment.setConsultationNotes(notes);
-                appointment.setStatus("Completed");
-                System.out.println("Appointment outcome recorded.");
-                return;
-            }
-        }
-        System.out.println("No matching appointment found.");
+    public void completeAppointment(Appointment appointment, String notes) {
+        appointment.setConsultationNotes(notes);
+        appointment.setStatus("Completed");
     }
 }

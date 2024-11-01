@@ -39,8 +39,8 @@ public class PatientView implements ViewInterface{
 				viewAvailableSlots();
 				break;
 		}
-		if(userChoice == 1) viewMedicalRecord();
-		else if(userChoice == 9) return false;
+		
+		if(userChoice == 9) return false;
 		return true;
 	}
 	
@@ -49,7 +49,9 @@ public class PatientView implements ViewInterface{
 
 
 	private void viewMedicalRecord() {
-		System.out.println("User ID: " + patientControl.getUserID());
+		System.out.println("Patient ID: " + patientControl.getUserID());
+		System.out.println("Patient Name: " + patientControl.getUserName());
+		
 	}
 	
 	private void updatePersonalInformation() {

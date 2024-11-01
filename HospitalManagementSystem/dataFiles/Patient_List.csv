@@ -1,4 +1,4 @@
-﻿Patient ID,Password,Name,Date of Birth,Gender,Blood Type,Contact Information,Diagnosis,Treatment,Prescribed Medicine,Scheduled Appointment
-P1001,8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4,Alice Brown,5/14/1980,Female,A+,alice.brown@example.com
-P1002,5bddbdea794b5ac1ebd76c5987e666ec03cc3f70f07276253550ba7bb8876cc0,Bob Stone,11/22/1975,Male,B+,bob.stone@example.com
-P1003,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,Charlie White,7/8/1990,Male,O-,charlie.white@example.com
+﻿Patient ID,Password,Name,Date of Birth,Gender,Blood Type,Contact Information,Diagnosis,Treatment,Prescribed Medicine,Scheduled Appointment,firstlogin
+P1001,2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824,Alice Brown,5/14/1980,Female,A+,alice.brown@example.com,,,,,false
+P1002,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,Bob Stone,11/22/1975,Male,B+,bob.stone@example.com,,,,,TRUE
+P1003,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,Charlie White,7/8/1990,Male,O-,charlie.white@example.com,,,,,TRUE

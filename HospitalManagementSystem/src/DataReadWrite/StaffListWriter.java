@@ -1,9 +1,5 @@
 package DataReadWrite;
 
-import java.io.BufferedWriter;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,4 +51,54 @@ public class StaffListWriter implements DataWriter {
         e.printStackTrace();
         }
     }
+	public void write(String userId, int y,String message){
+		String csvFile = "dataFiles/Staff_List.csv";
+        String line;
+        int x = 0,rowNumber = 1;
+        List<String[]> rows = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = reader.readLine()) != null) {
+                rows.add(line.split(","));  // Split each row into columns
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        // Get the target row
+        
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+			 String header = reader.readLine();
+			 while ((line = reader.readLine()) != null) {
+	                String[] cells = line.split(","); // Split the line by commas
+	                String patientId = cells[0]; // Assuming the patient ID is in the first column
+
+	                if (userId.equals(patientId)) { // Use .equals() for string comparison
+	                    System.out.println("Patient ID found at row: " + rowNumber);
+	                    // You can perform additional operations here, e.g., storing the row number
+	                    break; // Exit the loop if found
+	                }
+	                rowNumber++; // Increment the row number for the next iteration
+	            }
+		 }catch (Exception e) {
+           e.printStackTrace();
+		  }
+
+        // Modify the specific cell
+        rows.get(rowNumber)[y] = message;
+
+        // Write the modified data back to the CSV file
+        try (PrintWriter writer = new PrintWriter(new FileWriter(csvFile))) {
+            for (String[] row : rows) {
+                writer.println(String.join(",", row));  // Join columns with commas
+            }
+            System.out.println("CSV updated successfully!");
+        } 
+        catch (IOException e) {
+        e.printStackTrace();
+        }
+    }
+	
+	
 }

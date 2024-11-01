@@ -1,9 +1,12 @@
 package controllers;
 
+import java.security.NoSuchAlgorithmException;
+
 import datastorage.Authenticator;
 import datastorage.DataStorage;
 import entities.User;
 import datastorage.Inventory;
+import datastorage.Password;
 
 public class UserController {
 	private DataStorage dataStorage;
@@ -18,7 +21,12 @@ public class UserController {
 	}
 	
 	public void changePassword(User user, String newUserPass) {
-		user.changePassword(newUserPass);
+		try {
+			user.changePassword(Password.hashPassword(newUserPass));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("Password has been updated.");
 	}
 	

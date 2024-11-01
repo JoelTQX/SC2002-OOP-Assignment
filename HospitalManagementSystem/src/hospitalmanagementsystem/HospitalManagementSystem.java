@@ -41,6 +41,12 @@ public class HospitalManagementSystem {
 		}
 		if(hms != null) {
 			while(hms.userView.displayMenu()) {
+				try {
+					hms.startUp();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				//Loop till User exit System.
 			}
 			hms.shutDown();

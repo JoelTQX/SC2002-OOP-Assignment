@@ -29,7 +29,7 @@ public class PatientListReader implements DataReader {
 	                String contactinfo=cells[6];
 	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]);
 	                
-	                Patient patient = new Patient(patientid,password, false);
+	                Patient patient = new Patient(patientid,password, true);
 	                dataStorage.getPatientRecords().addPatient(patient);
 			 }
 		 }catch (Exception e) {

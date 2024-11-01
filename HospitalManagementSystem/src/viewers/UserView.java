@@ -22,6 +22,7 @@ public class UserView implements ViewInterface {
     }
     
     public boolean displayMenu() {
+    	
         System.out.println("--- Welcome to Hospital Management System ---");
         System.out.println("1. Login ");
         System.out.println("2. Exit ");
@@ -45,8 +46,10 @@ public class UserView implements ViewInterface {
         ViewInterface viewer = null;
         if (user instanceof Patient) {
             viewer = new PatientView(new PatientController(user), inputScanner);
+            isLoggedIn=false;
         } else if (user instanceof Doctor) {
             viewer = new DoctorView(new DoctorController(user), inputScanner);
+            isLoggedIn=false;
         }
         
         while (viewer.displayMenu()) {
@@ -85,5 +88,6 @@ public class UserView implements ViewInterface {
         System.out.print("Enter New Password: ");
         String newPass = inputScanner.next();
         userControl.changePassword(this.user, newPass);
+        
     }
 }

@@ -1,61 +1,96 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Appointment {
 
+    // Enum for appointment status
     public enum AppointmentStatus {
-        SCHEDULED,   // Appointment has been scheduled but not yet confirmed by the doctor
-        CONFIRMED,   // Doctor has accepted the appointment
-        CANCELLED,   // Appointment has been cancelled by either the patient or doctor
-        COMPLETED,   // Appointment has been completed
-        PENDING      // Awaiting doctor’s response to confirm or decline
+        SCHEDULED,
+        CONFIRMED,
+        CANCELLED,
+        COMPLETED,
+        PENDING
     }
 
+    // Attributes
     private String patientId;
     private String doctorId;
     private AppointmentStatus status;
     private String appointmentDate;
     private String appointmentTime;
     private String appointmentType;
+    private List<PrescribedMedication> prescribedMedications; // Medications prescribed during the appointment
+    private String consultationNotes;
 
-    // Constructor to initialize an appointment with basic details
+    // Constructor
     public Appointment(String patientId, String doctorId, String appointmentDate, String appointmentTime, String appointmentType) {
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
         this.appointmentType = appointmentType;
-        this.status = AppointmentStatus.PENDING; // Default status when created
+        this.status = AppointmentStatus.PENDING;
+        this.prescribedMedications = new ArrayList<>();
     }
 
-    // Method to check if a specific user role can cancel the appointment
-    public boolean canBeCancelledBy(String role) {
-        return (role.equals("Patient") && this.status != AppointmentStatus.COMPLETED);
-    }
+    // Nested class to represent a prescribed medication
+    public static class PrescribedMedication {
+        private String medicationName;
+        private String status;
 
-    // Method to cancel the appointment
-    public void cancel() {
-        this.status = AppointmentStatus.CANCELLED;
-    }
-
-    // Method to confirm the appointment (only a doctor can confirm it)
-    public void confirm() {
-        this.status = AppointmentStatus.CONFIRMED;
-    }
-
-    // Method to reschedule the appointment
-    public boolean reschedule(String newDate, String newTime) {
-        if (this.status == AppointmentStatus.SCHEDULED || this.status == AppointmentStatus.PENDING) {
-            this.appointmentDate = newDate;
-            this.appointmentTime = newTime;
-            return true;
+        public PrescribedMedication(String medicationName) {
+            this.medicationName = medicationName;
+            this.status = "Pending"; // Default status
         }
-        return false;
+
+        public String getMedicationName() {
+            return medicationName;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        @Override
+        public String toString() {
+            return medicationName + " (Status: " + status + ")";
+        }
     }
 
-    // Method to display appointment details
+    // Method to add a prescribed medication
+    public void addPrescribedMedication(String medicationName) {
+        prescribedMedications.add(new PrescribedMedication(medicationName));
+    }
+
+    // Method to update consultation notes and mark the appointment as completed
+    public void completeAppointment(String consultationNotes) {
+        this.consultationNotes = consultationNotes;
+        this.status = AppointmentStatus.COMPLETED;
+    }
+
+    // Getters and display method for appointment details
+    public String getPatientId() { return patientId; }
+    public String getDoctorId() { return doctorId; }
+    public AppointmentStatus getStatus() { return status; }
+    public String getConsultationNotes() { return consultationNotes; }
+    public List<PrescribedMedication> getPrescribedMedications() { return prescribedMedications; }
+
     public String displayDetails() {
-        return String.format("Appointment with Dr. %s on %s at %s, Status: %s", doctorId, appointmentDate, appointmentTime, status);
+        StringBuilder details = new StringBuilder("Appointment with Dr. " + doctorId + " on " + appointmentDate + " at " + appointmentTime);
+        details.append(", Status: ").append(status).append("\n");
+        if (status == AppointmentStatus.COMPLETED) {
+            details.append("Consultation Notes: ").append(consultationNotes).append("\n");
+            details.append("Prescribed Medications: \n");
+            for (PrescribedMedication med : prescribedMedications) {
+                details.append(" - ").append(med.toString()).append("\n");
+            }
+        }
+        return details.toString();
     }
-
-    // Additional getters and setters for patientId, doctorId, etc., could go here
 }

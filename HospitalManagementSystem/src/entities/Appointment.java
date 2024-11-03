@@ -1,139 +1,61 @@
-// Yet to implement the r/w to file functionality
 package entities;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import entities.Appointment.AppointmentStatus;
 
 public class Appointment {
 
-    // Enum to represent the possible statuses of an appointment
     public enum AppointmentStatus {
-        SCHEDULED,   // Used when an appointment has been scheduled by the patient but is awaiting confirmation by the doctor
-        CONFIRMED,   // Used when the doctor has accepted and confirmed the appointment
-        CANCELLED,   // Used when the appointment has been cancelled by either the patient or the doctor
-        COMPLETED,   // Used when the appointment has been completed
-        PENDING      // Used when the appointment request is sent and waiting for the doctor’s response to either confirm or decline
-    }   //PEINDING maybe used when paitient suggest just a day but not specific time slot ? can be reassigned later 
-        
+        SCHEDULED,   // Appointment has been scheduled but not yet confirmed by the doctor
+        CONFIRMED,   // Doctor has accepted the appointment
+        CANCELLED,   // Appointment has been cancelled by either the patient or doctor
+        COMPLETED,   // Appointment has been completed
+        PENDING      // Awaiting doctor’s response to confirm or decline
+    }
 
-    // Attributes to hold basic appointment details
     private String patientId;
     private String doctorId;
-    private AppointmentStatus status; // Using AppointmentStatus enum for status
+    private AppointmentStatus status;
     private String appointmentDate;
-    private String appointmentTime; // Now in hourly format (e.g., "10:00", "15:00")
+    private String appointmentTime;
     private String appointmentType;
-    private String consultationNotes;
-    private boolean doctorAccepted; // Indicates if the doctor has accepted the appointment
 
-    // List to track multiple medicines dispensed during this appointment
-    private List<MedicineDispensed> medicinesDispensed;
-
-    // Constructor to initialize a new appointment with essential details
+    // Constructor to initialize an appointment with basic details
     public Appointment(String patientId, String doctorId, String appointmentDate, String appointmentTime, String appointmentType) {
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.appointmentDate = appointmentDate;
-        this.appointmentTime = appointmentTime; // Hourly appointment time
+        this.appointmentTime = appointmentTime;
         this.appointmentType = appointmentType;
-        this.status = AppointmentStatus.SCHEDULED; // Default status is SCHEDULED
-        this.doctorAccepted = false; // Default to not accepted by doctor
-        this.medicinesDispensed = new ArrayList<>(); // Initializes empty list for medicines
+        this.status = AppointmentStatus.PENDING; // Default status when created
     }
 
-    // Getter and setter methods for each attribute, allowing controlled access
-
-    public boolean isDoctorAccepted() {
-        return doctorAccepted;
+    // Method to check if a specific user role can cancel the appointment
+    public boolean canBeCancelledBy(String role) {
+        return (role.equals("Patient") && this.status != AppointmentStatus.COMPLETED);
     }
 
-    public void setDoctorAccepted(boolean doctorAccepted) {
-        this.doctorAccepted = doctorAccepted;
+    // Method to cancel the appointment
+    public void cancel() {
+        this.status = AppointmentStatus.CANCELLED;
     }
 
-    public String getPatientId() {
-        return patientId;
+    // Method to confirm the appointment (only a doctor can confirm it)
+    public void confirm() {
+        this.status = AppointmentStatus.CONFIRMED;
     }
 
-    public void setPatientId(String patientId) {
-        this.patientId = patientId;
-    }
-
-    public String getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(String doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    public AppointmentStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AppointmentStatus status) {
-        this.status = status;
-    }
-
-    public String getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    public void setAppointmentDate(String appointmentDate) {
-        this.appointmentDate = appointmentDate;
-    }
-
-    public String getAppointmentTime() {
-        return appointmentTime;
-    }
-
-    public void setAppointmentTime(String appointmentTime) {
-        this.appointmentTime = appointmentTime; // Allows updating of the hourly time
-    }
-
-    public String getAppointmentType() {
-        return appointmentType;
-    }
-
-    public void setAppointmentType(String appointmentType) {
-        this.appointmentType = appointmentType;
-    }
-
-    public String getConsultationNotes() {
-        return consultationNotes;
-    }
-
-    public void setConsultationNotes(String consultationNotes) {
-        this.consultationNotes = consultationNotes;
-    }
-
-    public List<MedicineDispensed> getMedicinesDispensed() {
-        return medicinesDispensed;
-    }
-
-    // Adds a new medicine to the list of dispensed medicines for this appointment
-    public void addMedicineDispensed(String medicineName, String dosage) {
-        this.medicinesDispensed.add(new MedicineDispensed(medicineName, dosage));
-    }
-
-    // Marks all medicines in the list as dispensed (fulfilled by pharmacist)
-    public void markAllMedicinesAsDispensed() {
-        for (MedicineDispensed medicine : medicinesDispensed) {
-            medicine.markAsDispensed();
+    // Method to reschedule the appointment
+    public boolean reschedule(String newDate, String newTime) {
+        if (this.status == AppointmentStatus.SCHEDULED || this.status == AppointmentStatus.PENDING) {
+            this.appointmentDate = newDate;
+            this.appointmentTime = newTime;
+            return true;
         }
+        return false;
     }
 
-    // Displays appointment details in a formatted string for easy viewing
-    public String displayAppointmentDetails() {
-        StringBuilder details = new StringBuilder(String.format("Appointment with Dr. %s on %s at %s, Status: %s\n",
-                doctorId, appointmentDate, appointmentTime, status));
-        details.append("Doctor Accepted: ").append(doctorAccepted ? "Yes" : "No").append("\n");
-        details.append("Medicines Dispensed:\n");
-        for (MedicineDispensed medicine : medicinesDispensed) {
-            details.append(medicine.toString()).append("\n");
-        }
-        return details.toString();
+    // Method to display appointment details
+    public String displayDetails() {
+        return String.format("Appointment with Dr. %s on %s at %s, Status: %s", doctorId, appointmentDate, appointmentTime, status);
     }
+
+    // Additional getters and setters for patientId, doctorId, etc., could go here
 }

@@ -50,13 +50,11 @@ public class UserView implements ViewInterface {
         ViewInterface viewer = null;
         if (user instanceof Patient) {
             viewer = new PatientView(new PatientController(user), inputScanner);
-            isLoggedIn=false;
         } else if (user instanceof Doctor) {
             viewer = new DoctorView(new DoctorController(user), inputScanner);
-            isLoggedIn=false;
         }else if (user instanceof Pharmacist) {
             viewer = new PharmacistView(new PharmacistController(user), inputScanner);
-            isLoggedIn=false;
+            
         }//else if (user instanceof Administrator) {
             //viewer = new AdministratorView(new AdministratorController(user), inputScanner);
             //isLoggedIn=false;
@@ -65,6 +63,7 @@ public class UserView implements ViewInterface {
         while (viewer.displayMenu()) {
             // Continues till user logs out
         }
+        isLoggedIn=false;
     }
     
     public void displayLogin() {

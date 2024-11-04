@@ -1,8 +1,12 @@
 package viewers;
+import java.io.IOException;
 import java.util.Scanner;
 
 import DataReadWrite.StaffListWriter;
 import controllers.AdministratorController;
+import datastorage.DataStorage;
+import datastorage.StaffRecords;
+import hospitalmanagementsystem.HospitalManagementSystem;
 
 public class AdministratorView implements ViewInterface{
 	private AdministratorController adminControl;
@@ -54,7 +58,16 @@ public class AdministratorView implements ViewInterface{
 		switch(userChoice) {
 			case 1:
 				System.out.println("------ List of Hospital Staff ------");
-				//printer.print()
+			DataStorage ds = null;
+			try {
+				ds = new DataStorage();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				ds=ds.getDataStorage();
+				StaffRecords staffrecords=ds.getStaffRecords();
+				staffrecords.viewStaff();
 				break;
 				
 			case 2:

@@ -8,6 +8,16 @@ public abstract class Staff extends User{
 		this.role = userRole;
 		this.age=age;
 	}
+	
+	public String getRole() {
+		return this.role;
+		
+	}
+	
+	public int getAge() {
+		return this.age;
+		
+	}
 
 	public void add(Staff staffUser) {
 		// TODO Auto-generated method stub

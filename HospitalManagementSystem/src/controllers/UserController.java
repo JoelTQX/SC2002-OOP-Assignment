@@ -5,22 +5,29 @@ import java.security.NoSuchAlgorithmException;
 import datastorage.Authenticator;
 import datastorage.DataStorage;
 import entities.User;
-import datastorage.Inventory;
 import datastorage.Password;
 
 public class UserController {
 	private DataStorage dataStorage;
+	private boolean isLoggedIn;
+	private User user;
 	
 	public UserController(DataStorage dataStorage) {
 		this.dataStorage = dataStorage;
+		this.isLoggedIn = false;
+		this.user = null;
 	}
 	
-	public User userLogin(String userID, String userPass) {
+	public boolean userLogin(String userID, String userPass) {
 		Authenticator auth = new Authenticator(dataStorage);
-		return auth.authenticate(userID, userPass);
+		this.user = auth.authenticate(userID, userPass);
+		if(this.user != null) {
+			isLoggedIn = true;
+		}
+		return isLoggedIn;
 	}
 	
-	public void changePassword(User user, String newUserPass) {
+	public void changePassword(String newUserPass) {
 		try {
 			user.changePassword(Password.hashPassword(newUserPass));
 		} catch (NoSuchAlgorithmException e) {
@@ -30,7 +37,20 @@ public class UserController {
 		System.out.println("Password has been updated.");
 	}
 	
-	public Inventory getInventory() {
-		return dataStorage.getInventory();
+	public boolean isLoggedIn() {
+		return isLoggedIn;
+	}
+	
+	public void logOut() {
+		this.isLoggedIn = false;
+		this.user = null;
+	}
+	
+	public boolean isFirstLogin() {
+		return this.user.isFirstLogin();
+	}
+
+	public User getLoggedUser() {
+		return this.user;
 	}
 }

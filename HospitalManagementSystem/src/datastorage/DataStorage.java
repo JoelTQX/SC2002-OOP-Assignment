@@ -42,4 +42,8 @@ public class DataStorage {
 	public PatientRecords getPatientRecords() {
 		return this.patientRecords;
 	}
+	
+	public DataStorage getDataStorage() {
+		return this;
+	}
 }

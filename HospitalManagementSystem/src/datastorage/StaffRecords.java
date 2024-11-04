@@ -25,7 +25,7 @@ public class StaffRecords {
 	
 	public void viewStaff() {
 		for(Staff staff : staffRecords) {
-			System.out.println("UserID: " + staff.getUserID());
+			System.out.println("UserID: " + staff.getUserID() + " Name: " + staff.getUserName() + " Role: "+staff.getRole()  +" Gender: "+ staff.getUserGender()+" Age: "+ staff.getAge());
 		}
 	}
 	public void addStaff(Staff staff) {

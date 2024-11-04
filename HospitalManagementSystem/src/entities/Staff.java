@@ -2,10 +2,21 @@ package entities;
 
 public abstract class Staff extends User{
 	protected String role;
-	
-	public Staff(String userID,String userName, String userPass, boolean firstLogin, String userRole,String gender) {
+	protected int age;
+	public Staff(String userID,String userName, String userPass, boolean firstLogin, String userRole,String gender,int age) {
 		super(userID,userName, userPass, firstLogin,gender);
 		this.role = userRole;
+		this.age=age;
+	}
+	
+	public String getRole() {
+		return this.role;
+		
+	}
+	
+	public int getAge() {
+		return this.age;
+		
 	}
 
 	public void add(Staff staffUser) {

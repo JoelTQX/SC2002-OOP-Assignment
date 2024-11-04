@@ -1,8 +1,12 @@
 package viewers;
+import java.io.IOException;
 import java.util.Scanner;
 
 import DataReadWrite.StaffListWriter;
 import controllers.AdministratorController;
+import datastorage.DataStorage;
+import datastorage.StaffRecords;
+import hospitalmanagementsystem.HospitalManagementSystem;
 
 public class AdministratorView implements ViewInterface{
 	private AdministratorController adminControl;
@@ -53,16 +57,49 @@ public class AdministratorView implements ViewInterface{
 		
 		switch(userChoice) {
 			case 1:
-				System.out.println("------ List of Hospital Staff ------")
-				//printer.print()
+				System.out.println("------ List of Hospital Staff ------");
+			DataStorage ds = null;
+			try {
+				ds = new DataStorage();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				ds=ds.getDataStorage();
+				StaffRecords staffrecords=ds.getStaffRecords();
+				staffrecords.viewStaff();
 				break;
 				
 			case 2:
-				System.out.println("------ Add Staff ------")
+				System.out.println("------ Add Staff ------");
 				System.out.println("Enter New Staff ID");
 				//atchar[0] check inital letter to match role implementation
+				
 				Scanner input=new Scanner(System.in);
 				String userID = input.nextLine();
+				String role;
+				char prerole=userID.charAt(0);
+				boolean appropriate=false;
+				while(!appropriate)
+				switch(prerole) {
+				case 'D':
+					role="Doctor";
+					appropriate=true;
+					break;
+					
+				case 'P':
+					role="Pharmacist";
+					appropriate=true;
+					break;
+				case 'A':
+					role="Administrator";
+					appropriate=true;
+					break;
+				default:
+					System.out.println("Please input an appropriate UserID");
+					break;
+				}
+			
 				System.out.println("Enter password");
 				String userPass = input.nextLine();
 				System.out.println("Enter Name");
@@ -74,7 +111,7 @@ public class AdministratorView implements ViewInterface{
 				break;
 			
 			case 3:
-				System.out.println("------ Remove Staff ------")
+				System.out.println("------ Remove Staff ------");
 				System.out.println("Enter Staff ID");
 				//Scanner input=new Scanner(System.in);
 				break;

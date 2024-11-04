@@ -7,6 +7,7 @@ import controllers.DoctorController;
 import controllers.PatientController;
 import controllers.PharmacistController;
 import controllers.UserController;
+import datastorage.DataStorage;
 import entities.User;
 import entities.Administrator;
 import entities.Doctor;
@@ -40,7 +41,7 @@ public class UserView implements ViewInterface {
         }
     }
     
-    public void switchView() {
+    public void switchView(DataStorage dataStorage) {
     	ViewInterface viewer = null;
         User user = userControl.getLoggedUser();
         if (user instanceof Patient) {

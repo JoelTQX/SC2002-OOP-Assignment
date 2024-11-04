@@ -74,16 +74,54 @@ public class Appointment {
         this.status = AppointmentStatus.COMPLETED;
     }
 
-    // Getters and display method for appointment details
-    public String getPatientId() { return patientId; }
-    public String getDoctorId() { return doctorId; }
-    public AppointmentStatus getStatus() { return status; }
-    public String getConsultationNotes() { return consultationNotes; }
-    public List<PrescribedMedication> getPrescribedMedications() { return prescribedMedications; }
+    // Getter for patient ID
+    public String getPatientId() {
+        return patientId;
+    }
 
+    // Getter for doctor ID
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    // Getter for appointment status
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    // Setter for appointment status
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
+    }
+
+    // Getter for consultation notes
+    public String getConsultationNotes() {
+        return consultationNotes;
+    }
+
+    // Getter for prescribed medications
+    public List<PrescribedMedication> getPrescribedMedications() {
+        return prescribedMedications;
+    }
+
+    // Method to cancel the appointment
+    public void cancel() {
+        this.status = AppointmentStatus.CANCELLED;
+    }
+
+    // Method to reschedule the appointment by updating the date and time
+    public void reschedule(String newDate, String newTime) {
+        this.appointmentDate = newDate;
+        this.appointmentTime = newTime;
+        this.status = AppointmentStatus.SCHEDULED; // Set status to SCHEDULED when rescheduled
+    }
+
+    // Method to display appointment details
     public String displayDetails() {
         StringBuilder details = new StringBuilder("Appointment with Dr. " + doctorId + " on " + appointmentDate + " at " + appointmentTime);
         details.append(", Status: ").append(status).append("\n");
+
+        // Display consultation notes and prescribed medications if appointment is completed
         if (status == AppointmentStatus.COMPLETED) {
             details.append("Consultation Notes: ").append(consultationNotes).append("\n");
             details.append("Prescribed Medications: \n");
@@ -92,5 +130,20 @@ public class Appointment {
             }
         }
         return details.toString();
+    }
+
+    // Getter for appointment date
+    public String getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    // Getter for appointment time
+    public String getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    // Getter for appointment type
+    public String getAppointmentType() {
+        return appointmentType;
     }
 }

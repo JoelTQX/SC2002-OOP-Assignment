@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.Appointment;
 import java.util.ArrayList;
 import java.util.List;
 

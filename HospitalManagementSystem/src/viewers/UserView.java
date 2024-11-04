@@ -14,15 +14,12 @@ import entities.Patient;
 import entities.Pharmacist;
 
 public class UserView implements ViewInterface {
-    private boolean isLoggedIn;
-    private UserController userControl;
+	private UserController userControl;
     private Scanner inputScanner;
-    private User user;
     
     public UserView(UserController userControl, Scanner inputScanner) {
         this.userControl = userControl;
         this.inputScanner = inputScanner;
-        isLoggedIn = false;
     }
     
     public boolean displayMenu() {
@@ -35,53 +32,47 @@ public class UserView implements ViewInterface {
         switch(userChoice) {
             case 1:
                 displayLogin();
-                if(isLoggedIn) switchView();
-                break;
+                return true;
             case 2: return false;
             default:
                 System.out.println("Invalid Option... Please Try Again...\n");
                 return true;
         }
-        // Just in case
-        return true;
     }
     
     public void switchView() {
-        ViewInterface viewer = null;
+    	ViewInterface viewer = null;
+        User user = userControl.getLoggedUser();
         if (user instanceof Patient) {
             viewer = new PatientView(new PatientController(user), inputScanner);
         } else if (user instanceof Doctor) {
             viewer = new DoctorView(new DoctorController(user), inputScanner);
         }else if (user instanceof Pharmacist) {
-            viewer = new PharmacistView(new PharmacistController(user), inputScanner);
-            
+            viewer = new PharmacistView(new PharmacistController(user), inputScanner); 
         }else if (user instanceof Administrator) {
             viewer = new AdministratorView(new AdministratorController(user), inputScanner);
-            isLoggedIn=false;
         }
         
         while (viewer.displayMenu()) {
             // Continues till user logs out
         }
-        isLoggedIn=false;
+        userControl.logOut();
     }
     
     public void displayLogin() {
-        int attempts = 0;
-        while (attempts < 3 && !isLoggedIn) {
+    	int attempts = 0;
+        while (attempts < 3) {
             System.out.print("Enter User ID: ");
             String userID = inputScanner.next();
             System.out.print("Enter Password: ");
             String userPass = inputScanner.next();
 
-            user = userControl.userLogin(userID, userPass);
-            
-            if (user != null) {
-                isLoggedIn = true;
-                System.out.println("Login Successful...");
-                if (user.isFirstLogin()) promptChangePassword();
-                return;
-            } else {
+            if(userControl.userLogin(userID, userPass)) {
+            	System.out.println("Login Successful...");
+            	if(userControl.isFirstLogin()) promptChangePassword();
+            	break;
+            }
+            else {
                 attempts++;
                 System.out.println("Invalid Credentials. Please Try Again...");
                 if (attempts == 3) {
@@ -96,7 +87,6 @@ public class UserView implements ViewInterface {
         System.out.println("You are required to change your password.");
         System.out.print("Enter New Password: ");
         String newPass = inputScanner.next();
-        userControl.changePassword(this.user, newPass);
-        
+        userControl.changePassword(newPass);   
     }
 }

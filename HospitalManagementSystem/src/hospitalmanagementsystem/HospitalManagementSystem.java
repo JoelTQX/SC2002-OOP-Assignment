@@ -41,6 +41,9 @@ public class HospitalManagementSystem {
 		}
 		if(hms != null) {
 			while(hms.userView.displayMenu()) {
+				if(hms.userControl.isLoggedIn()) {
+					((UserView) hms.userView).switchView(hms.dataStorage);
+				}
 				try {
 					hms.startUp();
 				} catch (IOException e) {
@@ -52,5 +55,5 @@ public class HospitalManagementSystem {
 			hms.shutDown();
 		}
 		else System.out.println("Start Up Error!!");
-	}	
+	}
 }

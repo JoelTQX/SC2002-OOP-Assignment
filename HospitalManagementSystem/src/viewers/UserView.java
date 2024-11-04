@@ -55,10 +55,10 @@ public class UserView implements ViewInterface {
         }else if (user instanceof Pharmacist) {
             viewer = new PharmacistView(new PharmacistController(user), inputScanner);
             
-        }//else if (user instanceof Administrator) {
-            //viewer = new AdministratorView(new AdministratorController(user), inputScanner);
-            //isLoggedIn=false;
-        //}
+        }else if (user instanceof Administrator) {
+            viewer = new AdministratorView(new AdministratorController(user), inputScanner);
+            isLoggedIn=false;
+        }
         
         while (viewer.displayMenu()) {
             // Continues till user logs out

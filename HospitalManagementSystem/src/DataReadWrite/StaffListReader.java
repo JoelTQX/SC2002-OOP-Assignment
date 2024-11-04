@@ -30,17 +30,18 @@ public class StaffListReader implements DataReader {
 	                String name = cells[3];
 	                String role = cells[4];
 	                String gender = cells[5];
+	                int age = Integer.parseInt(cells[6]);
 	                boolean firstlogin = Boolean. parseBoolean(cells[2]);
 	                if(staffid.charAt(0)=='D') {
-	                	Staff doctor=new Doctor(staffid,name,password,firstlogin,role,gender);
+	                	Staff doctor=new Doctor(staffid,name,password,firstlogin,role,gender,age);
 	                	dataStorage.getStaffRecords().addStaff(doctor);
 	                }
 	                else if(staffid.charAt(0)=='P') {
-	                	Staff pharmacist=new Pharmacist(staffid,name,password,firstlogin,role,gender);
+	                	Staff pharmacist=new Pharmacist(staffid,name,password,firstlogin,role,gender,age);
 	                	dataStorage.getStaffRecords().addStaff(pharmacist);
 	                }
-	                else if(staffid.charAt(0)=='a') {
-	                	Staff admin=new Administrator(staffid,name,password,firstlogin,role,gender);
+	                else if(staffid.charAt(0)=='A') {
+	                	Staff admin=new Administrator(staffid,name,password,firstlogin,role,gender,age);
 	                	dataStorage.getStaffRecords().addStaff(admin);
 	                }
 	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]);

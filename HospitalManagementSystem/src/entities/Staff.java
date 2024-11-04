@@ -7,4 +7,14 @@ public abstract class Staff extends User{
 		super(userID,userName, userPass, firstLogin,gender);
 		this.role = userRole;
 	}
+
+	public void add(Staff staffUser) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void remove(int indexOfStaff) {
+		// TODO Auto-generated method stub
+		
+	}
 }

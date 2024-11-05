@@ -113,6 +113,10 @@ public class AdministratorView implements ViewInterface{
 			case 3:
 				System.out.println("------ Remove Staff ------");
 				System.out.println("Enter Staff ID");
+				Scanner scanner=new Scanner(System.in);
+				String usertodel=scanner.nextLine();
+				StaffListWriter del=new StaffListWriter();
+				del.deleteUser(usertodel);
 				//Scanner input=new Scanner(System.in);
 				break;
 		}

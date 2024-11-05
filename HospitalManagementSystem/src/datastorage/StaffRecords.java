@@ -3,6 +3,7 @@ package datastorage;
 import java.util.ArrayList;
 import java.util.List;
 
+import DataReadWrite.StaffListWriter;
 import controllers.StaffController;
 import entities.Doctor;
 import entities.Patient;
@@ -30,10 +31,12 @@ public class StaffRecords {
 	}
 	public void addStaff(Staff staff) {
 		this.staffRecords.add(staff);
+		//Update CSV
+		//StaffListWriter writer=new StaffListWriter();
+		//writer.addStaff(staff.getUserID(), staff.getPassword(),staff.getUserName(),staff.getRole(),staff.getUserGender(),staff.getAge());
 	}
 
 	public List<Staff> getStaffList() {
 		return this.staffRecords;
 	}
-	
 }

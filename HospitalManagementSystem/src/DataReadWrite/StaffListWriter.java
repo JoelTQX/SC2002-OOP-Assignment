@@ -100,5 +100,69 @@ public class StaffListWriter implements DataWriter {
         }
     }
 	
+	public void deleteUser(String userId){
+		 String csvFile = "dataFiles/Staff_List.csv";
+	        String line;
+	        List<String[]> rows = new ArrayList<>();
+
+	        // Step 1: Read the file, storing only rows that don't match `userId`
+	        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+	            String header = reader.readLine(); // Read header and add it to rows
+	            rows.add(header.split(","));
+
+	            while ((line = reader.readLine()) != null) {
+	                String[] cells = line.split(",");
+	                String currentUserId = cells[0]; // Assuming the user ID is in the first column
+
+	                // Only add rows that do not match the `userId`
+	                if (!userId.equals(currentUserId)) {
+	                    rows.add(cells);
+	                } else {
+	                    System.out.println("Row with userId " + userId + " found and will be deleted.");
+	                }
+	            }
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+
+	        // Step 2: Overwrite the file with filtered rows
+	        try (PrintWriter writer = new PrintWriter(new FileWriter(csvFile, false))) { // `false` to overwrite
+	            for (String[] row : rows) {
+	                writer.println(String.join(",", row));  // Write each row as a line
+	            }
+	            System.out.println("CSV updated successfully! Row with userId " + userId + " has been deleted.");
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	
+	public void addStaff(String userID, String password, String name, String gender, String role, int age) {
+		String csvFile = "dataFiles/Staff_List.csv";
+        String line;
+        int x = 1,rowNumber = 1;
+        List<String[]> rows = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = reader.readLine()) != null) {
+                rows.add(line.split(","));  // Split each row into columns
+                x++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        rows.add(new String[] { userID, password,"true", name, role, gender, String.valueOf(age) });
+
+        // Step 3: Write all rows, including the new row, back to the CSV file
+        try (PrintWriter writer = new PrintWriter(new FileWriter(csvFile, false))) { // `false` to overwrite
+            for (String[] row : rows) {
+                writer.println(String.join(",", row));  // Join columns with commas and write each row
+            }
+            System.out.println("New staff added successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+	
+	
 	
 }

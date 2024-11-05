@@ -148,6 +148,8 @@ public class AdministratorView implements ViewInterface{
 			System.out.println("Error Adding User...");
 		}
 		else adminControl.addStaff(staffToAdd);
+		
+		
 	}
 
 	private void viewStaff() {

@@ -23,6 +23,7 @@ public class StaffListReader implements DataReader {
 	public void populateData(DataStorage dataStorage) {
 		 try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
 			 String header = reader.readLine();
+			 
 			 while ((line = reader.readLine()) != null) {
 	                String[] cells = line.split(",");
 	                String staffid = cells[0];

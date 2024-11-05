@@ -30,6 +30,9 @@ public abstract class User {
 		return this.gender;
 	}
 	
+	public String getPassword() {
+		return this.userPass;
+	}
 	public boolean validatePassword(String userPass) {
 		if(this.userPass.equals(userPass)) return true;
 		return false;
@@ -44,11 +47,11 @@ public abstract class User {
 		this.userPass = newUserPass;
 		
 		if (this instanceof Patient) {
-			PatientListWriter writer=new PatientListWriter();
+			PatientListWriter writer = new PatientListWriter();
 			writer.write(this.userID,1,newUserPass);
 			writer.write(this.userID,2,"FALSE");
 		}else if (this instanceof Staff) {
-			StaffListWriter writer=new StaffListWriter();
+			StaffListWriter writer = new StaffListWriter();
 			writer.write(this.userID,1,newUserPass);
 			writer.write(this.userID,2,"FALSE");
 		}

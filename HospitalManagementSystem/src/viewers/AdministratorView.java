@@ -1,19 +1,25 @@
 package viewers;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 import DataReadWrite.StaffListWriter;
 import controllers.AdministratorController;
 import datastorage.DataStorage;
+import datastorage.Password;
 import datastorage.StaffRecords;
 import hospitalmanagementsystem.HospitalManagementSystem;
+import entities.Staff;
+import entities.Administrator;
+import entities.Doctor;
+import entities.Pharmacist;
 
 public class AdministratorView implements ViewInterface{
 	private AdministratorController adminControl;
 	private Scanner inputScanner;
 	
 	public AdministratorView(AdministratorController administratorControl, Scanner inputScanner) {
-		this.adminControl = adminControl;
+		this.adminControl = administratorControl;
 		this.inputScanner = inputScanner;
 	}
 	
@@ -57,65 +63,97 @@ public class AdministratorView implements ViewInterface{
 		
 		switch(userChoice) {
 			case 1:
-				System.out.println("------ List of Hospital Staff ------");
-			DataStorage ds = null;
-			try {
-				ds = new DataStorage();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-				ds=ds.getDataStorage();
-				StaffRecords staffrecords=ds.getStaffRecords();
-				staffrecords.viewStaff();
+				viewStaff();
 				break;
 				
 			case 2:
-				System.out.println("------ Add Staff ------");
-				System.out.println("Enter New Staff ID");
-				//atchar[0] check inital letter to match role implementation
-				
-				Scanner input=new Scanner(System.in);
-				String userID = input.nextLine();
-				String role;
-				char prerole=userID.charAt(0);
-				boolean appropriate=false;
-				while(!appropriate)
-				switch(prerole) {
-				case 'D':
-					role="Doctor";
-					appropriate=true;
-					break;
-					
-				case 'P':
-					role="Pharmacist";
-					appropriate=true;
-					break;
-				case 'A':
-					role="Administrator";
-					appropriate=true;
-					break;
-				default:
-					System.out.println("Please input an appropriate UserID");
-					break;
-				}
-			
-				System.out.println("Enter password");
-				String userPass = input.nextLine();
-				System.out.println("Enter Name");
-				String userName = input.nextLine();
-				System.out.println("Enter Gender");
-				String gender = input.nextLine();
-				System.out.println("Enter Age");
-				int age = input.nextInt();
+				addStaff();
 				break;
 			
 			case 3:
-				System.out.println("------ Remove Staff ------");
-				System.out.println("Enter Staff ID");
-				//Scanner input=new Scanner(System.in);
+				removeStaff();
 				break;
 		}
+	}
+
+	private void removeStaff() {
+		// TODO Auto-generated method stub
+		System.out.println("------ Remove Staff ------");
+		System.out.println("Enter Staff ID");
+		String staffIDToRemove = inputScanner.next();
+		adminControl.removeStaffByID(staffIDToRemove);
+	}
+
+	private void addStaff() {
+		System.out.println("------ Add Staff ------");
+		//Continue Loop till Valid Staff ID
+		boolean validStaffID = false;
+		String userID = "";
+		String role = "";
+		Staff staffToAdd;
+		while(!validStaffID) {
+			System.out.println("Enter New Staff ID");
+			//atchar[0] check inital letter to match role implementation
+			
+			userID = inputScanner.next();
+			char prerole=userID.charAt(0);
+			
+			switch(prerole) {
+			case 'D':
+				role="Doctor";
+				validStaffID = true;
+				break;
+			case 'P':
+				role="Pharmacist";
+				validStaffID = true;
+				break;
+			case 'A':
+				role="Administrator";
+				validStaffID = true;
+				break;
+			default:
+				System.out.println("Please input an appropriate UserID");
+				break;
+			}
+		}
+		staffToAdd = adminControl.getStaffByID(userID);
+		if(staffToAdd != null) {
+			System.out.println("UserID already existed");
+			return;
+		}
+		String defaultPassword = "";
+		try {
+			defaultPassword = Password.hashPassword("password");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		inputScanner.nextLine(); // Clear Buffer
+		System.out.println("Enter Name");
+		String userName = inputScanner.nextLine();
+		System.out.println("Enter Gender");
+		String gender = inputScanner.nextLine();
+		System.out.println("Enter Age");
+		int age = inputScanner.nextInt();
+		
+		if(role.equals("Doctor")) {
+			staffToAdd = new Doctor(userID, userName, defaultPassword, true, role, gender, age);
+		}
+		else if(role.equals("Pharmacist")) {
+			staffToAdd = new Pharmacist(userID, userName, defaultPassword, true, role, gender, age);
+		}
+		else if(role.equals("Administrator")) {
+			staffToAdd = new Administrator(userID, userName, defaultPassword, true, role, gender, age);
+		}
+		if(staffToAdd == null) {
+			System.out.println("Error Adding User...");
+		}
+		else adminControl.addStaff(staffToAdd);
+	}
+
+	private void viewStaff() {
+		System.out.println("------ List of Hospital Staff ------");
+		StaffRecords staffRecords = adminControl.getStaffRecords();
+		staffRecords.viewStaff();
 	}
 	
 

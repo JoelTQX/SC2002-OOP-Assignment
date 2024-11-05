@@ -15,6 +15,7 @@ public class Appointment {
     }
 
     // Attributes
+    private String appointmentID;
     private String patientId;
     private String doctorId;
     private AppointmentStatus status;
@@ -25,8 +26,9 @@ public class Appointment {
     private String consultationNotes;
 
     // Constructor
-    public Appointment(String patientId, String doctorId, String appointmentDate, String appointmentTime, String appointmentType) {
-        this.patientId = patientId;
+    public Appointment(String appointmentID, String patientId, String doctorId, String appointmentDate, String appointmentTime, String appointmentType) {
+        this.appointmentID = appointmentID;
+    	this.patientId = patientId;
         this.doctorId = doctorId;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
@@ -73,7 +75,12 @@ public class Appointment {
         this.consultationNotes = consultationNotes;
         this.status = AppointmentStatus.COMPLETED;
     }
-
+    
+    // Getter for appointment ID
+    public String getAppointmentID() {
+    	return this.appointmentID;
+    }
+    
     // Getter for patient ID
     public String getPatientId() {
         return patientId;

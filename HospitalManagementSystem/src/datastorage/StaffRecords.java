@@ -31,5 +31,9 @@ public class StaffRecords {
 	public void addStaff(Staff staff) {
 		this.staffRecords.add(staff);
 	}
+
+	public List<Staff> getStaffList() {
+		return this.staffRecords;
+	}
 	
 }

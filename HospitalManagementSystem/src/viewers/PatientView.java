@@ -73,7 +73,7 @@ public class PatientView implements ViewInterface{
 				Scanner input=new Scanner(System.in);
 				String email = input.nextLine();
 				patientControl.setPatientContactInfo(email);
-				PatientListWriter writer=new PatientListWriter();
+				PatientListWriter writer = new PatientListWriter();
 				writer.write(patientControl.getUserID(),6,email);
 				System.out.println("Email Address Updated");
 				break;

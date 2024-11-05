@@ -41,4 +41,8 @@ public class PatientRecords {
 	public void addPatient(Patient patient) {
 		this.patientRecords.add(patient);
 	}
+	
+	public List<Patient> getPatientList() {
+		return this.patientRecords;
+	}
 }

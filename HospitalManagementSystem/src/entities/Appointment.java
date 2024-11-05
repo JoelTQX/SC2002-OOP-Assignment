@@ -41,9 +41,11 @@ public class Appointment {
     public static class PrescribedMedication {
         private String medicationName;
         private String status;
+        private int medicineQuantity;
 
-        public PrescribedMedication(String medicationName) {
+        public PrescribedMedication(String medicationName, int medicineQuantity) {
             this.medicationName = medicationName;
+        this.quantity = medicineQuantity;
             this.status = "Pending"; // Default status
         }
 
@@ -53,6 +55,10 @@ public class Appointment {
 
         public String getStatus() {
             return status;
+        }
+        
+        public int getMedicineQuantity() {
+        	return this.medicineQuantity;
         }
 
         public void setStatus(String status) {

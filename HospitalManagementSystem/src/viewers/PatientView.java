@@ -2,6 +2,8 @@ package viewers;
 
 import DataReadWrite.PatientListWriter;
 import controllers.PatientController;
+import entities.Appointment;
+import java.util.List;
 import java.util.Scanner;
 
 public class PatientView implements ViewInterface{
@@ -99,32 +101,105 @@ public class PatientView implements ViewInterface{
 		
 	}
 	
-	private void viewAvailableSlots() {
-		// TODO Auto-generated method stub
+	private void viewAvailableSlots() 
+	{
+		System.out.println("------ Available Appointment Slots ------");
+		System.out.println("Input Appointment Date (YYYY-MM-DD): ");
+		String date = inputScanner.next();
+		List<String> availableSlots = patientControl.getAvailableSlots(date);
+		if (availableSlots.isEmpty()) {
+			System.out.println("No available slots at the moment.");
+		} else {
+			for (String slot : availableSlots) {
+				System.out.println("Slot: " + slot);
+			}
+		}
+	}
+	
 		
+	
+
+	private void scheduleAppointment() {
+		System.out.println("------ Schedule an Appointment ------");
+		System.out.print("Enter Doctor ID: ");
+		String doctorId = inputScanner.next();
+		System.out.print("Enter Appointment Date (YYYY-MM-DD): ");
+		String date = inputScanner.next();
+		System.out.print("Enter Appointment Time (HH:MM): ");
+		String time = inputScanner.next();
+	
+		boolean success = patientControl.scheduleAppointment(doctorId, date, time);
+	
+		if (success) {
+			System.out.println("Appointment scheduled successfully.");
+		} else {
+			System.out.println("Failed to schedule appointment. Please check the details or try another slot.");
+		}
 	}
+	
 
-	private void scheduleAppointment()
-	{
-
+	private void rescheduleAppointment() {
+		System.out.println("------ Reschedule an Appointment ------");
+		System.out.print("Enter Appointment ID to reschedule: ");
+		String appointmentId = inputScanner.next();
+		System.out.print("Enter New Appointment Date (YYYY-MM-DD): ");
+		String newDate = inputScanner.next();
+		System.out.print("Enter New Appointment Time (HH:MM): ");
+		String newTime = inputScanner.next();
+	
+		boolean success = patientControl.rescheduleAppointment(appointmentId, newDate, newTime);
+	
+		if (success) {
+			System.out.println("Appointment rescheduled successfully.");
+		} else {
+			System.out.println("Failed to reschedule appointment. Please check the details or slot availability.");
+		}
 	}
-	private void rescheduleAppointment()
-	{
-
+	
+	private void cancelAppointment() {
+		System.out.println("------ Cancel an Appointment ------");
+		System.out.print("Enter Appointment ID to cancel: ");
+		String appointmentId = inputScanner.next();
+	
+		boolean success = patientControl.cancelAppointment(appointmentId);
+	
+		if (success) {
+			System.out.println("Appointment canceled successfully.");
+		} else {
+			System.out.println("Failed to cancel the appointment. Please check the appointment ID.");
+		}
 	}
-	private void cancelAppointment()
-	{
+	
+	private void viewScheduledAppointments() {
+    System.out.println("------ Scheduled Appointments ------");
+    List<Appointment> appointments = patientControl.getScheduledAppointments();
 
-	}
-	private void viewScheduledAppointments()
-	{
+    if (appointments.isEmpty()) {
+        System.out.println("No scheduled appointments found.");
+    } else {
+        for (Appointment appointment : appointments) {
+            System.out.println("Appointment ID: " + appointment.getAppointmentID() +
+                               ", Date: " + appointment.getAppointmentDate() +
+                               ", Time: " + appointment.getAppointmentTime() +
+                               ", Status: " + appointment.getStatus());
+        }
+    }
+}
 
-	}
 
-	private void viewAppointmentOutcomeRecord()
-	{
 
-	}
+private void viewAppointmentOutcomeRecord() {
+    System.out.println("------ Past Appointment Outcome Records ------");
+    List<Appointment> completedAppointments = patientControl.getCompletedAppointments();
+
+    if (completedAppointments.isEmpty()) {
+        System.out.println("No past appointments with recorded outcomes.");
+    } else {
+        for (Appointment appointment : completedAppointments) {
+            System.out.println(appointment.displayDetails());
+        }
+    }
+}
 
 
 

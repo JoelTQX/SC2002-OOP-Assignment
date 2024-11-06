@@ -1,26 +1,30 @@
 package viewers;
 
-import java.util.Scanner;
-
 import controllers.AdministratorController;
+import controllers.AppointmentController;
 import controllers.DoctorController;
 import controllers.PatientController;
 import controllers.PharmacistController;
 import controllers.UserController;
 import datastorage.DataStorage;
-import entities.User;
 import entities.Administrator;
 import entities.Doctor;
 import entities.Patient;
 import entities.Pharmacist;
+import entities.User;
+import java.util.Scanner;
 
 public class UserView implements ViewInterface {
 	private UserController userControl;
     private Scanner inputScanner;
+
+    // NEW: Declare an AppointmentController field
+    private AppointmentController appointmentController;
     
-    public UserView(UserController userControl, Scanner inputScanner) {
+    public UserView(UserController userControl, Scanner inputScanner,AppointmentController appointmentController) {
         this.userControl = userControl;
         this.inputScanner = inputScanner;
+        this.appointmentController = appointmentController; // NEW: Initialize AppointmentController
     }
     
     public boolean displayMenu() {
@@ -45,7 +49,7 @@ public class UserView implements ViewInterface {
     	ViewInterface viewer = null;
         User user = userControl.getLoggedUser();
         if (user instanceof Patient) {
-            viewer = new PatientView(new PatientController(user), inputScanner);
+            viewer = new PatientView(new PatientController(user, appointmentController), inputScanner);
         } else if (user instanceof Doctor) {
             viewer = new DoctorView(new DoctorController(user, dataStorage), inputScanner);
         }else if (user instanceof Pharmacist) {

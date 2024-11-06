@@ -1,13 +1,20 @@
 package controllers;
 
+import entities.Appointment;
 import entities.Patient;
 import entities.User;
+import java.util.List;
 
 public class PatientController implements ControllerInterface{
 	private Patient patientUser;
+
+	// NEW: Adding AppointmentController attribute
+	private AppointmentController appointmentController;
 	
-	public PatientController(User user) {
+	// NEW: Added appointment controller as a parameter to the construtor 
+	public PatientController(User user, AppointmentController appointmentController) {
 		this.patientUser = (Patient) user;
+		this.appointmentController = appointmentController; // NEW
 	}
 	
 	public String getUserID() {
@@ -40,4 +47,41 @@ public class PatientController implements ControllerInterface{
 		
 		
 	}
+
+	  // NEW: Get available appointment slots via AppointmentController
+    public List<String> getAvailableSlots(String date ) {
+        return appointmentController.getAvailableSlots(date);
+    }
+
+    // NEW: Schedule an appointment via AppointmentController
+    public boolean scheduleAppointment(String doctorId, String date, String time) {
+        Appointment newAppointment = new Appointment(generateAppointmentID(), getUserID(), doctorId, date, time, "General Checkup");
+        return appointmentController.scheduleAppointment(newAppointment);
+    }
+
+    // NEW: Reschedule an appointment via AppointmentController
+    public boolean rescheduleAppointment(String appointmentId, String newDate, String newTime) {
+        return appointmentController.rescheduleAppointment(appointmentId, newDate, newTime);
+    }
+
+    // NEW: Cancel an appointment via AppointmentController
+    public boolean cancelAppointment(String appointmentId) {
+        return appointmentController.cancelAppointment(appointmentId);
+    }
+
+    // NEW: Get scheduled appointments via AppointmentController
+    public List<Appointment> getScheduledAppointments() {
+        return appointmentController.getScheduledAppointments(getUserID());
+    }
+
+    // NEW: Get completed appointments via AppointmentController
+    public List<Appointment> getCompletedAppointments() {
+        return appointmentController.getCompletedAppointments(getUserID());
+    }
+
+    // Helper method for generating a unique appointment ID
+    private String generateAppointmentID() {
+        return "APT" + System.currentTimeMillis();
+    }
 }
+

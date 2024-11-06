@@ -1,6 +1,8 @@
 package controllers;
 
 import entities.Appointment;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,79 +10,102 @@ public class AppointmentController {
 
     private List<Appointment> appointments;
 
+  
     public AppointmentController() {
         this.appointments = new ArrayList<>();
     }
 
-    // Method for a doctor to confirm or decline an appointment
-    public void acceptOrDeclineAppointment(Appointment appointment, boolean accept) {
-        if (accept) {
-            appointment.setStatus(Appointment.AppointmentStatus.CONFIRMED);
-            System.out.println("Appointment confirmed.");
-        } else {
-            appointment.setStatus(Appointment.AppointmentStatus.CANCELLED);
-            System.out.println("Appointment declined.");
-        }
-    }
+    // Method to get available appointment slots for a specific day
+    public List<String> getAvailableSlots(String date) {
+        List<String> availableSlots = generateHourlySlots(date, "09:00", "17:00");
 
-    // Method for a doctor to complete an appointment, including setting consultation notes and prescribed medications
-    public void recordAppointmentOutcome(Appointment appointment, String consultationNotes, List<String> medications) {
-        for (String medication : medications) {
-            appointment.addPrescribedMedication(medication, 1); // Assuming 1 as the default quantity
-        }
-        appointment.completeAppointment(consultationNotes);
-        System.out.println("Appointment outcome recorded and marked as completed.");
-    }
-
-    // Pharmacist method to view prescribed medications and update their status
-    public void updatePrescriptionStatus(Appointment appointment, String medicationName, String newStatus) {
-        for (Appointment.PrescribedMedication medication : appointment.getPrescribedMedications()) {
-            if (medication.getMedicationName().equals(medicationName)) {
-                medication.setStatus(newStatus);
-                System.out.println("Prescription status updated to " + newStatus + " for medication: " + medicationName);
-                return;
+        // Filter out slots that are already booked
+        for (Appointment appointment : appointments) {
+            if (appointment.getStatus() != Appointment.AppointmentStatus.CANCELLED && 
+                appointment.getAppointmentDate().equals(date)) {
+                String bookedSlot = appointment.getAppointmentDate() + " " + appointment.getAppointmentTime();
+                availableSlots.remove(bookedSlot); // Remove the booked slot
             }
         }
-        System.out.println("Medication not found in the appointment record.");
+
+        return availableSlots;
     }
 
-    // Method for pharmacists to view the outcome records to fulfill prescription orders
-    public void viewAppointmentOutcomeRecord(Appointment appointment) {
-        if (appointment.getStatus() == Appointment.AppointmentStatus.COMPLETED) {
-            System.out.println("Appointment Outcome Record:");
-            System.out.println(appointment.displayDetails());
-        } else {
-            System.out.println("No outcome record available. Appointment is not completed.");
-        }
+    
+
+ // Helper method to generate hourly slots from startTime to endTime for a specific date
+ private List<String> generateHourlySlots(String date, String startTime, String endTime) {
+    List<String> slots = new ArrayList<>();
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    
+    // Parse start and end times
+    LocalTime start = LocalTime.parse(startTime, timeFormatter);
+    LocalTime end = LocalTime.parse(endTime, timeFormatter);
+
+    // Generate slots on the hour
+    while (!start.isAfter(end)) {
+        slots.add(date + " " + start.format(timeFormatter));
+        start = start.plusHours(1); // Increment by one hour
     }
 
-    // Patient-specific methods for scheduling, rescheduling, and canceling appointments
+    return slots;
+}
+
+    // Method to schedule an appointment
     public boolean scheduleAppointment(Appointment appointment) {
         if (isSlotAvailable(appointment.getDoctorId(), appointment.getAppointmentDate(), appointment.getAppointmentTime())) {
             appointment.setStatus(Appointment.AppointmentStatus.SCHEDULED);
             appointments.add(appointment);
-            System.out.println("Appointment scheduled successfully.");
             return true;
         } else {
-            System.out.println("Selected slot is unavailable.");
             return false;
         }
     }
 
-    public boolean rescheduleAppointment(Appointment appointment, String newDate, String newTime) {
-        if (isSlotAvailable(appointment.getDoctorId(), newDate, newTime)) {
+    // Method to reschedule an appointment
+    public boolean rescheduleAppointment(String appointmentId, String newDate, String newTime) {
+        Appointment appointment = findAppointmentById(appointmentId);
+        if (appointment != null && isSlotAvailable(appointment.getDoctorId(), newDate, newTime)) {
             appointment.reschedule(newDate, newTime);
             System.out.println("Appointment rescheduled successfully.");
             return true;
-        } else {
-            System.out.println("Selected slot is unavailable for rescheduling.");
-            return false;
         }
+        System.out.println("Failed to reschedule. Check details or slot availability.");
+        return false;
     }
 
-    public void cancelAppointment(Appointment appointment) {
-        appointment.cancel();
-        System.out.println("Appointment cancelled successfully.");
+    // Method to cancel an appointment
+    public boolean cancelAppointment(String appointmentId) {
+        Appointment appointment = findAppointmentById(appointmentId);
+        if (appointment != null) {
+            appointment.cancel();
+            System.out.println("Appointment canceled successfully.");
+            return true;
+        }
+        System.out.println("Failed to cancel. Appointment not found.");
+        return false;
+    }
+
+    // Method to retrieve scheduled appointments for a patient
+    public List<Appointment> getScheduledAppointments(String patientId) {
+        List<Appointment> scheduledAppointments = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (appointment.getPatientId().equals(patientId) && appointment.getStatus() == Appointment.AppointmentStatus.SCHEDULED) {
+                scheduledAppointments.add(appointment);
+            }
+        }
+        return scheduledAppointments;
+    }
+
+    // Method to retrieve completed appointments for a patient
+    public List<Appointment> getCompletedAppointments(String patientId) {
+        List<Appointment> completedAppointments = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (appointment.getPatientId().equals(patientId) && appointment.getStatus() == Appointment.AppointmentStatus.COMPLETED) {
+                completedAppointments.add(appointment);
+            }
+        }
+        return completedAppointments;
     }
 
     // Check if a slot is available for a given doctor, date, and time
@@ -95,4 +120,15 @@ public class AppointmentController {
         }
         return true;
     }
+
+    // Helper to find an appointment by ID
+    private Appointment findAppointmentById(String appointmentId) {
+        for (Appointment appointment : appointments) {
+            if (appointment.getAppointmentID().equals(appointmentId)) {
+                return appointment;
+            }
+        }
+        return null;
+    }
 }
+

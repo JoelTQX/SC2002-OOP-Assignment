@@ -136,33 +136,5 @@ public class StaffListWriter implements DataWriter {
 	        }
 	    }
 	
-	public void addStaff(String userID, String password, String name, String gender, String role, int age) {
-		String csvFile = "dataFiles/Staff_List.csv";
-        String line;
-        int x = 1,rowNumber = 1;
-        List<String[]> rows = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
-            while ((line = reader.readLine()) != null) {
-                rows.add(line.split(","));  // Split each row into columns
-                x++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        rows.add(new String[] { userID, password,"true", name, role, gender, String.valueOf(age) });
-
-        // Step 3: Write all rows, including the new row, back to the CSV file
-        try (PrintWriter writer = new PrintWriter(new FileWriter(csvFile, false))) { // `false` to overwrite
-            for (String[] row : rows) {
-                writer.println(String.join(",", row));  // Join columns with commas and write each row
-            }
-            System.out.println("New staff added successfully!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-	
-	
 	
 }

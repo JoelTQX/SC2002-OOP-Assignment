@@ -15,6 +15,7 @@ public class Appointment {
     }
 
     // Attributes
+    private String appointmentID;
     private String patientId;
     private String doctorId;
     private AppointmentStatus status;
@@ -25,8 +26,9 @@ public class Appointment {
     private String consultationNotes;
 
     // Constructor
-    public Appointment(String patientId, String doctorId, String appointmentDate, String appointmentTime, String appointmentType) {
-        this.patientId = patientId;
+    public Appointment(String appointmentID, String patientId, String doctorId, String appointmentDate, String appointmentTime, String appointmentType) {
+        this.appointmentID = appointmentID;
+    	this.patientId = patientId;
         this.doctorId = doctorId;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
@@ -39,9 +41,11 @@ public class Appointment {
     public static class PrescribedMedication {
         private String medicationName;
         private String status;
+        private int medicineQuantity;
 
-        public PrescribedMedication(String medicationName) {
+        public PrescribedMedication(String medicationName, int medicineQuantity) {
             this.medicationName = medicationName;
+        this.quantity = medicineQuantity;
             this.status = "Pending"; // Default status
         }
 
@@ -51,6 +55,10 @@ public class Appointment {
 
         public String getStatus() {
             return status;
+        }
+        
+        public int getMedicineQuantity() {
+        	return this.medicineQuantity;
         }
 
         public void setStatus(String status) {
@@ -73,7 +81,12 @@ public class Appointment {
         this.consultationNotes = consultationNotes;
         this.status = AppointmentStatus.COMPLETED;
     }
-
+    
+    // Getter for appointment ID
+    public String getAppointmentID() {
+    	return this.appointmentID;
+    }
+    
     // Getter for patient ID
     public String getPatientId() {
         return patientId;

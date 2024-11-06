@@ -3,6 +3,10 @@ package viewers;
 import java.util.Scanner;
 
 import controllers.DoctorController;
+import controllers.PatientController;
+import datastorage.DataStorage;
+import datastorage.PatientRecords;
+import entities.Patient;
 
 public class DoctorView implements ViewInterface{
 	private DoctorController doctorControl;
@@ -29,6 +33,8 @@ public class DoctorView implements ViewInterface{
 		
 		switch(userChoice){
 			case 1: 
+				Scanner scanner= new Scanner(System.in);
+				viewPatientRecords();
 				//viewMedicalRecord();
 				break;
 			case 2:
@@ -43,6 +49,16 @@ public class DoctorView implements ViewInterface{
 			//viewMedicalRecord();
 		//else if(userChoice == 8) return false;
 		//return true;
+	}
+
+	private void viewPatientRecords() {
+		PatientRecords patientRecords = doctorControl.getPatientsRecords();
+		for(Patient patient : patientRecords.getPatientList()) {
+			System.out.println("Name: " + patient.getUserName());
+			System.out.println("Blood Type: " + patient.getPatientBloodType());
+			System.out.println("DOB: " + patient.getPatientDOB());
+			System.out.println("Gender: " + patient.getUserGender());
+		}
 	}
         
         

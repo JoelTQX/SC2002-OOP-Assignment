@@ -43,7 +43,7 @@ public class PharmacistView implements ViewInterface{
 	
 	private void viewAppointmentOutcomeRecord() {
 		// TODO Auto-generated method stub
-		
+		pharmacistControl.getOutcomeRecords();
 	}
 	
 	private void updatePrescriptionStatus() {

@@ -23,7 +23,6 @@ public class StaffController {
 			System.out.println("Staff cannot be null");
 			return;
 		}
-		
 		int indexOfStaff = this.staffRecords.indexOf(staff);
 		if (indexOfStaff != -1) {
 	        this.staffRecords.remove(indexOfStaff);

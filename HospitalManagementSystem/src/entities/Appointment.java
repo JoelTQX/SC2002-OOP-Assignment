@@ -72,8 +72,8 @@ public class Appointment {
     }
 
     // Method to add a prescribed medication
-    public void addPrescribedMedication(String medicationName) {
-        prescribedMedications.add(new PrescribedMedication(medicationName));
+    public void addPrescribedMedication(String medicationName, int medicineQuantity) {
+        prescribedMedications.add(new PrescribedMedication(medicationName, medicineQuantity));
     }
 
     // Method to update consultation notes and mark the appointment as completed

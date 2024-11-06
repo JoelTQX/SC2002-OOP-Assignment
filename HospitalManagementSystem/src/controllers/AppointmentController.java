@@ -26,7 +26,7 @@ public class AppointmentController {
     // Method for a doctor to complete an appointment, including setting consultation notes and prescribed medications
     public void recordAppointmentOutcome(Appointment appointment, String consultationNotes, List<String> medications) {
         for (String medication : medications) {
-            appointment.addPrescribedMedication(medication);
+            appointment.addPrescribedMedication(medication, 1); // Assuming 1 as the default quantity
         }
         appointment.completeAppointment(consultationNotes);
         System.out.println("Appointment outcome recorded and marked as completed.");

@@ -1,9 +1,8 @@
 package viewers;
 
-import java.util.Scanner;
-
 import DataReadWrite.PatientListWriter;
 import controllers.PatientController;
+import java.util.Scanner;
 
 public class PatientView implements ViewInterface{
 	private PatientController patientControl;
@@ -39,6 +38,22 @@ public class PatientView implements ViewInterface{
 			case 3: 
 				viewAvailableSlots();
 				break;
+			case 4:
+				scheduleAppointment();
+				break;
+			case 5:
+				rescheduleAppointment(); 
+				break;
+			case 6:
+				cancelAppointment(); 
+				break;	
+			case 7:
+				viewScheduledAppointments(); 
+				break;
+			case 8:
+				viewAppointmentOutcomeRecord(); 
+				break;
+
 		}
 		
 		if(userChoice == 9) return false;
@@ -88,4 +103,31 @@ public class PatientView implements ViewInterface{
 		// TODO Auto-generated method stub
 		
 	}
+
+	private void scheduleAppointment()
+	{
+
+	}
+	private void rescheduleAppointment()
+	{
+
+	}
+	private void cancelAppointment()
+	{
+
+	}
+	private void viewScheduledAppointments()
+	{
+
+	}
+
+	private void viewAppointmentOutcomeRecord()
+	{
+
+	}
+
+
+
+	
+
 }

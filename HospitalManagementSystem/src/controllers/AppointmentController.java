@@ -33,23 +33,6 @@ public class AppointmentController {
 
     
 
- // Helper method to generate hourly slots from startTime to endTime for a specific date
- private List<String> generateHourlySlots(String date, String startTime, String endTime) {
-    List<String> slots = new ArrayList<>();
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    
-    // Parse start and end times
-    LocalTime start = LocalTime.parse(startTime, timeFormatter);
-    LocalTime end = LocalTime.parse(endTime, timeFormatter);
-
-    // Generate slots on the hour
-    while (!start.isAfter(end)) {
-        slots.add(date + " " + start.format(timeFormatter));
-        start = start.plusHours(1); // Increment by one hour
-    }
-
-    return slots;
-}
 
     // Method to schedule an appointment
     public boolean scheduleAppointment(Appointment appointment) {
@@ -67,10 +50,10 @@ public class AppointmentController {
         Appointment appointment = findAppointmentById(appointmentId);
         if (appointment != null && isSlotAvailable(appointment.getDoctorId(), newDate, newTime)) {
             appointment.reschedule(newDate, newTime);
-            System.out.println("Appointment rescheduled successfully.");
+            // System.out.println("Appointment rescheduled successfully.");
             return true;
         }
-        System.out.println("Failed to reschedule. Check details or slot availability.");
+        // System.out.println("Failed to reschedule. Check details or slot availability.");
         return false;
     }
 
@@ -79,10 +62,10 @@ public class AppointmentController {
         Appointment appointment = findAppointmentById(appointmentId);
         if (appointment != null) {
             appointment.cancel();
-            System.out.println("Appointment canceled successfully.");
+            // System.out.println("Appointment canceled successfully.");
             return true;
         }
-        System.out.println("Failed to cancel. Appointment not found.");
+        // System.out.println("Failed to cancel. Appointment not found.");
         return false;
     }
 
@@ -130,5 +113,27 @@ public class AppointmentController {
         }
         return null;
     }
+
+
+
+
+     // Helper method to generate hourly slots from startTime to endTime for a specific date
+ private List<String> generateHourlySlots(String date, String startTime, String endTime) {
+    List<String> slots = new ArrayList<>();
+    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    
+    // Parse start and end times
+    LocalTime start = LocalTime.parse(startTime, timeFormatter);
+    LocalTime end = LocalTime.parse(endTime, timeFormatter);
+
+    // Generate slots on the hour
+    while (!start.isAfter(end)) {
+        slots.add(date + " " + start.format(timeFormatter));
+        start = start.plusHours(1); // Increment by one hour
+    }
+
+    return slots;
+}
+
 }
 

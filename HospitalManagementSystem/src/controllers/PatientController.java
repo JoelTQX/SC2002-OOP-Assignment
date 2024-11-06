@@ -80,8 +80,19 @@ public class PatientController implements ControllerInterface{
     }
 
     // Helper method for generating a unique appointment ID
+
+	private static int counter = 0; // lowkey have no idea how to put this
+
+	//i noticed that using just system time was giving fking long IDs and I thought we could shorten them down 
     private String generateAppointmentID() {
-        return "APT" + System.currentTimeMillis();
+		long timestamp = System.currentTimeMillis();
+    
+		// Use only the last 5 hex digits of the timestamp for a shorter ID
+		String hexTimestamp = Long.toHexString(timestamp & 0xFFFFF); // Last 5 hex digits
+		String hexCounter = Integer.toHexString(counter++ & 0xF); // Add 1 hex digit from counter
+		counter = counter % 16; // Keep counter within 1 hex digit range (0-15)
+	
+		return "APT" + hexTimestamp.toUpperCase() + hexCounter.toUpperCase();
     }
 }
 

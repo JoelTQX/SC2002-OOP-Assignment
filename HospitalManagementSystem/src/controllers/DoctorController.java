@@ -2,6 +2,8 @@ package controllers;
 
 import java.util.List;
 import controllers.AdministratorController; 
+import controllers.AppointmentController;
+import controllers.UserController; 
 import datastorage.DataStorage;
 import datastorage.PatientRecords;
 import entities.Appointment;
@@ -27,7 +29,7 @@ public class DoctorController {
 
 
     // NEW : Update patient records with new diagnoses, prescriptions, and treatment plans
-    public boolean updatePatientRecords(int patientId, String newDiagnoses, String prescriptions, String treatmentPlan) {
+    public boolean updatePatientRecords(String patientId, String newDiagnoses, String prescriptions, String treatmentPlan) {
         Patient patient = dataStorage.findPatientById(patientId);
         if (patient != null) {
             patient.addDiagnosis(newDiagnoses);
@@ -39,79 +41,53 @@ public class DoctorController {
         return false;
 	}
     
+// Might not need this cuz appointment requests alr exist
 
-	//NEW 	
-	public boolean handleAppointmentRequest(int appointmentId, boolean isAccepted) {
-		Appointment appointment = appointmentController.findAppointmentById(appointmentId);
-		if (appointment != null && appointment.getDoctorId() == user.getId()) {
-			if (isAccepted) {
-				appointment.setStatus("Accepted");
-			} else {
-				appointment.setStatus("Declined");
-			}
-			appointmentController.updateAppointment(appointment);
-			return true;
-		}
-		return false;
-	}
+// // NEW: Retrieve the doctor's personal schedule
+// public String getPersonalSchedule() {
+// 	return user.getSchedule();
+// }
 
-	// NEW: Get a list of upcoming appointments for the doctor
-	public List<Appointment> getUpcomingAppointments() {
-		return appointmentController.getUpcomingAppointments(user.getId());
-	}
+// NEW: Set the doctor's availability for a specific date and time slots
+public boolean setAvailability(String date, String timeSlots) {
+	return user.setAvailability(date, timeSlots);
+}
 
-	// NEW: Record the outcome of an appointment
-	public boolean recordAppointmentOutcome(int appointmentId, String date, String serviceType, List<String> medications, String notes) {
-		Appointment appointment = appointmentController.findAppointmentById(appointmentId);
-		if (appointment != null && appointment.getDoctorId() == user.getId()) {
-			appointment.setDate(date);
-			appointment.setServiceType(serviceType);
-			appointment.setMedications(medications);
-			appointment.setNotes(notes);
-			appointmentController.updateAppointment(appointment);
-			return true;
-		}
-		return false;
-	}
-	// NEW: Get a list of pending appointment requests for the doctor
-	public List<Appointment> getAppointmentRequests() {
-		return appointmentController.getAvailableSlots(user.getId());
-	}
+// NEW: Retrieve a list of pending appointment requests for the doctor
+public List<Appointment> getAppointmentRequests() {
+	return appointmentController.getPendingAppointmentsForDoctor(user.getId());
+}
 
-	// NEW: Handle an appointment request by accepting or declining it
-	public boolean handleAppointmentRequest(String appointmentId, boolean isAccepted) {
-		Appointment appointment = appointmentController.findAppointmentById(appointmentId);
-		if (appointment != null && appointment.getDoctorId().equals(user.getId())) {
-			if (isAccepted) {
-				appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
-			} else {
-				appointment.setStatus(Appointment.AppointmentStatus.DECLINED);
-			}
-			appointmentController.updateAppointment(appointment);
-			return true;
-		}
-		return false;
+// NEW: Accept or decline an appointment request
+public boolean handleAppointmentRequest(String appointmentId, boolean isAccepted) {
+	Appointment appointment = appointmentController.findAppointmentById(appointmentId);
+	if (appointment != null && appointment.getDoctorId().equals(user.getId())) {
+		appointment.setStatus(isAccepted ? Appointment.AppointmentStatus.CONFIRMED : Appointment.AppointmentStatus.CANCELLED);
+		appointmentController.updateAppointment(appointment);
+		return true;
 	}
+	return false;
+}
 
-	// NEW: Get a list of upcoming appointments for the doctor
-	public List<Appointment> getUpcomingAppointments() {
-		return appointmentController.getUpcomingAppointments(user.getId());
+// NEW: Retrieve a list of upcoming appointments for the doctor
+public List<Appointment> getUpcomingAppointments() {
+	return appointmentController.getUpcomingAppointmentsForDoctor(user.getId());
+}
+
+// NEW: Record the outcome of an appointment
+public boolean recordAppointmentOutcome(String appointmentId, String date, String serviceType, List<String> medications, String notes) {
+	Appointment appointment = appointmentController.findAppointmentById(appointmentId);
+	if (appointment != null && appointment.getDoctorId().equals(user.getId())) {
+		appointment.setDate(date);
+		appointment.setServiceType(serviceType);
+		appointment.setMedications(medications);
+		appointment.setNotes(notes);
+		appointment.setStatus(Appointment.AppointmentStatus.COMPLETED);
+		appointmentController.updateAppointment(appointment);
+		return true;
 	}
-
-	// NEW: Record the outcome of an appointment
-	public boolean recordAppointmentOutcome(String appointmentId, String date, String serviceType, List<String> medications, String notes) {
-		Appointment appointment = appointmentController.findAppointmentById(appointmentId);
-		if (appointment != null && appointment.getDoctorId().equals(user.getId())) {
-			appointment.setDate(date);
-			appointment.setServiceType(serviceType);
-			appointment.setMedications(medications);
-			appointment.setNotes(notes);
-			appointmentController.updateAppointment(appointment);
-			return true;
-		}
-		return false;
-	}
-
+	return false;
+}
 
 
 }

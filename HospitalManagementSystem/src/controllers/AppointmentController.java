@@ -101,8 +101,7 @@ public class AppointmentController {
         return true;
     }
 
-    // Helper to find an appointment by ID
-    private Appointment findAppointmentById(String appointmentId) {
+    public Appointment findAppointmentById(String appointmentId) {
         for (Appointment appointment : appointments) {
             if (appointment.getAppointmentID().equals(appointmentId)) {
                 return appointment;
@@ -111,6 +110,48 @@ public class AppointmentController {
         return null;
     }
 
+
+
+    // DOCTOR METHODS 
+
+       // NEW: Retrieve pending appointment requests for a specific doctor
+       public List<Appointment> getPendingAppointmentsForDoctor(String doctorId) {
+        List<Appointment> pendingAppointments = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (appointment.getDoctorId().equals(doctorId) &&
+                appointment.getStatus() == Appointment.AppointmentStatus.PENDING) {
+                pendingAppointments.add(appointment);
+            }
+        }
+        return pendingAppointments;
+    }
+
+    // NEW: Retrieve upcoming appointments for a specific doctor
+    public List<Appointment> getUpcomingAppointmentsForDoctor(String doctorId) {
+        List<Appointment> upcomingAppointments = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (appointment.getDoctorId().equals(doctorId) &&
+                (appointment.getStatus() == Appointment.AppointmentStatus.CONFIRMED ||
+                 appointment.getStatus() == Appointment.AppointmentStatus.SCHEDULED)) {
+                upcomingAppointments.add(appointment);
+            }
+        }
+        return upcomingAppointments;
+    }
+
+
+    // NEW: Update an appointment in the system
+    public void updateAppointment(Appointment appointment) {
+        // In a real system, this would update the appointment in a database or persistent storage
+        // Here, we assume `appointments` list is the current storage
+        for (int i = 0; i < appointments.size(); i++) {
+            if (appointments.get(i).getAppointmentID().equals(appointment.getAppointmentID())) {
+                appointments.set(i, appointment); // Update the appointment in the list
+                break;
+            }
+            
+        }
+    }
 
      // Helper method to generate hourly slots from startTime to endTime for a specific date
  private List<String> generateHourlySlots(String date, String startTime, String endTime) {

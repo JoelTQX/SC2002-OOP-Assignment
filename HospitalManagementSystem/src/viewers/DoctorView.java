@@ -81,7 +81,7 @@ public class DoctorView implements ViewInterface{
     private void updatePatientRecords() {
 		System.out.println("------ Update Patient Medical Records ------");
 		System.out.print("Enter Patient ID to update records: ");
-		int patientId = inputScanner.nextInt();
+		String patientId = inputScanner.nextLine();
 		inputScanner.nextLine(); // Consume newline
 	
 		System.out.print("Enter new diagnoses: ");

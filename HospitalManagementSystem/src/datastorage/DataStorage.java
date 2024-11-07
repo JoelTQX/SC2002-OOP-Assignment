@@ -1,10 +1,12 @@
 package datastorage;
 import DataReadWrite.StaffListReader;
+import entities.Medicine;
 
 import java.io.IOException;
 
 import DataReadWrite.DataReader;
 import DataReadWrite.MedicineReader;
+import DataReadWrite.MedicineWriter;
 import DataReadWrite.PatientListReader;
 public class DataStorage {
 	private Inventory inventory;
@@ -35,6 +37,10 @@ public class DataStorage {
 	
 	//Saves all records Into respective CSV files
 	public void shutdownSave(){
+		MedicineWriter medicineWriter = new MedicineWriter();
+		
+		medicineWriter.saveRecords(this);
+		System.out.println("Records Saved");
 	}
 	
 	//Getters

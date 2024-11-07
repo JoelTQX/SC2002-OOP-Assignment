@@ -6,26 +6,26 @@ import java.util.List;
 import entities.Medicine;
 
 public class Inventory {
-	private List<Medicine> inventory;
+	private List<Medicine> medicineRecords;
 	
 	//Constructor
 	public Inventory() {
-		this.inventory = new ArrayList<Medicine>();
+		this.medicineRecords = new ArrayList<Medicine>();
 	}
 	
 	//To add Medicine to Inventory
 	public void addMedicine(Medicine medicine) {
-		this.inventory.add(medicine);
+		this.medicineRecords.add(medicine);
 	}
 	
 	//To remove Medicine from Inventory
 	public void removeMedicine(Medicine medicine) {
-		this.inventory.remove(medicine);
+		this.medicineRecords.remove(medicine);
 	}
 	
 	//Get Medicine by Medicine Name
 	public Medicine getMedicineByName(String medicineName) {
-		for( Medicine medicine : inventory) {
+		for( Medicine medicine : medicineRecords) {
 			if(medicine.getMedicineName().equals(medicineName)) {
 				return medicine;
 			}
@@ -36,10 +36,15 @@ public class Inventory {
 	//View Inventory
 	public void viewInventory() {
 		System.out.println("------ Inventory -------");
-		for( Medicine medicine : inventory) {
-			System.out.printf("%d %-15s", inventory.indexOf(medicine)+1, medicine.getMedicineName());
+		for( Medicine medicine : medicineRecords) {
+			System.out.printf("%d %-15s", medicineRecords.indexOf(medicine)+1, medicine.getMedicineName());
 			System.out.printf("  |  Stock : %4d", medicine.getMedicineStock());
 			System.out.printf("  |  Stock Alert : %d\n", medicine.getMedicineStockAlert());
 		}
+	}
+	
+	// Return MedicineRecords
+	public List<Medicine> getMedicineRecords() {
+		return this.medicineRecords;
 	}
 }

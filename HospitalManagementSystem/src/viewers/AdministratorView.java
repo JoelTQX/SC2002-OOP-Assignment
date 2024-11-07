@@ -49,7 +49,10 @@ public class AdministratorView implements ViewInterface{
 				break;
 		}
 		
-		if(userChoice == 5) return false;
+		if(userChoice == 5) {
+			adminControl.updatedb();
+			return false;
+		}
 		return true;
 	}
 	

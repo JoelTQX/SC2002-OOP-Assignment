@@ -1,5 +1,6 @@
 package controllers;
 
+import DataReadWrite.StaffListWriter;
 import datastorage.DataStorage;
 import datastorage.StaffRecords;
 import entities.Staff;
@@ -44,6 +45,11 @@ public class AdministratorController implements ControllerInterface{
 
 	public Staff getStaffByID(String userID) {
 		return (Staff) this.dataStorage.getStaffRecords().getStaffByID(userID);
+	}
+	
+	public void updatedb() {
+		StaffListWriter write=new StaffListWriter();
+		write.rewrite(dataStorage.getStaffRecords().getStaffList());
 	}
 
 }

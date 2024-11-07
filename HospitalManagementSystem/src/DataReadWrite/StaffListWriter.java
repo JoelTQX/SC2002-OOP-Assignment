@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import datastorage.DataStorage;
+import entities.Staff;
+
 public class StaffListWriter implements DataWriter {
 	
 	public void write(int x, int y,String message){
@@ -157,6 +160,41 @@ public class StaffListWriter implements DataWriter {
                 writer.println(String.join(",", row));  // Join columns with commas and write each row
             }
             System.out.println("New staff added successfully!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+	public void rewrite(List<Staff> staffList) {
+		String csvFile = "dataFiles/Staff_List.csv";
+        String line;
+        int x = 1,rowNumber = 1;
+        List<String[]> rows = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = reader.readLine()) != null) {
+                rows.add(line.split(","));  // Split each row into columns
+                x++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       
+        
+        // Step 3: Write all rows, including the new row, back to the CSV file
+        try (PrintWriter writer = new PrintWriter(new FileWriter(csvFile, false))) { // `false` to overwrite
+        	writer.println("Staff ID,Password,firsttimelogin,Name,Role,Gender,Age");
+        	for(Staff staff : staffList) {
+    			String userID= staff.getUserID();
+    			String userPasswordID= staff.getPassword();
+    			String ftl=String.valueOf(staff.isFirstLogin());
+    			String name =staff.getUserName();
+    			String role=staff.getRole();
+    			String gender=staff.getUserGender();
+    			String age= String.valueOf(staff.getAge());
+    			String[] staffData = {userID, userPasswordID,ftl, name, role, gender, age};
+                writer.println(String.join(",", staffData));
+    		}
+            System.out.println("Rewrite Completed");
         } catch (IOException e) {
             e.printStackTrace();
         }

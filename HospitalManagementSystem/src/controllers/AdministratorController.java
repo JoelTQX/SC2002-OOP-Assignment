@@ -48,8 +48,8 @@ public class AdministratorController implements ControllerInterface{
 	}
 	
 	public void updatedb() {
-		StaffListWriter write=new StaffListWriter();
-		write.rewrite(dataStorage.getStaffRecords().getStaffList());
+		/*StaffListWriter write=new StaffListWriter();
+		write.rewrite(dataStorage.getStaffRecords().getStaffList());*/
 	}
 
 }

@@ -2,6 +2,8 @@ package controllers;
 
 import java.security.NoSuchAlgorithmException;
 
+import DataReadWrite.PatientWriter;
+import DataReadWrite.StaffWriter;
 import datastorage.Authenticator;
 import datastorage.DataStorage;
 import entities.User;
@@ -42,6 +44,10 @@ public class UserController {
 	}
 	
 	public void logOut() {
+		PatientWriter patientWriter=new PatientWriter();
+		StaffWriter staffWrite=new StaffWriter();
+		staffWrite.saveRecords(dataStorage);
+		patientWriter.saveRecords(dataStorage);
 		this.isLoggedIn = false;
 		this.user = null;
 	}

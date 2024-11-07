@@ -46,7 +46,7 @@ public abstract class User {
 		this.firstLogin = false;
 		this.userPass = newUserPass;
 		
-		if (this instanceof Patient) {
+		/*if (this instanceof Patient) {
 			PatientListWriter writer = new PatientListWriter();
 			writer.write(this.userID,1,newUserPass);
 			writer.write(this.userID,2,"FALSE");
@@ -54,7 +54,7 @@ public abstract class User {
 			StaffListWriter writer = new StaffListWriter();
 			writer.write(this.userID,1,newUserPass);
 			writer.write(this.userID,2,"FALSE");
-		}
+		}*/
 	}
 	
 	public void resetPassword() {

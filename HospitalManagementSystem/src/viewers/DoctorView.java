@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import controllers.AppointmentController;
 import controllers.DoctorController;
-import controllers.PatientController;
 import datastorage.DataStorage;
 import datastorage.PatientRecords;
 import entities.Appointment;
@@ -18,7 +17,6 @@ public class DoctorView implements ViewInterface{
 	
 	public DoctorView(DoctorController doctorControl, Scanner inputScanner) {
 		this.doctorControl = doctorControl;
-		this.appointmentControl = appointmentControl; // NEW
 		this.inputScanner = inputScanner;
 	}
 

@@ -19,7 +19,7 @@ public class DoctorController {
 	public DoctorController(User user, DataStorage dataStorage, AppointmentController appointmentController) {
 		this.user = (Doctor) user;
 		this.dataStorage = dataStorage;
-		this.appointmentController = appointmentController; 
+		this.appointmentController = appointmentController;  // object appointmentcontroller 
 	}
 	
 	public PatientRecords getPatientsRecords() {

@@ -8,17 +8,18 @@ import java.util.List;
 
 public class AppointmentController {
 
-    private List<Appointment> appointments;
+    private List<Appointment> appointments;     // hold a list of all the appointments 
 
   
     public AppointmentController() {
-        this.appointments = new ArrayList<>();
+        this.appointments = new ArrayList<>();  // creates a new appt cont 
     }
 
     // Method to get available appointment slots for a specific day
+    // used by both the doc and the paitent 
     public List<String> getAvailableSlots(String date) {
         List<String> availableSlots = generateHourlySlots(date, "09:00", "17:00");
-
+        // gen a list of slots by the hour 
         // Filter out slots that are already booked
         for (Appointment appointment : appointments) {
             if (appointment.getStatus() != Appointment.AppointmentStatus.CANCELLED && 
@@ -188,6 +189,6 @@ public class AppointmentController {
 	
 		return "APT" + hexTimestamp.toUpperCase() + hexCounter.toUpperCase();
     }
-    
+
 }
 

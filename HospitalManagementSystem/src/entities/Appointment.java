@@ -1,5 +1,6 @@
 package entities;
 
+import entities.Appointment.AppointmentStatus;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,12 +8,12 @@ public class Appointment {
 
     // Enum for appointment status
     public enum AppointmentStatus {
-        SCHEDULED,          // PATIENT cfm doc yet to cfm 
-        CONFIRMED,          // doctor cfm , patient cfmed 
-        CANCELLED,          // either party indicated cancelled
-        COMPLETED,          // Marked done by doctor 
-        PENDING,             // consulted by meds yet to dispense 
-        AVAILABLE           // doctor indicates availbilty
+        SCHEDULED,          // doctor cfm , patient confirmed 
+//      CONFIRMED,          // FOR LATER USE 
+        CANCELLED,          //  DOCTOR CANCELED CUZ NOT FREE
+        COMPLETED,          // Marked done by doctor after consult notes added 
+        PENDING,             // patient cfm , doctor yet to cfm 
+        AVAILABLE           // doctor indicates availbilty, USE TO INDICATE FREE SLOTS BY THE PATIENT TOO
     }
 
     // Attributes
@@ -27,19 +28,18 @@ public class Appointment {
     private String consultationNotes;
 
     // Constructor
+    // TO BE CALLED BY DOCTOR AFTER SET AVAIL 
     public Appointment(String appointmentID, String patientId, String doctorId, String appointmentDate, String appointmentTime, String appointmentType) {
         this.appointmentID = appointmentID;
-    	this.patientId = patientId;
+    	//this.patientId = patientId;   // TO BE FILLED IN LTR
         this.doctorId = doctorId;
         this.appointmentDate = appointmentDate;
-        this.appointmentTime = appointmentTime;
-        this.appointmentType = appointmentType;
-        this.status = AppointmentStatus.SCHEDULED;          // user cfm doc havent cfm 
-        this.prescribedMedications = new ArrayList<>();
+        this.appointmentTime = appointmentTime;   
+        //this.appointmentType = appointmentType; // TO BE FILLED IN LTR 
+        this.status = AppointmentStatus.AVAILABLE;          // DOC SETS THE APT AVAIL FIRST 
+        this.prescribedMedications = new ArrayList<>(); // PASS EMPTY ARRAY 
     }
 
-
-   
 
 
     // Nested class to represent a prescribed medication
@@ -94,17 +94,17 @@ public class Appointment {
     
     // Getter for patient ID
     public String getPatientId() {
-        return patientId;
+        return this.patientId;
     }
 
     // Getter for doctor ID
     public String getDoctorId() {
-        return doctorId;
+        return this.doctorId;
     }
 
     // Getter for appointment status
     public AppointmentStatus getStatus() {
-        return status;
+        return this.status;
     }
 
     // Setter for appointment status
@@ -114,24 +114,58 @@ public class Appointment {
 
     // Getter for consultation notes
     public String getConsultationNotes() {
-        return consultationNotes;
+        return this.consultationNotes;
     }
 
     // Getter for prescribed medications
     public List<PrescribedMedication> getPrescribedMedications() {
-        return prescribedMedications;
+        return this.prescribedMedications;
     }
 
-    // Method to cancel the appointment
+    // Getter for appointment date
+    public String getAppointmentDate() {
+        return this.appointmentDate;
+    }
+
+    // Getter for appointment time
+    public String getAppointmentTime() {
+        return this.appointmentTime;
+    }
+
+    // Getter for appointment type
+    public String getAppointmentType() {
+        return this.appointmentType;
+    }
+
+    // Method to cancel the appointment BY THE PAITENT 
     public void cancel() {
-        this.status = AppointmentStatus.CANCELLED;
+        // CLEAR ALL THE PERSONAL DATA  
+    	this.patientId = null;   // CLEAR DATA
+        this.appointmentType = null; // CLEAR DATA 
+        // WE ASSUME THE PATIENT CANCELS BEFORE THE ACT APT SO CONSULT NOTES AND MEDS NO NEED RESET 
+        this.status = AppointmentStatus.AVAILABLE;      // either the user or doctor can cancel 
+    }
+
+    // Method to cancel the appointment BY THE DOCTOR
+    public void docCancel() {
+        this.status = AppointmentStatus.CANCELLED;      // either the user or doctor can cancel 
     }
 
     // Method to reschedule the appointment by updating the date and time
     public void reschedule(String newDate, String newTime) {
         this.appointmentDate = newDate;
         this.appointmentTime = newTime;
-        this.status = AppointmentStatus.SCHEDULED; // Set status to SCHEDULED when rescheduled
+        this.status = AppointmentStatus.PENDING; // Set status to PENDING when rescheduled SO DOCTOR CAN ACCEPT AGN 
+    }
+
+
+    // Method to confirm appointment by the doctor 
+    
+    public boolean confirmAppointment()
+    {
+        this.status = AppointmentStatus.SCHEDULED; // SET DATA TO SCHDULUED \
+        return true;  
+        
     }
 
     // Method to display appointment details
@@ -150,28 +184,5 @@ public class Appointment {
         return details.toString();
     }
 
-    // Getter for appointment date
-    public String getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    // Getter for appointment time
-    public String getAppointmentTime() {
-        return appointmentTime;
-    }
-
-    // Getter for appointment type
-    public String getAppointmentType() {
-        return appointmentType;
-    }
-
-
-
-    // Doctor Methods 
-
-    public boolean setAvailability(String date, String timeSlots)
-    {
-        return true; // Availbilty set 
-    }
 
 }

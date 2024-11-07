@@ -14,14 +14,6 @@ public class PatientRecords {
 		this.patientRecords = new ArrayList<Patient>();
 	}
 	
-	public void populateRecords() {
-		Patient testP1 = new Patient("P0001", "password", true);
-		Patient testP2 = new Patient("P0002", "password", true);
-		this.patientRecords.add(testP1);
-		this.patientRecords.add(testP2);
-		viewPatients();
-	}
-	
 	public Patient getPatientByID(String patientID) {
 		for(Patient patient : patientRecords) {
 			if(patient.getUserID().equals(patientID)) {

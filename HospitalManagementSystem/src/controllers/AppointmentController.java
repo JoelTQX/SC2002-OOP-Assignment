@@ -31,9 +31,6 @@ public class AppointmentController {
         return availableSlots;
     }
 
-    
-
-
     // Method to schedule an appointment
     public boolean scheduleAppointment(Appointment appointment) {
         if (isSlotAvailable(appointment.getDoctorId(), appointment.getAppointmentDate(), appointment.getAppointmentTime())) {
@@ -113,8 +110,6 @@ public class AppointmentController {
         }
         return null;
     }
-
-
 
 
      // Helper method to generate hourly slots from startTime to endTime for a specific date

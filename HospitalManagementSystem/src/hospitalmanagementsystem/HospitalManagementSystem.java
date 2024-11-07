@@ -47,15 +47,6 @@ public class HospitalManagementSystem {
 				if(hms.userControl.isLoggedIn()) {
 					((UserView) hms.userView).switchView(hms.dataStorage);
 				}
-				/*
-				try {
-					hms.startUp();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				*/
-				//Loop till User exit System.
 			}
 			hms.shutDown();
 		}

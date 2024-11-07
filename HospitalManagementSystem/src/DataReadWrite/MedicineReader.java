@@ -9,7 +9,7 @@ import datastorage.Inventory;
 
 public class MedicineReader implements DataReader {
 	
-	String csvFile = "C:/Users/jingj/Desktop/Code/SC2002-OOP-Assignment/Medicine_List.csv";
+	String csvFile = "dataFiles/Medicine_List.csv";
     String line;
 	
 	public void populateData(DataStorage dataStorage) {

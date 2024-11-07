@@ -4,33 +4,40 @@ import DataReadWrite.StaffListReader;
 import java.io.IOException;
 
 import DataReadWrite.DataReader;
+import DataReadWrite.MedicineReader;
 import DataReadWrite.PatientListReader;
 public class DataStorage {
 	private Inventory inventory;
 	private StaffRecords staffRecords;
 	private PatientRecords patientRecords;
+	private AppointmentRecords appointmentRecords;
 	
 	public DataStorage() throws IOException {
 		this.inventory = new Inventory();
 		this.patientRecords = new PatientRecords();
 		this.staffRecords = new StaffRecords();
+		this.appointmentRecords = new AppointmentRecords();
 		initialStartUp();
 	}
 	
+	//Read CSV files and load data into respective records
 	public void initialStartUp() throws IOException {
-		//initStartUp.populateInventory(this.inventory);
+		DataReader medicineReader = new MedicineReader();
 		DataReader patientStartUp = new PatientListReader();
 		DataReader staffStartUp = new StaffListReader();
 		
+		medicineReader.populateData(this);
 		patientStartUp.populateData(this);
 		staffStartUp.populateData(this);
 
 		System.out.println("Data Ready");
 	}
 	
+	//Saves all records Into respective CSV files
 	public void shutdownSave(){
 	}
-
+	
+	//Getters
 	public Inventory getInventory() {
 		return this.inventory;
 	}
@@ -41,9 +48,5 @@ public class DataStorage {
 	
 	public PatientRecords getPatientRecords() {
 		return this.patientRecords;
-	}
-	
-	public DataStorage getDataStorage() {
-		return this;
 	}
 }

@@ -17,14 +17,10 @@ import java.util.Scanner;
 public class UserView implements ViewInterface {
 	private UserController userControl;
     private Scanner inputScanner;
-
-    // NEW: Declare an AppointmentController field
-    private AppointmentController appointmentController;
     
-    public UserView(UserController userControl, Scanner inputScanner,AppointmentController appointmentController) {
+    public UserView(UserController userControl, Scanner inputScanner) {
         this.userControl = userControl;
         this.inputScanner = inputScanner;
-        this.appointmentController = appointmentController; // NEW: Initialize AppointmentController
     }
     
     public boolean displayMenu() {
@@ -49,7 +45,7 @@ public class UserView implements ViewInterface {
     	ViewInterface viewer = null;
         User user = userControl.getLoggedUser();
         if (user instanceof Patient) {
-            viewer = new PatientView(new PatientController(user, appointmentController), inputScanner);
+            viewer = new PatientView(new PatientController(user, dataStorage), inputScanner);
         } else if (user instanceof Doctor) {
             viewer = new DoctorView(new DoctorController(user, dataStorage), inputScanner);
         }else if (user instanceof Pharmacist) {

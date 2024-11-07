@@ -5,16 +5,16 @@ import entities.Patient;
 import entities.User;
 import java.util.List;
 
+import datastorage.DataStorage;
+
 public class PatientController implements ControllerInterface{
 	private Patient patientUser;
-
-	// NEW: Adding AppointmentController attribute
 	private AppointmentController appointmentController;
 	
 	// NEW: Added appointment controller as a parameter to the construtor 
-	public PatientController(User user, AppointmentController appointmentController) {
+	public PatientController(User user, DataStorage dataStorage) {
 		this.patientUser = (Patient) user;
-		this.appointmentController = appointmentController; // NEW
+		this.appointmentController = new AppointmentController(); // NEW
 	}
 	
 	public String getUserID() {

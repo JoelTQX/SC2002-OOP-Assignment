@@ -13,16 +13,13 @@ public class HospitalManagementSystem {
 	private UserController userControl;
 	private ViewInterface userView;
 	private Scanner inputScanner;
-	// NEW: Declare AppointmentController field
-	private AppointmentController appointmentController;
-	
+
 	public HospitalManagementSystem() throws IOException {
 		dataStorage = new DataStorage();
 		inputScanner = new Scanner(System.in);
 		userControl = new UserController(dataStorage);
 		// NEW: Initialize AppointmentController
-		appointmentController = new AppointmentController();
-		userView = new UserView(userControl, inputScanner, appointmentController);
+		userView = new UserView(userControl, inputScanner);
 	}
 	
 	public void startUp() throws IOException {

@@ -10,11 +10,12 @@ import java.util.List;
 import datastorage.DataStorage;
 import entities.Medicine;
 
-public class MedicineWriter {
+public class MedicineWriter implements WriterTest<Medicine>{
 	private int noOfHeaders = 3; // Number of Headers in CSV
 	private String csvFile = "dataFiles/Medicine_List.csv"; //File Path
 	
 	//Save Records to CSV
+	@Override
 	public void saveRecords(DataStorage dataStorage) {
 		List<Medicine> recordToSave = dataStorage.getInventory().getMedicineRecords();
 		List<String[]> rowsToWrite = new ArrayList<>();
@@ -47,7 +48,8 @@ public class MedicineWriter {
 	}
 	
 	//Generate header for Medicine Record
-	private String[] createHeader() {
+	@Override
+	public String[] createHeader() {
 		String[] headerCells = new String[noOfHeaders];
 		headerCells[0] = "Medicine Name";
 		headerCells[1] = "Available Stock";
@@ -56,7 +58,8 @@ public class MedicineWriter {
 	}
 	
 	//Generate cells for Medicine Object
-	private String[] createCells(Medicine medicine) {
+	@Override
+	public String[] createCells(Medicine medicine) {
 		String[] medicineCells = new String[noOfHeaders];
 		medicineCells[0] = medicine.getMedicineName();
 		medicineCells[1] = String.valueOf(medicine.getMedicineStock());

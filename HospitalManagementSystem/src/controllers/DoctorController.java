@@ -50,7 +50,7 @@ public class DoctorController {
 
 // NEW: Set the doctor's availability for a specific date and time slots
 public boolean setAvailability(String date, String timeSlots) {
-	return user.setAvailability(date, timeSlots);
+	return user.(setAvailability(date, timeSlots));
 }
 
 // NEW: Retrieve a list of pending appointment requests for the doctor

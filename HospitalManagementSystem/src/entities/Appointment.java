@@ -7,11 +7,12 @@ public class Appointment {
 
     // Enum for appointment status
     public enum AppointmentStatus {
-        SCHEDULED,          // Patient cfm , doctor yet to cfm
+        SCHEDULED,          // PATIENT cfm doc yet to cfm 
         CONFIRMED,          // doctor cfm , patient cfmed 
         CANCELLED,          // either party indicated cancelled
         COMPLETED,          // Marked done by doctor 
-        PENDING
+        PENDING,             // consulted by meds yet to dispense 
+        AVAILABLE           // doctor indicates availbilty
     }
 
     // Attributes
@@ -33,9 +34,13 @@ public class Appointment {
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
         this.appointmentType = appointmentType;
-        this.status = AppointmentStatus.PENDING;
+        this.status = AppointmentStatus.SCHEDULED;          // user cfm doc havent cfm 
         this.prescribedMedications = new ArrayList<>();
     }
+
+
+   
+
 
     // Nested class to represent a prescribed medication
     public static class PrescribedMedication {
@@ -159,4 +164,14 @@ public class Appointment {
     public String getAppointmentType() {
         return appointmentType;
     }
+
+
+
+    // Doctor Methods 
+
+    public boolean setAvailability(String date, String timeSlots)
+    {
+        return true; // Availbilty set 
+    }
+
 }

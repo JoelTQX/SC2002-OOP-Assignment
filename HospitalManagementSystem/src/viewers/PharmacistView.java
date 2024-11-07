@@ -48,7 +48,7 @@ public class PharmacistView implements ViewInterface{
 	
 	private void updatePrescriptionStatus() {
 		// TODO Auto-generated method stub
-		
+		pharmacistControl.updatePresciptionStatus("Hope");
 	}
 	
 	private void viewMedicationInventory() {

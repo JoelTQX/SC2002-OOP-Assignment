@@ -44,10 +44,7 @@ public class UserController {
 	}
 	
 	public void logOut() {
-		PatientWriter patientWriter=new PatientWriter();
-		StaffWriter staffWrite=new StaffWriter();
-		staffWrite.saveRecords(dataStorage);
-		patientWriter.saveRecords(dataStorage);
+		dataStorage.saveRecords();
 		this.isLoggedIn = false;
 		this.user = null;
 	}

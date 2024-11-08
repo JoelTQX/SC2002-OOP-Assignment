@@ -1,6 +1,5 @@
 package viewers;
 
-import DataReadWrite.PatientListWriter;
 import controllers.PatientController;
 import entities.Appointment;
 import java.util.List;
@@ -123,7 +122,7 @@ public class PatientView implements ViewInterface{
 		System.out.println("------ Schedule an Appointment ------");
 		System.out.print("Enter Doctor ID: ");
 		String doctorId = inputScanner.next();
-		String datesAvailable = getAvailableSlots()
+		//String datesAvailable = getAvailableSlots()
 		System.out.print("Enter Appointment Date (YYYY-MM-DD): ");
 		String date = inputScanner.next();
 		System.out.print("Enter Appointment Time (HH:MM): ");

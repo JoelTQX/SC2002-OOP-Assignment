@@ -23,12 +23,12 @@ public class HospitalManagementSystem {
 	}
 	
 	public void startUp() throws IOException {
-		dataStorage.initialStartUp();
+		dataStorage.readCSVs();
 	}
 	
 	private void shutDown() {
 		System.out.println("System Shutting Down");
-		dataStorage.shutdownSave();
+		dataStorage.saveRecords();
 		inputScanner.close();
 	}
 	

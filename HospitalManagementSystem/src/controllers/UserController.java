@@ -2,8 +2,8 @@ package controllers;
 
 import java.security.NoSuchAlgorithmException;
 
-import DataReadWrite.PatientWriter;
-import DataReadWrite.StaffWriter;
+import datareadwrite.PatientWriter;
+import datareadwrite.StaffWriter;
 import datastorage.Authenticator;
 import datastorage.DataStorage;
 import entities.User;

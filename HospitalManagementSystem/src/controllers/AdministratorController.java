@@ -3,7 +3,7 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import DataReadWrite.StaffListWriter;
+import datareadwrite.StaffListWriter;
 import datastorage.DataStorage;
 import datastorage.StaffRecords;
 import entities.Replenishment;

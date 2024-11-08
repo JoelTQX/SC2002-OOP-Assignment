@@ -4,8 +4,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Scanner;
 
-import DataReadWrite.StaffListWriter;
 import controllers.AdministratorController;
+import datareadwrite.StaffListWriter;
 import datastorage.DataStorage;
 import datastorage.Password;
 import datastorage.StaffRecords;

@@ -1,4 +1,4 @@
-package DataReadWrite;
+package datareadwrite;
 
 import java.io.IOException;
 

@@ -1,17 +1,17 @@
 package datastorage;
-import DataReadWrite.StaffListReader;
-import DataReadWrite.StaffWriter;
 import entities.Medicine;
 import entities.Replenishment;
 
 import java.io.IOException;
 import java.util.List;
 
-import DataReadWrite.DataReader;
-import DataReadWrite.MedicineReader;
-import DataReadWrite.MedicineWriter;
-import DataReadWrite.PatientListReader;
-import DataReadWrite.PatientWriter;
+import datareadwrite.DataReader;
+import datareadwrite.MedicineReader;
+import datareadwrite.MedicineWriter;
+import datareadwrite.PatientListReader;
+import datareadwrite.PatientWriter;
+import datareadwrite.StaffListReader;
+import datareadwrite.StaffWriter;
 public class DataStorage {
 	private Inventory inventory;
 	private StaffRecords staffRecords;

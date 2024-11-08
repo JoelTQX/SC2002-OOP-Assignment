@@ -1,7 +1,7 @@
 package entities;
 
-import DataReadWrite.PatientListWriter;
-import DataReadWrite.StaffListWriter;
+import datareadwrite.PatientListWriter;
+import datareadwrite.StaffListWriter;
 
 public abstract class User {
 	private String userID;

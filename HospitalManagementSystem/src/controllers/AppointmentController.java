@@ -1,13 +1,16 @@
 package controllers;
 
 import entities.Appointment;
+import entities.Appointment.AppointmentStatus;
+import entities.Appointment.PrescribedMedication;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentController {
-
+    // calls the next lower level 
     private List<Appointment> appointments;     // hold a list of all the appointments 
 
   
@@ -16,8 +19,8 @@ public class AppointmentController {
     }
 
     // Method to get available appointment slots for a specific day
-    // used by both the doc and the paitent 
-    public List<String> getAvailableSlots(String date) {
+    // used by the paitent TO SEE THE DOC SLOTS
+    public List<String> getSlots(String date) {
         List<String> availableSlots = generateHourlySlots(date, "09:00", "17:00");
         // gen a list of slots by the hour 
         // Filter out slots that are already booked
@@ -32,8 +35,71 @@ public class AppointmentController {
         return availableSlots;
     }
 
-    // Method to schedule an appointment
+    // have to modify here apt list is priv
+
+     // Method to get available appointment slots for a specific day
+    // used by the doc to CREATE THE SLOT
+    // THIS IS WHERE THE SLOT CREATION HAPPENS
+    public List<String> getDocSlots(String date) {
+        List<String> availableDocSlots = generateHourlySlots(date, "09:00", "17:00");
+        // gen a list of slots by the hour 
+        // Filter out slots that are already booked
+        for (Appointment appointment : appointments) {
+            if (appointment.getStatus() == null && appointment.getAppointmentDate().equals(date)) {                        // slot not created HENCE NULL
+                String bookedSlot = appointment.getAppointmentDate() + " " + appointment.getAppointmentTime();
+                availableDocSlots.remove(bookedSlot); // Remove the booked slot
+            }
+        }
+
+        return availableDocSlots;
+    }
+
+    // Method for doc to Create the slots 
+    public boolean setAvailability(String doctorId, String date, String time) {
+        // call the appointment constructor 
+       // Check if the slot is already occupied
+       if (isSlotAvailable(doctorId, date, time)) {
+        // Generate a unique ID for the available slot
+        String appointmentID = generateAppointmentID();
+        
+        // Create a new Appointment with status AVAILABLE
+        Appointment availableSlot = new Appointment(appointmentID, null, doctorId, date, time, null);
+        availableSlot.setStatus(Appointment.AppointmentStatus.AVAILABLE);
+        
+        // Add the available slot to the appointments list
+        appointments.add(availableSlot);
+        System.out.println("Availability set for Dr. " + doctorId + " on " + date + " at " + time);
+        return true;
+    } else {
+        return false;
+    }  
+
+    }
+
+
+    
+    // general helper function to return the appointment based on status 
+
+    public List<Appointment> getAppointments(String userId, Appointment.AppointmentStatus status ) {
+        List<Appointment> pendingAppointments = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (appointment.getDoctorId().equals(userId) && appointment.getStatus() == status)  // is doctor requesting 
+            {
+                pendingAppointments.add(appointment);
+            }
+            else if (appointment.getPatientId().equals(userId) && appointment.getStatus() == status)  // is patient requesting 
+            {
+                pendingAppointments.add(appointment);
+            }
+        }
+        return pendingAppointments;
+    }
+
+
+
+    // Method to schedule an appointment // THIS HAPPENS AFTER THE PATIENT INDICATES PENDING 
     // used by the doc
+    // FINAL STEP BEFORE APPOINTMENT IS SET A SCHDULED 
     public boolean scheduleAppointment(Appointment appointment) {
         if (isSlotAvailable(appointment.getDoctorId(), appointment.getAppointmentDate(), appointment.getAppointmentTime())) {
             appointment.setStatus(Appointment.AppointmentStatus.SCHEDULED);
@@ -43,6 +109,8 @@ public class AppointmentController {
             return false;
         }
     }
+
+    
 
     // Method to reschedule an appointment
     public boolean rescheduleAppointment(String appointmentId, String newDate, String newTime) {
@@ -115,56 +183,57 @@ public class AppointmentController {
     }
 
 
+     // Method to add prescribed medications to an appointment
+     public boolean addPrescribedMedication(String appointmentId, List<Appointment.PrescribedMedication> medications) {
+        Appointment appointment = findAppointmentById(appointmentId);
+        if (appointment != null && appointment.getStatus() == Appointment.AppointmentStatus.SCHEDULED) {
+            for (Appointment.PrescribedMedication medication : medications) {
+                appointment.addPrescribedMedication(medication.getMedicationName(), medication.getMedicineQuantity());
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    
 
     // DOCTOR METHODS 
 
-    // NEW: Method for the doctor to query their free slots 
-    public String getSchedule(String Date)
-    {
-        String Dates =  ;
-        return Dates;
-    }
 
-       // NEW: Retrieve pending appointment requests for a specific doctor
-       public List<Appointment> getPendingAppointmentsForDoctor(String doctorId) {
-        List<Appointment> pendingAppointments = new ArrayList<>();
-        for (Appointment appointment : appointments) {
-            if (appointment.getDoctorId().equals(doctorId) &&
-                appointment.getStatus() == Appointment.AppointmentStatus.PENDING) {
-                pendingAppointments.add(appointment);
-            }
-        }
-        return pendingAppointments;
-    }
-
-    // NEW: Retrieve upcoming appointments for a specific doctor
-    // ALSO DOUBLES AS THE SCHDULE 
-    // ONLY SCHDEULED STATUS 
-    public List<Appointment> getUpcomingAppointmentsForDoctor(String doctorId) {
-        List<Appointment> upcomingAppointments = new ArrayList<>();
-        for (Appointment appointment : appointments) {
-            if (appointment.getDoctorId().equals(doctorId) &&
-                (appointment.getStatus() == Appointment.AppointmentStatus.CONFIRMED ||      // 
-                 appointment.getStatus() == Appointment.AppointmentStatus.SCHEDULED)) {
-                upcomingAppointments.add(appointment);
-            }
-        }
-        return upcomingAppointments;
-    }
-
-
-    // NEW: Update an appointment in the system
-    public void updateAppointment(Appointment appointment) {
-        // In a real system, this would update the appointment in a database or persistent storage
-        // Here, we assume `appointments` list is the current storage
-        for (int i = 0; i < appointments.size(); i++) {
-            if (appointments.get(i).getAppointmentID().equals(appointment.getAppointmentID())) {
-                appointments.set(i, appointment); // Update the appointment in the list
-                break;
-            }
+    // NEW: Record the outcome of an appointment
+// RECORD THE APPOINTMENT OUTCOMES 
+    public boolean recordAppointmentOutcome(String appointmentId, String userID, String date, String serviceType, List<String> medications, List<Integer> medicationQTY, String notes) {
+        // Find the appointment by ID and ensure it exists and is scheduled
+        Appointment appointment = findAppointmentById(appointmentId);
+        if (appointment != null && appointment.getDoctorId().equals(userID) && 
+            appointment.getStatus() == AppointmentStatus.SCHEDULED) {		// only scheduled appointments can be modified 
             
+            // Set appointment details using AppointmentController methods
+            appointmentController.setAppointmentDate(appointmentId, date);
+            appointmentController.setAppointmentType(appointmentId, serviceType);
+            appointmentController.setConsultationNotes(appointmentId, notes);
+            appointmentController.setAppointmentStatus(appointmentId, AppointmentStatus.COMPLETED);
+    
+            // Convert medications and quantities to a list of PrescribedMedication objects
+            List<PrescribedMedication> prescribedMedications = new ArrayList<>();
+            for (int i = 0; i < medications.size(); i++) {
+                String medicationName = medications.get(i);
+                int quantity = (i < medicationQTY.size()) ? medicationQTY.get(i) : 1; // Default to 1 if not specified
+                prescribedMedications.add(new PrescribedMedication(medicationName, quantity));
+            }
+    
+            // Add prescribed medications to the appointment
+            appointmentController.addPrescribedMedication(appointmentId, prescribedMedications);
+    
+            return true;
         }
+    
+        return false;
     }
+
+
+
 
      // Helper method to generate hourly slots from startTime to endTime for a specific date
  private List<String> generateHourlySlots(String date, String startTime, String endTime) {

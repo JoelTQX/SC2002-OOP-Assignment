@@ -78,7 +78,7 @@ public class Appointment {
 
     // Method to add a prescribed medication
     public void addPrescribedMedication(String medicationName, int medicineQuantity) {
-        prescribedMedications.add(new PrescribedMedication(medicationName, medicineQuantity));
+        prescribedMedications.add(new PrescribedMedication(medicationName, medicineQuantity));  // uses a List.add() method to append to the list 
     }
 
     // Method to update consultation notes and mark the appointment as completed
@@ -127,6 +127,12 @@ public class Appointment {
         return this.appointmentDate;
     }
 
+    // setter for appointment date 
+    public boolean setAppointmentDate(appointmentId, date)
+    {
+        
+    }
+
     // Getter for appointment time
     public String getAppointmentTime() {
         return this.appointmentTime;
@@ -163,7 +169,7 @@ public class Appointment {
     
     public boolean confirmAppointment()
     {
-        this.status = AppointmentStatus.SCHEDULED; // SET DATA TO SCHDULUED \
+        this.status = AppointmentStatus.SCHEDULED; // SET DATA TO SCHDULUED 
         return true;  
         
     }

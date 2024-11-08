@@ -1,14 +1,11 @@
 package viewers;
 
-import java.util.List;
-import java.util.Scanner;
-
-import controllers.AppointmentController;
 import controllers.DoctorController;
-import datastorage.DataStorage;
 import datastorage.PatientRecords;
 import entities.Appointment;
 import entities.Patient;
+import java.util.List;
+import java.util.Scanner;
 
 public class DoctorView implements ViewInterface{
 	private DoctorController doctorControl;
@@ -94,7 +91,7 @@ public class DoctorView implements ViewInterface{
 		System.out.println(success ? "Patient records updated successfully." : "Failed to update patient records. Please check the Patient ID.");
 	}
 	
-	//NEW 
+	//NEW   OPTION3 
     // shows the doctor schdule for the day
     // assumption is they use this as the daily planner 
 	private void viewPersonalSchedule() {
@@ -107,7 +104,7 @@ public class DoctorView implements ViewInterface{
 		}
 	}
 	
-	//NEW 
+	//NEW OPTION 4 
     // SET BY DATE 
     // AFTER CHOOSING FROM A LIST OF DATES WHERE THEY HAVE SLOTS 
     // EACH DAY IS 9-5 WHUCH IS 9 SLOTS 
@@ -117,20 +114,20 @@ public class DoctorView implements ViewInterface{
 		String date = inputScanner.nextLine();
         // CALL THE GET SLOT FUNCTION TO SHOW THE AMT OF SLOTS ON THAT DAY
         System.out.println("Slots available are:");
-        System.out.println(getEmptySlots(date));    // print the slots 
-		System.out.print("Enter available time slots (HH:MM) (e.g., 09:00-12:00): ");
+        System.out.println(doctorControl.getEmptySlots(date));    // print the slots uisng a general method 
+		System.out.print("Enter available time slot (HH:MM) (e.g., 09:00): ");
 		String timeSlots = inputScanner.nextLine();
-	
-		boolean success = doctorControl.setAvailability(date, timeSlots);
-		System.out.println(success ? "Availability set successfully." : "Failed to set availability. Please try again.");
+		boolean success = doctorControl.setAvailability(date, timeSlots);   // call the apt constructor 
+		// System.out.println(success ? "Availability set successfully." : "Failed to set availability. Please try again."); // set uisng the APT CONT not the best method but easier to debug 
 	}
 		
         
      
     // NEW: Accept or decline an appointment request
+    // this is after patients indiated PENDING
     private void acceptOrDeclineAppointment() {
         System.out.println("------ Accept/Decline Appointment Requests ------");
-        List<Appointment> requests = appointmentControl.getAppointmentRequests();
+        List<Appointment> requests = doctorControl.getAppointmentRequests();    // fetch the list of doctor APT
         
         if (requests.isEmpty()) {
             System.out.println("No pending appointment requests.");
@@ -147,15 +144,16 @@ public class DoctorView implements ViewInterface{
             System.out.print("Accept (A) or Decline (D): ");
             String choice = inputScanner.next().toUpperCase();
 
-            boolean success = appointmentControl.handleAppointmentRequest(appointmentId, choice.equals("A"));
+            boolean success = doctorControl.handleAppointmentRequest(appointmentId, choice.equals("A"));
             System.out.println(success ? "Request processed successfully." : "Failed to process request. Please check details.");
         }
     }
 
     // NEW: View upcoming appointments
+    // for the doctor 
     private void viewUpcomingAppointments() {
         System.out.println("------ Upcoming Appointments ------");
-        List<Appointment> upcomingAppointments = appointmentControl.getUpcomingAppointments();
+        List<Appointment> upcomingAppointments = doctorControl.getUpcomingAppointments();
         
         if (upcomingAppointments.isEmpty()) {
             System.out.println("No upcoming appointments.");
@@ -181,11 +179,14 @@ public class DoctorView implements ViewInterface{
         System.out.print("Enter any Prescribed Medications (comma-separated): ");
         inputScanner.nextLine(); // Consume newline
         String medications = inputScanner.nextLine();
+        System.out.print("Enter Medications QTY (comma-separated), Enter 0 if none: ");
+        inputScanner.nextLine(); // Consume newline
+        String medicationsQTY = inputScanner.nextLine();
         System.out.print("Enter Consultation Notes: ");
         String notes = inputScanner.nextLine();
 
-        boolean success = appointmentControl.recordAppointmentOutcome(
-                appointmentId, date, serviceType, List.of(medications.split(",")), notes);
+        boolean success = doctorControl.recordAppointmentOutcome(
+                appointmentId, date, serviceType, List.of(medications.split(",")), medicationsQTY, notes);
         
         System.out.println(success ? "Outcome recorded successfully." : "Failed to record outcome.");
     }   

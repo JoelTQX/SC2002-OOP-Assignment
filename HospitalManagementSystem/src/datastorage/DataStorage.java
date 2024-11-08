@@ -1,5 +1,6 @@
 package datastorage;
 import DataReadWrite.StaffListReader;
+import DataReadWrite.StaffWriter;
 import entities.Medicine;
 import entities.Replenishment;
 
@@ -10,6 +11,7 @@ import DataReadWrite.DataReader;
 import DataReadWrite.MedicineReader;
 import DataReadWrite.MedicineWriter;
 import DataReadWrite.PatientListReader;
+import DataReadWrite.PatientWriter;
 public class DataStorage {
 	private Inventory inventory;
 	private StaffRecords staffRecords;
@@ -27,7 +29,7 @@ public class DataStorage {
 	}
 	
 	//Read CSV files and load data into respective records
-	public void initialStartUp() throws IOException {
+	public void readCSVs() throws IOException {
 		DataReader medicineReader = new MedicineReader();
 		DataReader patientStartUp = new PatientListReader();
 		DataReader staffStartUp = new StaffListReader();
@@ -40,10 +42,14 @@ public class DataStorage {
 	}
 	
 	//Saves all records Into respective CSV files
-	public void shutdownSave(){
+	public void saveRecords(){
 		MedicineWriter medicineWriter = new MedicineWriter();
+		PatientWriter patientWriter = new PatientWriter();
+		StaffWriter staffWrite = new StaffWriter();
 		
 		medicineWriter.saveRecords(this);
+		patientWriter.saveRecords(this);
+		staffWrite.saveRecords(this);
 		System.out.println("Records Saved");
 	}
 	

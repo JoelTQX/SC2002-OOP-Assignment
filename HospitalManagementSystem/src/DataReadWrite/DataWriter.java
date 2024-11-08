@@ -1,7 +1,9 @@
 package DataReadWrite;
 
-import java.io.IOException;
+import datastorage.DataStorage;
 
-public interface DataWriter {
-	public void write(int x, int y,String message) throws IOException;
+public interface DataWriter<T> {
+	public void saveRecords(DataStorage dataStorage);
+	abstract String[] createHeader();
+	abstract String[] createCells(T object);
 }

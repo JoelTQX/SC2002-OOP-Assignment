@@ -10,7 +10,7 @@ import java.util.List;
 import datastorage.DataStorage;
 import entities.Medicine;
 
-public class MedicineWriter implements WriterTest<Medicine>{
+public class MedicineWriter implements DataWriter<Medicine>{
 	private int noOfHeaders = 3; // Number of Headers in CSV
 	private String csvFile = "dataFiles/Medicine_List.csv"; //File Path
 	

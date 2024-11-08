@@ -7,7 +7,7 @@ import java.util.List;
 import datastorage.DataStorage;
 import entities.Staff;
 
-public class StaffListWriter implements DataWriter {
+public class StaffListWriter{
 	
 	public void write(int x, int y,String message){
 		String csvFile = "dataFiles/Staff_List.csv";

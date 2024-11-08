@@ -11,7 +11,7 @@ import datastorage.DataStorage;
 import entities.Patient;
 import entities.Staff;
 
-public class StaffWriter implements WriterTest<Staff>{
+public class StaffWriter implements DataWriter<Staff>{
 	private int noOfHeaders = 7; // Number of Headers in CSV
 	private String csvFile = "dataFiles/Staff_List.csv"; //File Path
 	@Override

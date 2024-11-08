@@ -7,7 +7,7 @@ import java.util.List;
 
 import entities.Patient;
 
-public class PatientListWriter implements DataWriter {
+public class PatientListWriter{
 	
 	public void write(int x, int y,String message){
 		String csvFile = "dataFiles/Patient_List.csv";

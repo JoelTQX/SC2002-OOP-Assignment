@@ -17,7 +17,6 @@ public class HospitalManagementSystem {
 		dataStorage = new DataStorage();
 		inputScanner = new Scanner(System.in);
 		userControl = new UserController(dataStorage);
-		// NEW: Initialize AppointmentController
 		userView = new UserView(userControl, inputScanner);
 	}
 	
@@ -35,6 +34,7 @@ public class HospitalManagementSystem {
 		HospitalManagementSystem hms = null;
 		try{
 			hms = new HospitalManagementSystem();
+			hms.startUp();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

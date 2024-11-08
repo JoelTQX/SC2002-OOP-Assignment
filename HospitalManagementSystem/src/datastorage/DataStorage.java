@@ -19,13 +19,12 @@ public class DataStorage {
 	private AppointmentRecords appointmentRecords;
 	private ReplenishmentRecords replenishmentRecords;
 	
-	public DataStorage() throws IOException {
+	public DataStorage(){
 		this.inventory = new Inventory();
 		this.patientRecords = new PatientRecords();
 		this.staffRecords = new StaffRecords();
 		this.appointmentRecords = new AppointmentRecords();
 		this.replenishmentRecords = new ReplenishmentRecords();
-		initialStartUp();
 	}
 	
 	//Read CSV files and load data into respective records

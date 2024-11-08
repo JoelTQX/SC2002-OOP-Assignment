@@ -12,7 +12,6 @@ import entities.Patient;
 
 public class DoctorView implements ViewInterface{
 	private DoctorController doctorControl;
-	private AppointmentController appointmentControl; // NEW: Reference to AppointmentController
 	private Scanner inputScanner;
 	
 	public DoctorView(DoctorController doctorControl, Scanner inputScanner) {
@@ -96,9 +95,11 @@ public class DoctorView implements ViewInterface{
 	}
 	
 	//NEW 
+    // shows the doctor schdule for the day
+    // assumption is they use this as the daily planner 
 	private void viewPersonalSchedule() {
 		System.out.println("------ Doctor's Personal Schedule ------");
-		String schedule = doctorControl.getPersonalSchedule();
+		List <Appointment> schedule = doctorControl.getUpcomingAppointments();      // DID THIS 
 		if (schedule != null && !schedule.isEmpty()) {
 			System.out.println(schedule);
 		} else {
@@ -107,12 +108,17 @@ public class DoctorView implements ViewInterface{
 	}
 	
 	//NEW 
+    // SET BY DATE 
+    // AFTER CHOOSING FROM A LIST OF DATES WHERE THEY HAVE SLOTS 
+    // EACH DAY IS 9-5 WHUCH IS 9 SLOTS 
 	private void setAvailability() {
 		System.out.println("------ Set Availability for Appointments ------");
 		System.out.print("Enter date for availability (YYYY-MM-DD): ");
 		String date = inputScanner.nextLine();
-	
-		System.out.print("Enter available time slots (e.g., 09:00-12:00): ");
+        // CALL THE GET SLOT FUNCTION TO SHOW THE AMT OF SLOTS ON THAT DAY
+        System.out.println("Slots available are:");
+        System.out.println(getEmptySlots(date));    // print the slots 
+		System.out.print("Enter available time slots (HH:MM) (e.g., 09:00-12:00): ");
 		String timeSlots = inputScanner.nextLine();
 	
 		boolean success = doctorControl.setAvailability(date, timeSlots);

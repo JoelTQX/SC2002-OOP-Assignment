@@ -43,10 +43,11 @@ public class DoctorController {
     
 // Might not need this cuz appointment requests alr exist
 
-// // NEW: Retrieve the doctor's personal schedule
-// public String getPersonalSchedule() {
-// 	return user.getSchedule();
-// }
+// // NEW: Retrieve the doctor's empty schule 
+// used when indicating availbiity 
+public String getEmptySlots(String date) {
+	return user.getSchedule( date);
+}
 
 // NEW: Set the doctor's availability for a specific date and time slots
 public boolean setAvailability(String date, String timeSlots) {

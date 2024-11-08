@@ -54,7 +54,11 @@ public class PatientController implements ControllerInterface{
     }
 
     // NEW: Schedule an appointment via AppointmentController
-    public boolean scheduleAppointment(String doctorId, String date, String time) {
+
+	// change flow
+	// the paitient is presented with a list of dates that they can choose from 
+	//and then they agree to the DOC who then cfm / cancel the req 
+	    public boolean scheduleAppointment(String doctorId, String date, String time) {
         Appointment newAppointment = new Appointment(generateAppointmentID(), getUserID(), doctorId, date, time, "General Checkup");
         return appointmentController.scheduleAppointment(newAppointment);
     }

@@ -33,6 +33,7 @@ public class AppointmentController {
     }
 
     // Method to schedule an appointment
+    // used by the doc
     public boolean scheduleAppointment(Appointment appointment) {
         if (isSlotAvailable(appointment.getDoctorId(), appointment.getAppointmentDate(), appointment.getAppointmentTime())) {
             appointment.setStatus(Appointment.AppointmentStatus.SCHEDULED);
@@ -102,6 +103,8 @@ public class AppointmentController {
         return true;
     }
 
+
+    // looks for the appointmentin the list 
     public Appointment findAppointmentById(String appointmentId) {
         for (Appointment appointment : appointments) {
             if (appointment.getAppointmentID().equals(appointmentId)) {
@@ -114,6 +117,13 @@ public class AppointmentController {
 
 
     // DOCTOR METHODS 
+
+    // NEW: Method for the doctor to query their free slots 
+    public String getSchedule(String Date)
+    {
+        String Dates =  ;
+        return Dates;
+    }
 
        // NEW: Retrieve pending appointment requests for a specific doctor
        public List<Appointment> getPendingAppointmentsForDoctor(String doctorId) {
@@ -128,11 +138,13 @@ public class AppointmentController {
     }
 
     // NEW: Retrieve upcoming appointments for a specific doctor
+    // ALSO DOUBLES AS THE SCHDULE 
+    // ONLY SCHDEULED STATUS 
     public List<Appointment> getUpcomingAppointmentsForDoctor(String doctorId) {
         List<Appointment> upcomingAppointments = new ArrayList<>();
         for (Appointment appointment : appointments) {
             if (appointment.getDoctorId().equals(doctorId) &&
-                (appointment.getStatus() == Appointment.AppointmentStatus.CONFIRMED ||
+                (appointment.getStatus() == Appointment.AppointmentStatus.CONFIRMED ||      // 
                  appointment.getStatus() == Appointment.AppointmentStatus.SCHEDULED)) {
                 upcomingAppointments.add(appointment);
             }
@@ -179,7 +191,7 @@ public class AppointmentController {
 	private static int counter = 0; // lowkey have no idea how to put this
 
 	//i noticed that using just system time was giving fking long IDs and I thought we could shorten them down 
-    private String generateAppointmentID() {
+    public String generateAppointmentID() {
 		long timestamp = System.currentTimeMillis();
     
 		// Use only the last 5 hex digits of the timestamp for a shorter ID
@@ -187,7 +199,7 @@ public class AppointmentController {
 		String hexCounter = Integer.toHexString(counter++ & 0xF); // Add 1 hex digit from counter
 		counter = counter % 16; // Keep counter within 1 hex digit range (0-15)
 	
-		return "APT" + hexTimestamp.toUpperCase() + hexCounter.toUpperCase();
+		return "A" + hexTimestamp.toUpperCase() + hexCounter.toUpperCase();
     }
 
 }

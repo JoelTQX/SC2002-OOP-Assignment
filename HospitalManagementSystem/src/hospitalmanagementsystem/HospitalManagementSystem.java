@@ -1,6 +1,5 @@
 package hospitalmanagementsystem;
 
-import controllers.AppointmentController;
 import controllers.UserController;
 import datastorage.DataStorage;
 import java.io.IOException;

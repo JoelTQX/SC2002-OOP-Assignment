@@ -33,7 +33,7 @@ public class DoctorController {
 	}
 
 
-
+	//NOTE UNDER PATIENT 
     // NEW : Update patient records with new diagnoses, prescriptions, and treatment plans
     public boolean updatePatientRecords(String patientId, String newDiagnoses, String prescriptions, String treatmentPlan) {
         Patient patient = dataStorage.findPatientById(patientId);
@@ -91,14 +91,15 @@ public List<Appointment> getUpcomingAppointments() {		// status schduled
 // NEW: Record the outcome of an appointment
 // RECORD THE APPOINTMENT OUTCOMES 
 // does a passthrough of the appointment 
+// converts the string of med qty to an array of integers
     public boolean recordAppointmentOutcome(String appointmentId, String date, String serviceType, List<String> medications, String medicationQTY, String notes) {
 		String doctorID = user.getUserID(); 
 		// performs the coversion of list <String> to list <Integer> 
 		List.of(medicationQTY.split(",")); // This is List<String> for medication names
-		List<Integer> intLis = stringList.stream()
+		List<Integer> medicationQTYIntegers = Arrays.stream(medicationQTY.split(","))
                                   .map(Integer::parseInt) // Convert each String to Integer
                                   .collect(Collectors.toList()); // This is List<Integer> for quantities
-		return appointmentController.recordAppointmentOutcome(appointmentId, doctorID, date, serviceType, medications, medicationQTY, notes);
+		return appointmentController.recordAppointmentOutcome(appointmentId, doctorID, date, serviceType, medications, medicationQTYIntegers, notes);
     }
 
 

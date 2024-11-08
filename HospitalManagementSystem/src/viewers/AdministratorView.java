@@ -1,6 +1,7 @@
 package viewers;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Scanner;
 
 import DataReadWrite.StaffListWriter;
@@ -13,6 +14,7 @@ import entities.Staff;
 import entities.Administrator;
 import entities.Doctor;
 import entities.Pharmacist;
+import entities.Replenishment;
 
 public class AdministratorView implements ViewInterface{
 	private AdministratorController adminControl;
@@ -45,7 +47,7 @@ public class AdministratorView implements ViewInterface{
 				
 				break;
 			case 4: 
-				//approveReplenishmentRequests();
+				approveReplenishmentRequests();
 				break;
 		}
 		
@@ -56,6 +58,42 @@ public class AdministratorView implements ViewInterface{
 		return true;
 	}
 	
+	private void approveReplenishmentRequests() {
+		// TODO Auto-generated method stub
+		List<Replenishment> pendingReplenishments = adminControl.getPendingRequests(); 
+		int replenishChoice = 0;
+		
+		//Check if there is a request
+		if(pendingReplenishments.isEmpty()) {
+			System.out.println("No Pending Replenishment Requests... Returning to Menu");
+			return;
+		}
+		
+		//Print all pending requests
+		System.out.println("---- Pending Replenishment Requests ----");
+		for(Replenishment replenishment : pendingReplenishments) {
+			System.out.print(pendingReplenishments.indexOf(replenishment)+1);
+			System.out.print(". " + replenishment.getMedicineName());
+			System.out.println(" | Quantity: " + replenishment.getQuantity());
+		}
+		//Exit Option @ Last Option
+		System.out.println(pendingReplenishments.size()+1 + ". Exit");
+		
+		System.out.print("Select Replenishment To Approve or Exit: ");
+		while(true) {
+			replenishChoice = inputScanner.nextInt();
+			if(replenishChoice == pendingReplenishments.size()+1) break;
+			else if(replenishChoice > pendingReplenishments.size() || replenishChoice < 1) {
+				System.out.println("Invalid Option... Try Again");
+			}
+			else {
+				adminControl.approveReplenishment(pendingReplenishments.get(replenishChoice-1));
+				return;
+			}
+		}
+		
+	}
+
 	private void manageHospitalStaff() {
 		System.out.println("------ Manage Hospital Staff ------");
 		System.out.println("1. View Staff");

@@ -1,8 +1,10 @@
 package datastorage;
 import DataReadWrite.StaffListReader;
 import entities.Medicine;
+import entities.Replenishment;
 
 import java.io.IOException;
+import java.util.List;
 
 import DataReadWrite.DataReader;
 import DataReadWrite.MedicineReader;
@@ -13,12 +15,14 @@ public class DataStorage {
 	private StaffRecords staffRecords;
 	private PatientRecords patientRecords;
 	private AppointmentRecords appointmentRecords;
+	private ReplenishmentRecords replenishmentRecords;
 	
 	public DataStorage() throws IOException {
 		this.inventory = new Inventory();
 		this.patientRecords = new PatientRecords();
 		this.staffRecords = new StaffRecords();
 		this.appointmentRecords = new AppointmentRecords();
+		this.replenishmentRecords = new ReplenishmentRecords();
 		initialStartUp();
 	}
 	
@@ -58,5 +62,9 @@ public class DataStorage {
 
 	public AppointmentRecords getAppointmentRecords() {
 		return this.appointmentRecords;
+	}
+
+	public ReplenishmentRecords getReplenishmentRecords() {
+		return this.replenishmentRecords;
 	}
 }

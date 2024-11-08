@@ -76,6 +76,8 @@ public class Appointment {
         }
     }
 
+
+    // COMMENTED OUT FOR TEST 
     // Method to add a prescribed medication
     public void addPrescribedMedication(String medicationName, int medicineQuantity) {
         prescribedMedications.add(new PrescribedMedication(medicationName, medicineQuantity));  // uses a List.add() method to append to the list 
@@ -106,7 +108,7 @@ public class Appointment {
     public AppointmentStatus getStatus() {
         return this.status;
     }
-
+    
     // Setter for appointment status
     public void setStatus(AppointmentStatus status) {
         this.status = status;
@@ -117,9 +119,23 @@ public class Appointment {
         return this.consultationNotes;
     }
 
+    // Setter for appointment type
+     public boolean setConsultationNotes(String notes) {
+        this.consultationNotes = notes;
+        return true;
+    }
+
     // Getter for prescribed medications
     public List<PrescribedMedication> getPrescribedMedications() {
         return this.prescribedMedications;
+    }
+
+
+     // setter for prescribed medications
+     // used by the doctor to complete the consult 
+     public boolean addPrescribedMedications( List<PrescribedMedication> prescribedMedications) {
+        this.prescribedMedications  = prescribedMedications;        // replace with the new list 
+        return true; 
     }
 
     // Getter for appointment date
@@ -128,9 +144,10 @@ public class Appointment {
     }
 
     // setter for appointment date 
-    public boolean setAppointmentDate(appointmentId, date)
-    {
-        
+    public boolean setAppointmentDate( String date)
+    {  
+        this.appointmentDate = date; 
+        return true; 
     }
 
     // Getter for appointment time
@@ -141,6 +158,12 @@ public class Appointment {
     // Getter for appointment type
     public String getAppointmentType() {
         return this.appointmentType;
+    }
+
+     // setter for appointment type
+     public boolean setAppointmentType(String Type) {
+        this.appointmentType = Type ;
+        return true;
     }
 
     // Method to cancel the appointment BY THE PAITENT 

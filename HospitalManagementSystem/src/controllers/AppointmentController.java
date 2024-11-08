@@ -15,7 +15,7 @@ public class AppointmentController {
 
   
     public AppointmentController() {
-        this.appointments = new ArrayList<>();  // creates a new appt cont 
+        appointments = new ArrayList<>();  // creates a new appt cont 
     }
 
     // Method to get available appointment slots for a specific day
@@ -210,21 +210,21 @@ public class AppointmentController {
             appointment.getStatus() == AppointmentStatus.SCHEDULED) {		// only scheduled appointments can be modified 
             
             // Set appointment details using AppointmentController methods
-            appointmentController.setAppointmentDate(appointmentId, date);
-            appointmentController.setAppointmentType(appointmentId, serviceType);
-            appointmentController.setConsultationNotes(appointmentId, notes);
-            appointmentController.setAppointmentStatus(appointmentId, AppointmentStatus.COMPLETED);
+            appointment.setAppointmentDate(date);
+            appointment.setAppointmentType(serviceType);
+            appointment.setConsultationNotes(notes);
+            appointment.setStatus( AppointmentStatus.COMPLETED);
     
             // Convert medications and quantities to a list of PrescribedMedication objects
             List<PrescribedMedication> prescribedMedications = new ArrayList<>();
             for (int i = 0; i < medications.size(); i++) {
                 String medicationName = medications.get(i);
-                int quantity = (i < medicationQTY.size()) ? medicationQTY.get(i) : 1; // Default to 1 if not specified
+                Integer quantity = (i < medicationQTY.size()) ? medicationQTY.get(i) : 1; // Default to 1 if not specified
                 prescribedMedications.add(new PrescribedMedication(medicationName, quantity));
             }
     
             // Add prescribed medications to the appointment
-            appointmentController.addPrescribedMedication(appointmentId, prescribedMedications);
+            appointment.addPrescribedMedications( prescribedMedications);
     
             return true;
         }

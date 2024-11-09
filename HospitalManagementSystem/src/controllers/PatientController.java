@@ -1,88 +1,125 @@
 package controllers;
 
+import datastorage.AppointmentRecords;
+import datastorage.DataStorage;
 import entities.Appointment;
 import entities.Patient;
 import entities.User;
 import java.util.List;
 
-import datastorage.DataStorage;
+public class PatientController {
+    private User user;  // Reference to the logged-in patient
+    private DataStorage dataStorage;  // Main data storage for access to all records
+    private AppointmentController appointmentController;  // Controller for individual appointment operations
+    private AppointmentRecords appointmentRecords;  // Record manager for all appointments
 
-public class PatientController implements ControllerInterface{
-	private Patient patientUser;
-	private AppointmentController appointmentController;
-	
-	// NEW: Added appointment controller as a parameter to the construtor 
-	public PatientController(User user, DataStorage dataStorage) {
-		this.patientUser = (Patient) user;
-		this.appointmentController = new AppointmentController(); // NEW
-	}
-	
-	public String getUserID() {
-		return patientUser.getUserID();
-	}
-	public String getUserName() {
-		return patientUser.getUserName();
-	}
-	
-	public String getUserGender() {
-		return patientUser.getUserGender();
-	}
-	
-	public String getUserDOB() {
-		String dob=patientUser.getPatientDOB();
-		return dob;
-	}
-	
-	public String getUserContactInfo() {
-		String ci=patientUser.getPatientContactInfo();
-		return ci;
-	}
-	public String getUserBloodType() {
-		String bt=patientUser.getPatientBloodType();
-		return bt;
-	}
-
-	public void setPatientContactInfo(String email) {
-		patientUser.setPatientContactInfo(email);
-		
-		
-	}
-
-	  // NEW: Get available appointment slots via AppointmentController
-    public List<String> getAvailableSlots(String date ) {
-        return appointmentController.getAvailableSlots(date);
+    // Constructor
+    public PatientController(User user, DataStorage dataStorage) {
+        this.user = (Patient) user;
+        this.dataStorage = dataStorage;
+        this.appointmentController = new AppointmentController(); // Instantiate AppointmentController
+        this.appointmentRecords = dataStorage.getAppointmentRecords(); // Retrieve AppointmentRecords from DataStorage
     }
 
-    // NEW: Schedule an appointment via AppointmentController
-
-	// change flow
-	// the paitient is presented with a list of dates that they can choose from 
-	//and then they agree to the DOC who then cfm / cancel the req 
-	    public boolean scheduleAppointment(String doctorId, String date, String time) {
-        Appointment newAppointment = new Appointment(generateAppointmentID(), getUserID(), doctorId, date, time, "General Checkup");
-        return appointmentController.scheduleAppointment(newAppointment);
+    // Patient Information Getters
+    public String getUserID() {
+        return user.getUserID();
+    }
+    public String getUserName() {
+        return user.getUserName();
+    }
+    public String getUserGender() {
+        return user.getUserGender();
+    }
+    public String getUserDOB() {
+        return ((Patient) user).getPatientDOB();
+    }
+    public String getUserContactInfo() {
+        return ((Patient) user).getPatientContactInfo();
+    }
+    public String getUserBloodType() {
+        return ((Patient) user).getPatientBloodType();
     }
 
-    // NEW: Reschedule an appointment via AppointmentController
-    public boolean rescheduleAppointment(String appointmentId, String newDate, String newTime) {
-        return appointmentController.rescheduleAppointment(appointmentId, newDate, newTime);
+    // Update Patient Contact Information
+    public void setPatientContactInfo(String contactInfo) {
+        ((Patient) user).setPatientContactInfo(contactInfo);
     }
 
-    // NEW: Cancel an appointment via AppointmentController
-    public boolean cancelAppointment(String appointmentId) {
-        return appointmentController.cancelAppointment(appointmentId);
+    // Get available slots for a specific date from AppointmentRecords
+    public List<String> getAvailableSlots(String date) {
+        return appointmentRecords.getSlots(date);
     }
 
-    // NEW: Get scheduled appointments via AppointmentController
-    public List<Appointment> getScheduledAppointments() {
-        return appointmentController.getScheduledAppointments(getUserID());
+// Schedule a new appointment with a doctor
+public String scheduleAppointment(String doctorId, String date, String time) {
+    // Check if the desired slot is available
+    List<String> availableSlots = appointmentRecords.getSlots(date);
+    if (!availableSlots.contains(time)) {
+        return null; // Return null if the time slot is already booked
     }
 
-    // NEW: Get completed appointments via AppointmentController
-    public List<Appointment> getCompletedAppointments() {
-        return appointmentController.getCompletedAppointments(getUserID());
-    }
+    // Generate a unique ID for the new appointment
+    String appointmentId = appointmentController.generateAppointmentID();
+    Appointment newAppointment = new Appointment(
+        appointmentId, getUserID(), doctorId, date, time, null // TO BE FILLED IN AT THE END OF THE APPOINTMENT
+    );
+    newAppointment.setStatus(Appointment.AppointmentStatus.PENDING); // Set status to pending until confirmed by the doctor
 
-
+    // Add new appointment to records
+    appointmentRecords.addAppointment(newAppointment);
+    return appointmentId;
 }
 
+// Reschedule an existing appointment
+public boolean rescheduleAppointment(String appointmentId, String newDate, String newTime) {
+    // Retrieve the appointment by ID
+    Appointment appointment = appointmentRecords.getAppointmentByID(appointmentId);
+
+    // Check if appointment exists and belongs to the current patient
+    if (appointment == null || !appointment.getPatientId().equals(getUserID())) {
+        return false; // Return false if the appointment doesn't exist or doesn't belong to the patient
+    }
+
+    // Check if the new time slot is available
+    List<String> availableSlots = appointmentRecords.getSlots(newDate);
+    if (!availableSlots.contains(newTime)) {
+        return false; // Return false if the new time slot is already booked
+    }
+
+    // Update appointment details with new date and time
+    appointmentController.setAppointmentDate(appointment, newDate);
+    appointmentController.SetAppointmentTime(appointment, newTime);
+    appointmentController.setStatus(appointment, Appointment.AppointmentStatus.PENDING); // Mark as pending for reconfirmation by doctor
+    
+    return true; // Return true if rescheduling was successful
+}
+
+
+    // Cancel an appointment
+    public boolean cancelAppointment(String appointmentId) {
+        Appointment appointment = appointmentRecords.getAppointmentByID(appointmentId);
+        if (appointment != null && appointment.getPatientId().equals(getUserID())) {
+            appointmentController.setStatus(appointment, Appointment.AppointmentStatus.CANCELLED);
+            return true;
+        }
+        return false;
+    }
+
+    // Retrieve scheduled appointments for the patient
+    public List<Appointment> getScheduledAppointments() {
+        return appointmentRecords.getPatientAppointments(getUserID(), Appointment.AppointmentStatus.SCHEDULED);
+    }
+
+    // Retrieve completed appointments for the patient
+    public List<Appointment> getCompletedAppointments() {
+        return appointmentRecords.getPatientAppointments(getUserID(), Appointment.AppointmentStatus.COMPLETED);
+    }
+
+	// PatientController.java
+
+	public String displayDetails(Appointment appointment) {
+		return appointmentController.displayDetails(appointment);
+	}
+	
+}

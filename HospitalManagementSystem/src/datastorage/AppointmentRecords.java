@@ -158,29 +158,25 @@ public List<Appointment> findAppointmentsByPatientId(String patientId) {
 
 
 
-	// DOCTOR SPECIFIC 
-
-
-
 	// PATIENT SPECIFIC 
 
 
 	 // Method to get available appointment slots for a specific day WHERE SLOTS ARE SET TO AVAIL 
     // used by the paitent TO SEE THE DOC SLOTS
-    public List<String> getSlots(String date) {
-        List<String> availableSlots = generateHourlySlots(date, "09:00", "17:00");
-        // gen a list of slots by the hour 
-        // Filter out slots that are already booked
-        for (Appointment appointment : AppointmentRecords) {
-            if (appointment.getStatus() != Appointment.AppointmentStatus.CANCELLED && 
-                appointment.getAppointmentDate().equals(date)) {
-                String bookedSlot = appointment.getAppointmentDate() + " " + appointment.getAppointmentTime();
-                availableSlots.remove(bookedSlot); // Remove the booked slot
-            }
-        }
+    // contingent on the doctor already having indicated AVAIL
+public List<String> getSlots(String date) {
+    List<String> availableSlots = new ArrayList<>();
 
-        return availableSlots;
+    // Filter out slots that are already booked for the specified date
+    for (Appointment appointment : AppointmentRecords) {
+        if (appointment.getAppointmentDate().equals(date) &&
+            appointment.getStatus() == Appointment.AppointmentStatus.AVAILABLE) {
+            availableSlots.add(appointment.getAppointmentTime()); // Remove only the time part
+        }
     }
+
+    return availableSlots;
+}
 
 
 	 // Method to retrieve scheduled appointments for a patient

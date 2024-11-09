@@ -162,73 +162,26 @@ public class AppointmentController {
   
     // have to modify here apt list is priv
 
-   
-
-
-
-
-
-
-  
-    
-
-    // // Method to reschedule an appointment
-    // public boolean rescheduleAppointment(String appointmentId, String newDate, String newTime) {
-    //     Appointment appointment = findAppointmentById(appointmentId);
-    //     if (appointment != null && isSlotAvailable(appointment.getDoctorId(), newDate, newTime)) {
-    //         appointment.reschedule(newDate, newTime);
-    //         // System.out.println("Appointment rescheduled successfully.");
-    //         return true;
-    //     }
-    //     // System.out.println("Failed to reschedule. Check details or slot availability.");
-    //     return false;
-    // }
-
-    // // Method to cancel an appointment
-    // public boolean cancelAppointment(String appointmentId) {
-    //     Appointment appointment = findAppointmentById(appointmentId);
-    //     if (appointment != null) {
-    //         appointment.cancel();
-    //         // System.out.println("Appointment canceled successfully.");
-    //         return true;
-    //     }
-    //     // System.out.println("Failed to cancel. Appointment not found.");
-    //     return false;
-    // }
-
-   
-
-  
-
-    // // looks for the appointmentin the list 
-    // public Appointment findAppointmentById(String appointmentId) {
-    //     for (Appointment appointment : appointments) {
-    //         if (appointment.getAppointmentID().equals(appointmentId)) {
-    //             return appointment;
-    //         }
-    //     }
-    //     return null;
-    // }
-
-
-    //  // Method to add prescribed medications to an appointment
-    //  public boolean addPrescribedMedication(String appointmentId, List<Appointment.PrescribedMedication> medications) {
-    //     Appointment appointment = findAppointmentById(appointmentId);
-    //     if (appointment != null && appointment.getStatus() == Appointment.AppointmentStatus.SCHEDULED) {
-    //         for (Appointment.PrescribedMedication medication : medications) {
-    //             appointment.addPrescribedMedication(medication.getMedicationName(), medication.getMedicineQuantity());
-    //         }
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-
     
 
 
 
     // HELPER METHODS 
+
+
+    public String displayDetails(Appointment appointment) {
+
+        return "Appointment ID: " + appointment.getAppointmentID() +
+
+               ", Date: " + getAppointmentDate(appointment) +
+
+               ", Time: " + getAppointmentTime(appointment) +
+
+               ", Status: " + getStatus(appointment);
+
+    }
+
+
 
 
 

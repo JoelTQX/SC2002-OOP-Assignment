@@ -64,7 +64,7 @@ public class PatientView implements ViewInterface{
 
 
 
-
+// OPTION 1
 	private void viewMedicalRecord() {
 		System.out.println("Patient ID: " + patientControl.getUserID());
 		System.out.println("Patient Name: " + patientControl.getUserName());
@@ -75,6 +75,7 @@ public class PatientView implements ViewInterface{
 		
 	}
 	
+	//option 2
 	private void updatePersonalInformation() {
 		System.out.println("------ Update Personal Information ------");
 		System.out.println("1. Email Address");
@@ -100,6 +101,8 @@ public class PatientView implements ViewInterface{
 		
 	}
 	
+	// option 3 
+	// this is afte the doctor indicate avail
 	private void viewAvailableSlots() 
 	{
 		System.out.println("------ Available Appointment Slots ------");
@@ -128,10 +131,10 @@ public class PatientView implements ViewInterface{
 		System.out.print("Enter Appointment Time (HH:MM): ");
 		String time = inputScanner.next();
 	
-		boolean success = patientControl.scheduleAppointment(doctorId, date, time);
+		String success = patientControl.scheduleAppointment(doctorId, date, time);
 	
-		if (success) {
-			System.out.println("Appointment scheduled successfully.");
+		if (success != null) {		// creation failed 
+			System.out.println("Appointment No: " + success + "is now pending.");
 		} else {
 			System.out.println("Failed to schedule appointment. Please check the details or try another slot.");
 		}
@@ -150,7 +153,7 @@ public class PatientView implements ViewInterface{
 		boolean success = patientControl.rescheduleAppointment(appointmentId, newDate, newTime);
 	
 		if (success) {
-			System.out.println("Appointment rescheduled successfully.");
+			System.out.println("Appointment No: " + appointmentId+" rescheduled successfully.");
 		} else {
 			System.out.println("Failed to reschedule appointment. Please check the details or slot availability.");
 		}
@@ -187,7 +190,6 @@ public class PatientView implements ViewInterface{
 }
 
 
-
 private void viewAppointmentOutcomeRecord() {
     System.out.println("------ Past Appointment Outcome Records ------");
     List<Appointment> completedAppointments = patientControl.getCompletedAppointments();
@@ -196,7 +198,7 @@ private void viewAppointmentOutcomeRecord() {
         System.out.println("No past appointments with recorded outcomes.");
     } else {
         for (Appointment appointment : completedAppointments) {
-            System.out.println(appointment.displayDetails());
+			System.out.println(patientControl.displayDetails(appointment));
         }
     }
 }

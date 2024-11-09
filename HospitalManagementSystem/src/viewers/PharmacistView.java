@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import controllers.PharmacistController;
+import entities.Appointment;
 import entities.Medicine;
 
 public class PharmacistView implements ViewInterface{
@@ -46,6 +47,32 @@ public class PharmacistView implements ViewInterface{
 		}
 		return true; // Continue Looping
 	}
+
+	  // Option 1: View past appointments with recorded outcomes
+    private void viewAppointmentOutcomeRecord() {
+        System.out.println("------ Past Appointment Outcome Records ------");
+        List<Appointment> completedAppointments = pharmacistControl.getCompletedAppointments();
+
+        if (completedAppointments.isEmpty()) {
+            System.out.println("No past appointments with recorded outcomes.");
+        } else {
+            for (Appointment appointment : completedAppointments) {
+                System.out.println(pharmacistControl.displayDetails(appointment));
+            }
+        }
+    }
+
+	 // Option 2: Update the prescription status of a medicine in an appointment
+	 private void updatePrescriptionStatus() {
+        System.out.println("------ Update Prescription Status ------");
+        System.out.print("Enter Appointment ID: ");
+        String appointmentId = inputScanner.next();
+        System.out.print("Enter Medicine Name: ");
+        String medicineName = inputScanner.next();
+        pharmacistControl.updatePrescriptionStatus(appointmentId, medicineName);
+    }
+
+
 	
 	private void submitReplenishment() {
 		// TODO Auto-generated method stub
@@ -82,16 +109,6 @@ public class PharmacistView implements ViewInterface{
 		if(medicineQuantity <= 0) return;
 		pharmacistControl.createReplenishmentRequest(medicineChoice-1, medicineQuantity);
 		System.out.println("Replenishment Request Submitted... Returning to menu...");
-	}
-
-	private void viewAppointmentOutcomeRecord() {
-		// TODO Auto-generated method stub
-		pharmacistControl.getOutcomeRecords();
-	}
-	
-	private void updatePrescriptionStatus() {
-		// TODO Auto-generated method stub
-		pharmacistControl.updatePresciptionStatus("Hope");
 	}
 	
 	private void viewMedicationInventory() {

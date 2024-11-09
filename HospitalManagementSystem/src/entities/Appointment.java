@@ -151,35 +151,6 @@ public class Appointment {
         return true;
     }
 
-
-
-    // TO BE MOVED LATER 
-
-
-
-    // // Method to cancel the appointment BY THE PAITENT 
-    // public void cancel() {
-    //     // CLEAR ALL THE PERSONAL DATA  
-    // 	this.patientId = null;   // CLEAR DATA
-    //     this.appointmentType = null; // CLEAR DATA 
-    //     // WE ASSUME THE PATIENT CANCELS BEFORE THE ACT APT SO CONSULT NOTES AND MEDS NO NEED RESET 
-    //     this.status = AppointmentStatus.AVAILABLE;      // either the user or doctor can cancel 
-    // }
-
-    // // Method to cancel the appointment BY THE DOCTOR
-    // public void docCancel() {
-    //     this.status = AppointmentStatus.CANCELLED;      // either the user or doctor can cancel 
-    // }
-
-    // // Method to reschedule the appointment by updating the date and time
-    // public void reschedule(String newDate, String newTime) {
-    //     this.appointmentDate = newDate;
-    //     this.appointmentTime = newTime;
-    //     this.status = AppointmentStatus.PENDING; // Set status to PENDING when rescheduled SO DOCTOR CAN ACCEPT AGN 
-    // }
-
-
-
     
 
 

@@ -1,40 +1,119 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import controllers.AdministratorController; 
-import controllers.AppointmentController;
-import controllers.UserController; 
 import datastorage.DataStorage;
+import datastorage.AppointmentRecords;
 import datastorage.PatientRecords;
 import entities.Appointment;
 import entities.Appointment.AppointmentStatus;
 import entities.Appointment.PrescribedMedication;
-import entities.Doctor;
 import entities.Patient;
+import entities.Doctor;
+import java.util.List;
+import java.util.ArrayList;
 import entities.User;
 
 public class DoctorController {
-	private Doctor user;
-	private DataStorage dataStorage;
-	private AppointmentController appointmentController;  	//NEW REFERNCE TO APPOINTMENT CONTROLLER 	
-	
-	public DoctorController(User user, DataStorage dataStorage, AppointmentController appointmentController) {
-		this.user = (Doctor) user;
-		this.dataStorage = dataStorage;
-		this.appointmentController = appointmentController;  // object appointmentcontroller 
-	}
-	
-	public PatientRecords getPatientsRecords() {
-		return dataStorage.getPatientRecords();
-	}
+    private User user; // The logged-in doctor
+    private DataStorage dataStorage; // Main data storage
+    private AppointmentController appointmentController; // Controller for handling individual appointments
+    private AppointmentRecords appointmentRecords; // For managing appointment records
 
+    // Constructor
+    public DoctorController(User user, DataStorage dataStorage) {
+        this.user = (Doctor)user;
+        this.dataStorage = dataStorage;
+        this.appointmentController = new AppointmentController(); // Instantiating AppointmentController
+        this.appointmentRecords = dataStorage.getAppointmentRecords(); // Retrieve AppointmentRecords from dataStorage
+    }
 
-	//NOTE UNDER PATIENT 
-    // NEW : Update patient records with new diagnoses, prescriptions, and treatment plans
+    // Fetches patient records from data storage
+    public PatientRecords getPatientsRecords() {
+        return dataStorage.getPatientRecords();
+    }
+
+    // Sets availability by creating empty slots (appointments) for specific dates and times
+    public boolean setAvailability(String date, String time) {
+        String doctorId = user.getUserID();
+        Appointment newAppointment = new Appointment(
+            appointmentController.generateAppointmentID(),
+            null, // No patient yet
+            doctorId,
+            date,
+            time,
+            null // No specific type yet
+        );
+        newAppointment.setStatus(AppointmentStatus.AVAILABLE);
+        appointmentRecords.addAppointment(newAppointment); // Add new availability slot to records
+        return true;
+    }
+
+    // Retrieves empty slots for a specific date, so the doctor can view availability options
+    public List<String> getEmptySlots(String date) {
+        List<String> emptySlots = new ArrayList<>();
+        List<Appointment> appointments = appointmentRecords.getAppointmentsForDate(date);
+        
+        for (Appointment appointment : appointments) {
+            if (appointment.getStatus() == AppointmentStatus.AVAILABLE) {
+                emptySlots.add(appointment.getAppointmentTime());
+            }
+        }
+        return emptySlots;
+    }
+
+    // Retrieves all pending appointment requests for the logged-in doctor
+	// doctor is to confirm 
+
+    public List<Appointment> getAppointmentRequests() {
+        return appointmentRecords.getAppointments(user.getUserID(), AppointmentStatus.PENDING);
+    }
+
+    // Handles accepting or declining an appointment request
+    public boolean handleAppointmentRequest(String appointmentId, boolean isAccepted) {
+        Appointment appointment = appointmentRecords.getAppointmentByID(appointmentId);
+        if (appointment != null && appointment.getDoctorId().equals(user.getUserID())) {
+            AppointmentStatus newStatus = isAccepted ? AppointmentStatus.SCHEDULED : AppointmentStatus.CANCELLED;
+            appointmentController.setStatus(appointment, newStatus);
+            return true;
+        }
+        return false;
+    }
+
+    // Retrieves a list of upcoming appointments for the doctor
+    public List<Appointment> getUpcomingAppointments() {
+        return appointmentRecords.getAppointments(user.getUserID(), AppointmentStatus.SCHEDULED);
+    }
+
+    // Records the outcome of an appointment, including prescribed medications and notes
+    public boolean recordAppointmentOutcome(
+            String appointmentId,
+            String date,
+            String serviceType,
+            List<String> medications,
+            List<Integer> medicationQTY,
+            String notes
+    ) {
+        Appointment appointment = appointmentRecords.getAppointmentByID(appointmentId);
+        if (appointment != null && appointment.getDoctorId().equals(user.getUserID()) && 
+            appointment.getStatus() == AppointmentStatus.SCHEDULED) {
+
+            // Update appointment details
+            appointmentController.setAppointmentDate(appointment, date);
+            appointmentController.setAppointmentType(appointment, serviceType);
+            appointmentController.setConsultationNotes(appointment, notes);
+            appointmentController.setStatus(appointment, AppointmentStatus.COMPLETED);
+
+            // Add prescribed medications
+            for (int i = 0; i < medications.size(); i++) {
+                String medicationName = medications.get(i);
+                int quantity = i < medicationQTY.size() ? medicationQTY.get(i) : 1; // Default quantity if not specified
+                appointmentController.addPrescribedMedication(appointment, medicationName, quantity);
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    // Updates the patient's records with new diagnoses, prescriptions, and treatment plans
     public boolean updatePatientRecords(String patientId, String newDiagnoses, String prescriptions, String treatmentPlan) {
         Patient patient = dataStorage.findPatientById(patientId);
         if (patient != null) {
@@ -45,62 +124,5 @@ public class DoctorController {
             return true;
         }
         return false;
-	}
-    
-// Might not need this cuz appointment requests alr exist
-
-// // NEW: Retrieve the doctor's empty schule 
-// used when indicating availbiity 
-public List <String> getEmptySlots(String date) {
-	return appointmentController.getDocSlots(date);
-}	
-// will modify to filter out ALL ACTIVE STATUS ie status == NULL cuz this to indicate ALL EMPTY SLOTS
-
-// NEW: Set the doctor's availability for a specific date and time slots
-//BASICALLY CREATES A APPOINTMENT WITH CERTAIN BLANK FIELDS 
-public boolean setAvailability( String date, String time) {
-	// get the doctor ID from user.java 
-	String doctorId = user.getUserID();  
-	return appointmentController.setAvailability( doctorId, date, time);
-}
-
-
-// NEW: Retrieve a list of pending appointment requests for the doctor
-// SO THAT DOC CAN CONFIRM 
-public List<Appointment> getAppointmentRequests() {
-	return appointmentController.getAppointments(user.getUserID(), Appointment.AppointmentStatus.PENDING);
-}
-
-// NEW: Accept or decline an appointment request
-public boolean handleAppointmentRequest(String appointmentId, boolean isAccepted) {
-	Appointment appointment = appointmentController.findAppointmentById(appointmentId);
-	if (appointment != null && appointment.getDoctorId().equals(user.getUserID())) {
-		appointment.setStatus(isAccepted ? Appointment.AppointmentStatus.SCHEDULED: Appointment.AppointmentStatus.CANCELLED);	// set to schduled if yes , cancelled i
-		//appointmentController.updateAppointment(appointment);		// not needed as the status is alr updated 
-		return true;
-	}
-	return false;
-}
-
-
-// NEW: Retrieve a list of upcoming appointments for the doctor
-public List<Appointment> getUpcomingAppointments() {		// status schduled 
-	return appointmentController.getAppointments(user.getUserID(), Appointment.AppointmentStatus.SCHEDULED);
-}
-
-// NEW: Record the outcome of an appointment
-// RECORD THE APPOINTMENT OUTCOMES 
-// does a passthrough of the appointment 
-// converts the string of med qty to an array of integers
-    public boolean recordAppointmentOutcome(String appointmentId, String date, String serviceType, List<String> medications, String medicationQTY, String notes) {
-		String doctorID = user.getUserID(); 
-		// performs the coversion of list <String> to list <Integer> 
-		List.of(medicationQTY.split(",")); // This is List<String> for medication names
-		List<Integer> medicationQTYIntegers = Arrays.stream(medicationQTY.split(","))
-                                  .map(Integer::parseInt) // Convert each String to Integer
-                                  .collect(Collectors.toList()); // This is List<Integer> for quantities
-		return appointmentController.recordAppointmentOutcome(appointmentId, doctorID, date, serviceType, medications, medicationQTYIntegers, notes);
     }
-
-
 }

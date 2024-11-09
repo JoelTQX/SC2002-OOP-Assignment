@@ -16,7 +16,7 @@ public class HospitalManagementSystem {
 	public HospitalManagementSystem() throws IOException {
 		dataStorage = new DataStorage();
 		inputScanner = new Scanner(System.in);
-		userControl = new UserController(dataStorage);
+		userControl = new UserController(dataStorage); 
 		userView = new UserView(userControl, inputScanner);
 	}
 	

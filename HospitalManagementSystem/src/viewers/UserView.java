@@ -47,7 +47,7 @@ public class UserView implements ViewInterface {
         if (user instanceof Patient) {
             viewer = new PatientView(new PatientController(user, dataStorage), inputScanner);
         } else if (user instanceof Doctor) {
-            viewer = new DoctorView(new DoctorController(user, dataStorage, null), inputScanner);
+            viewer = new DoctorView(new DoctorController(user, dataStorage), inputScanner);
         }else if (user instanceof Pharmacist) {
             viewer = new PharmacistView(new PharmacistController(user, dataStorage), inputScanner); 
         }else if (user instanceof Administrator) {

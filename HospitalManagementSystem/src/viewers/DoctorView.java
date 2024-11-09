@@ -61,6 +61,7 @@ public class DoctorView implements ViewInterface{
         return true;
     }
 
+        // OPTION 1 
 	private void viewPatientRecords() {
 		PatientRecords patientRecords = doctorControl.getPatientsRecords();
 		for(Patient patient : patientRecords.getPatientList()) {
@@ -68,15 +69,16 @@ public class DoctorView implements ViewInterface{
 			System.out.println("Blood Type: " + patient.getPatientBloodType());
 			System.out.println("DOB: " + patient.getPatientDOB());
 			System.out.println("Gender: " + patient.getUserGender());
+            System.out.println("    ");     // line spacing 
 		}
 	}
         
-    //NEW    
+    //OPTION 2   
     private void updatePatientRecords() {
 		System.out.println("------ Update Patient Medical Records ------");
 		System.out.print("Enter Patient ID to update records: ");
 		String patientId = inputScanner.nextLine();
-		inputScanner.nextLine(); // Consume newline
+		
 	
 		System.out.print("Enter new diagnoses: ");
 		String newDiagnoses = inputScanner.nextLine();
@@ -92,8 +94,7 @@ public class DoctorView implements ViewInterface{
 	}
 	
 	//NEW   OPTION3 
-    // shows the doctor schdule for the day
-    // assumption is they use this as the daily planner 
+    // shows the doctor ALL SCHDULED APPOINTMENTS WITH THEIR ID 
 	private void viewPersonalSchedule() {
 		System.out.println("------ Doctor's Personal Schedule ------");
 		List <Appointment> schedule = doctorControl.getUpcomingAppointments();      // DID THIS 
@@ -110,7 +111,8 @@ public class DoctorView implements ViewInterface{
     // EACH DAY IS 9-5 WHUCH IS 9 SLOTS 
 	private void setAvailability() {
 		System.out.println("------ Set Availability for Appointments ------");
-		System.out.print("Enter date for availability (YYYY-MM-DD): ");
+		System.out.println("Enter date for availability (YYYY-MM-DD): ");
+        inputScanner.nextLine(); // Consume newline
 		String date = inputScanner.nextLine();
         // CALL THE GET SLOT FUNCTION TO SHOW THE AMT OF SLOTS ON THAT DAY
         System.out.println("Slots available are:");

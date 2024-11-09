@@ -42,51 +42,75 @@ public class AppointmentRecords {
 	  // Method to get available appointment slots for a specific day
     // used by the doc to CREATE THE SLOT
     // THIS IS WHERE THE SLOT CREATION HAPPENS
-    public List<String> getEmptySlots(String date) {
-        List<String> allSlots = List.of(
-            "09:00",
-            "10:00",
-            "11:00",
-            "12:00",
-            "13:00",
-            "14:00",
-            "15:00",
-            "16:00",
-            "17:00"
-        );
-        
-        List<String> emptySlots = new ArrayList<>(allSlots); // Start with all possible slots
-        
-        // Filter out slots that already have valid appointments (non-null status)
-        for (Appointment appointment : AppointmentRecords) {
-            if (appointment.getAppointmentDate().equals(date) && 
-                appointment.getStatus() != null) { // Valid appointment exists
-                
-                // Construct the full date-time string for the booked slot
-                String bookedSlot = appointment.getAppointmentDate() + " " + appointment.getAppointmentTime();
-                
-                // Remove the booked slot from emptySlots
-                emptySlots.remove(bookedSlot);
-            }
+public List<String> getEmptySlots(String date) {
+    // List of all possible hourly slots from 09:00 to 17:00
+    List<String> allSlots = List.of(
+        "09:00",
+        "10:00",
+        "11:00",
+        "12:00",
+        "13:00",
+        "14:00",
+        "15:00",
+        "16:00",
+        "17:00"
+    );
+
+    // Start with all possible slots for the day
+    List<String> emptySlots = new ArrayList<>(allSlots);
+
+    // Iterate through each appointment in AppointmentRecords
+    for (Appointment appointment : AppointmentRecords) {
+        // Check if the appointment is on the specified date and has a valid status
+        if (appointment.getAppointmentDate().equals(date) && appointment.getStatus() != null) {
+            // Get the time portion of the appointment (e.g., "09:00")
+            String bookedTime = appointment.getAppointmentTime();
+            
+            // Remove the booked time from emptySlots if it exists
+            emptySlots.remove(bookedTime);
         }
-    
-        return emptySlots;
     }
-    
+
+    // Return the list of slots that remain unbooked
+    return emptySlots;
+}
+
 
 
 	// HELPER METHODS
-   
-    // general helper function to return the appointment based on status 
 
-    public List<Appointment> getAppointments(String userId, Appointment.AppointmentStatus status ) {
+    // Method to find all appointments for a specific patient ID
+public List<Appointment> findAppointmentsByPatientId(String patientId) {
+    List<Appointment> patientAppointments = new ArrayList<>();
+    
+    for (Appointment appointment : AppointmentRecords) {
+        if (appointment.getPatientId() != null && appointment.getPatientId().equals(patientId)) {
+            patientAppointments.add(appointment);
+        }
+    }
+
+    return patientAppointments;
+}
+   
+    //  helper function to return the appointment based on status 
+
+    public List<Appointment> getDocAppointments(String userId, Appointment.AppointmentStatus status ) {
         List<Appointment> pendingAppointments = new ArrayList<>();
         for (Appointment appointment : AppointmentRecords) {
             if (appointment.getDoctorId().equals(userId) && appointment.getStatus() == status)  // is doctor requesting 
             {
                 pendingAppointments.add(appointment);
             }
-            else if (appointment.getPatientId().equals(userId) && appointment.getStatus() == status)  // is patient requesting 
+        }
+        return pendingAppointments;
+    }
+
+    //  helper function to return the appointment based on status 
+
+    public List<Appointment> getPatientAppointments(String userId, Appointment.AppointmentStatus status ) {
+        List<Appointment> pendingAppointments = new ArrayList<>();
+        for (Appointment appointment : AppointmentRecords) {
+            if (appointment.getPatientId().equals(userId) && appointment.getStatus() == status)  // is patient requesting 
             {
                 pendingAppointments.add(appointment);
             }

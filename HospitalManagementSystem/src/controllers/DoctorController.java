@@ -49,22 +49,14 @@ public class DoctorController {
 
     // Retrieves empty slots for a specific date, so the doctor can view availability options
     public List<String> getEmptySlots(String date) {
-        List<String> emptySlots = new ArrayList<>();
-        List<Appointment> appointments = appointmentRecords.getAppointmentsForDate(date);
-        
-        for (Appointment appointment : appointments) {
-            if (appointment.getStatus() == AppointmentStatus.AVAILABLE) {
-                emptySlots.add(appointment.getAppointmentTime());
-            }
-        }
-        return emptySlots;
+        return appointmentRecords.getEmptySlots(date);
     }
 
     // Retrieves all pending appointment requests for the logged-in doctor
 	// doctor is to confirm 
 
     public List<Appointment> getAppointmentRequests() {
-        return appointmentRecords.getAppointments(user.getUserID(), AppointmentStatus.PENDING);
+        return appointmentRecords.getDocAppointments(user.getUserID(), AppointmentStatus.PENDING);
     }
 
     // Handles accepting or declining an appointment request
@@ -80,7 +72,7 @@ public class DoctorController {
 
     // Retrieves a list of upcoming appointments for the doctor
     public List<Appointment> getUpcomingAppointments() {
-        return appointmentRecords.getAppointments(user.getUserID(), AppointmentStatus.SCHEDULED);
+        return appointmentRecords.getDocAppointments(user.getUserID(), AppointmentStatus.SCHEDULED);
     }
 
     // Records the outcome of an appointment, including prescribed medications and notes
@@ -115,7 +107,7 @@ public class DoctorController {
     
     // Updates the patient's records with new diagnoses, prescriptions, and treatment plans
     public boolean updatePatientRecords(String patientId, String newDiagnoses, String prescriptions, String treatmentPlan) {
-        Patient patient = dataStorage.findPatientById(patientId);
+        Patient patient = dataStorage.getPatientRecords().getPatientByID(patientId);
         if (patient != null) {
             patient.addDiagnosis(newDiagnoses);
             patient.addPrescription(prescriptions);

@@ -108,23 +108,33 @@ public class DoctorView implements ViewInterface{
 	//NEW OPTION 4 
     // SET BY DATE 
     // AFTER CHOOSING FROM A LIST OF DATES WHERE THEY HAVE SLOTS 
-    // EACH DAY IS 9-5 WHUCH IS 9 SLOTS 
-	private void setAvailability() {
-		System.out.println("------ Set Availability for Appointments ------");
-		System.out.println("Enter date for availability (YYYY-MM-DD): ");
+    // EACH DAY IS 9-5 WHICH IS 9 SLOTS 
+    private void setAvailability() {
+        System.out.println("------ Set Availability for Appointments ------");
+        System.out.println("Enter date for availability (YYYY-MM-DD): ");
         inputScanner.nextLine(); // Consume newline
-		String date = inputScanner.nextLine();
+        String date = inputScanner.nextLine();
+        
         // CALL THE GET SLOT FUNCTION TO SHOW THE AMT OF SLOTS ON THAT DAY
         System.out.println("Slots available are:");
-        System.out.println(doctorControl.getEmptySlots(date));    // print the slots uisng a general method 
-		System.out.print("Enter available time slot (HH:MM) (e.g., 09:00): ");
-		String timeSlots = inputScanner.nextLine();
-		boolean success = doctorControl.setAvailability(date, timeSlots);   // call the apt constructor 
-		// System.out.println(success ? "Availability set successfully." : "Failed to set availability. Please try again."); // set uisng the APT CONT not the best method but easier to debug 
-	}
-		
+        List<String> emptySlots = doctorControl.getEmptySlots(date);
+        System.out.println(emptySlots); // print the slots using a general method
         
-     
+        boolean continueSetting = true;
+        while (continueSetting) {
+            System.out.print("Enter available time slot (HH:MM) (e.g., 09:00): ");
+            String timeSlot = inputScanner.nextLine();
+            boolean success = doctorControl.setAvailability(date, timeSlot); // call the apt constructor
+            System.out.println(success ? "Availability set successfully." : "Failed to set availability. Please try again.");
+            
+            System.out.print("Do you want to set another time slot? (yes/no): ");
+            String response = inputScanner.nextLine().trim().toLowerCase();
+            continueSetting = response.equals("yes");
+        }
+    }
+
+
+    
     // NEW: Accept or decline an appointment request
     // this is after patients indiated PENDING
     private void acceptOrDeclineAppointment() {

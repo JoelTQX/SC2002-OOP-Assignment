@@ -44,7 +44,7 @@ public class AdministratorView implements ViewInterface{
 				//viewAppointmentDetails();
 				break;
 			case 3: 
-				
+				inventoryManagement();
 				break;
 			case 4: 
 				approveReplenishmentRequests();
@@ -57,7 +57,7 @@ public class AdministratorView implements ViewInterface{
 		}
 		return true;
 	}
-	
+
 	private void approveReplenishmentRequests() {
 		// TODO Auto-generated method stub
 		List<Replenishment> pendingReplenishments = adminControl.getPendingRequests(); 
@@ -92,6 +92,57 @@ public class AdministratorView implements ViewInterface{
 			}
 		}
 		
+	}
+
+	private void inventoryManagement() {
+		// TODO Auto-generated method stub
+		int userChoice;
+		do{
+			System.out.println("------ Inventory Management -------");
+			System.out.println("1. View Inventory");
+			System.out.println("2. Manage Inventory");
+			System.out.println("3. Return To Menu");
+			System.out.print("Enter Option: ");
+			userChoice = inputScanner.nextInt();
+			switch(userChoice) {
+				case 1:
+					adminControl.getInventory().viewInventory();
+					break;
+				case 2:
+					manageInventory();
+					break;
+				case 3:
+					break;
+				default:
+					System.out.println("Invalid Option... Re-enter Choice...");
+					break;
+			}
+		}while(userChoice != 3);
+	}
+	
+	private void manageInventory() {
+		// TODO Auto-generated method stub
+		int userChoice;
+		
+		System.out.println("1. Joel's Cock");
+		System.out.println("2. Joel's Hair");
+		System.out.println("3. Joel's Shota");
+		System.out.println("4. Return To Inventory Management");
+		userChoice = inputScanner.nextInt();
+		switch(userChoice) {
+			case 1:
+				
+				break;
+			case 2:
+				
+				break;
+			case 3:
+				
+				break;
+			case 4:
+				break;
+			default:
+		}
 	}
 
 	private void manageHospitalStaff() {

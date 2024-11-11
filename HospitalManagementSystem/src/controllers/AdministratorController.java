@@ -5,6 +5,7 @@ import java.util.List;
 
 import datareadwrite.StaffListWriter;
 import datastorage.DataStorage;
+import datastorage.Inventory;
 import datastorage.StaffRecords;
 import entities.Replenishment;
 import entities.Staff;
@@ -75,6 +76,11 @@ public class AdministratorController implements ControllerInterface{
 		// TODO Auto-generated method stub
 		ReplenishmentController replenishControl = new ReplenishmentController(this.dataStorage);
 		replenishControl.approveReplenishment(replenishment);
+	}
+
+	public Inventory getInventory() {
+		// TODO Auto-generated method stub
+		return dataStorage.getInventory();
 	}
 
 }

@@ -5,7 +5,7 @@ public class Replenishment {
 	private int replenishAmount;
 	private Status status;
 	
-	private enum Status{
+	public enum Status{
 		PENDING, 	// 0
 		APPROVED,	// 1
 		DENIED		// 2

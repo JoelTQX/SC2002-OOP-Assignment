@@ -1,15 +1,17 @@
 package datastorage;
 import entities.Medicine;
+import entities.Patient;
 import entities.Replenishment;
-
+import entities.Staff;
 import java.io.IOException;
-import java.util.List;
-
 import datareadwrite.DataReader;
+import datareadwrite.DataWriter;
 import datareadwrite.MedicineReader;
 import datareadwrite.MedicineWriter;
 import datareadwrite.PatientListReader;
 import datareadwrite.PatientWriter;
+import datareadwrite.ReplenishmentReader;
+import datareadwrite.ReplenishmentWriter;
 import datareadwrite.StaffListReader;
 import datareadwrite.StaffWriter;
 public class DataStorage {
@@ -29,26 +31,29 @@ public class DataStorage {
 	
 	//Read CSV files and load data into respective records
 	public void readCSVs() throws IOException {
-		DataReader medicineReader = new MedicineReader();
+		DataReader medicineStartUp = new MedicineReader();
 		DataReader patientStartUp = new PatientListReader();
 		DataReader staffStartUp = new StaffListReader();
+		DataReader replenishmentStartUp = new ReplenishmentReader();
 		
-		medicineReader.populateData(this);
+		medicineStartUp.populateData(this);
 		patientStartUp.populateData(this);
 		staffStartUp.populateData(this);
-
+		replenishmentStartUp.populateData(this);
 		System.out.println("Data Ready");
 	}
 	
 	//Saves all records Into respective CSV files
 	public void saveRecords(){
-		MedicineWriter medicineWriter = new MedicineWriter();
-		PatientWriter patientWriter = new PatientWriter();
-		StaffWriter staffWrite = new StaffWriter();
+		DataWriter<Medicine> medicineWriter = new MedicineWriter();
+		DataWriter<Patient> patientWriter = new PatientWriter();
+		DataWriter<Staff> staffWrite = new StaffWriter();
+		DataWriter<Replenishment> replenishmentWrite = new ReplenishmentWriter();
 		
 		medicineWriter.saveRecords(this);
 		patientWriter.saveRecords(this);
 		staffWrite.saveRecords(this);
+		replenishmentWrite.saveRecords(this);
 		System.out.println("Records Saved");
 	}
 	

@@ -28,6 +28,10 @@ public class AppointmentRecords {
 		return lastAppointmentID;
 	}
 	
+	public List<Appointment> getFullAppointmentList() {
+		return AppointmentRecords;
+	}
+	
 	public void addAppointment(Appointment appointment) {
 		AppointmentRecords.add(appointment);
 		lastAppointmentID++;

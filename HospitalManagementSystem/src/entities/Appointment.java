@@ -40,6 +40,17 @@ public class Appointment {
         this.prescribedMedications = new ArrayList<>(); // PASS EMPTY ARRAY 
     }
 
+    public Appointment(String appointmentID, String patientId, String doctorId, String status, String appointmentDate, String appointmentTime, String appointmentType,List<PrescribedMedication> prescribedMedications2,String consultationNotes) {
+        this.appointmentID = appointmentID;
+    	this.patientId = patientId;   // TO BE FILLED IN LTR
+        this.doctorId = doctorId;
+        this.appointmentDate = appointmentDate;
+        this.appointmentTime = appointmentTime;   
+        this.appointmentType = appointmentType; // TO BE FILLED IN LTR 
+        this.status = AppointmentStatus.AVAILABLE;          // DOC SETS THE APT AVAIL FIRST 
+        this.prescribedMedications = prescribedMedications2; // PASS EMPTY ARRAY 
+        this.consultationNotes=consultationNotes;
+    }
 
    
     // Method to update consultation notes and mark the appointment as completed

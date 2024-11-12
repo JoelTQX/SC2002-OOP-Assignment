@@ -1,9 +1,12 @@
 package datastorage;
+import entities.Appointment;
 import entities.Medicine;
 import entities.Patient;
 import entities.Replenishment;
 import entities.Staff;
 import java.io.IOException;
+
+import datareadwrite.AppointmentReader;
 import datareadwrite.DataReader;
 import datareadwrite.DataWriter;
 import datareadwrite.MedicineReader;
@@ -12,6 +15,7 @@ import datareadwrite.PatientListReader;
 import datareadwrite.PatientWriter;
 import datareadwrite.ReplenishmentReader;
 import datareadwrite.ReplenishmentWriter;
+import datareadwrite.AppointmentWriter;
 import datareadwrite.StaffListReader;
 import datareadwrite.StaffWriter;
 public class DataStorage {
@@ -35,11 +39,13 @@ public class DataStorage {
 		DataReader patientStartUp = new PatientListReader();
 		DataReader staffStartUp = new StaffListReader();
 		DataReader replenishmentStartUp = new ReplenishmentReader();
+		DataReader appointmentRecordsStartUp = new AppointmentReader();
 		
 		medicineStartUp.populateData(this);
 		patientStartUp.populateData(this);
 		staffStartUp.populateData(this);
 		replenishmentStartUp.populateData(this);
+		appointmentRecordsStartUp.populateData(this);
 		System.out.println("Data Ready");
 	}
 	
@@ -49,11 +55,13 @@ public class DataStorage {
 		DataWriter<Patient> patientWriter = new PatientWriter();
 		DataWriter<Staff> staffWrite = new StaffWriter();
 		DataWriter<Replenishment> replenishmentWrite = new ReplenishmentWriter();
+		DataWriter<Appointment> appointmentWrite = new AppointmentWriter();
 		
 		medicineWriter.saveRecords(this);
 		patientWriter.saveRecords(this);
 		staffWrite.saveRecords(this);
 		replenishmentWrite.saveRecords(this);
+		appointmentWrite.saveRecords(this);
 		System.out.println("Records Saved");
 	}
 	

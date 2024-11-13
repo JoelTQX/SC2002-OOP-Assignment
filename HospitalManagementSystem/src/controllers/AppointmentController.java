@@ -154,7 +154,7 @@ public class AppointmentController {
     // Add a prescribed medication to an individual appointment
     public void addPrescribedMedication(Appointment appointment, String medicationName, int quantity) {
         if (appointment != null) {
-            appointment.prescribedMedications.add(new PrescribedMedication(medicationName, quantity));  // uses a List.add() method to append to the list 
+            appointment.getPrescribedMedications().add(new PrescribedMedication(medicationName, quantity));  // uses a List.add() method to append to the list 
         }
     }
 

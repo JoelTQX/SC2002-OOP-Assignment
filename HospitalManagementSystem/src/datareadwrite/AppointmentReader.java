@@ -8,6 +8,7 @@ import java.util.List;
 import datastorage.DataStorage;
 import entities.Administrator;
 import entities.Appointment;
+import entities.Appointment.AppointmentStatus;
 import entities.Appointment.PrescribedMedication;
 import entities.Doctor;
 import entities.Pharmacist;
@@ -26,7 +27,8 @@ public class AppointmentReader implements DataReader{
 	                String appointmentID = cells[0];
 	                String patientId = cells[1];
 	                String doctorId = cells[2];
-	                String AppointmentStatus = cells[3];
+	                String appstat = cells[3];
+	                AppointmentStatus appointmentStatus=AppointmentStatus.valueOf(appstat);
 	                String appointmentDate = cells[4];
 	                String appointmentTime = cells[5];
 	                String appointmentType = cells[6];
@@ -37,9 +39,9 @@ public class AppointmentReader implements DataReader{
 	                
 	                
 	               
-	                Appointment appointment=new Appointment(appointmentID,patientId,doctorId,AppointmentStatus,appointmentDate,appointmentTime,appointmentType,medications,consultationNotes);
+	                Appointment appointment=new Appointment(appointmentID,patientId,doctorId,appointmentStatus,appointmentDate,appointmentTime,appointmentType,medications,consultationNotes);
 	                dataStorage.getAppointmentRecords().addAppointment(appointment);
-	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]);
+	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]+ ", " + cells[3]+ ", " + cells[4]+ ", " + cells[5]+ ", " + cells[6]+ ", " + cells[7]+ ", " + cells[8]);
 	                }
 			 		
 	                
@@ -55,7 +57,7 @@ public class AppointmentReader implements DataReader{
 		        List<PrescribedMedication> medications = new ArrayList<>();
 		        
 		        // Split the input string by newline to get individual medications
-		        String[] medicationEntries = prescribedMedications.split("\n");
+		        String[] medicationEntries = prescribedMedications.split("||");
 
 		        for (String entry : medicationEntries) {
 		            // Split each entry to get the medication name and quantity

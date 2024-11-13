@@ -4,6 +4,8 @@ import controllers.DoctorController;
 import datastorage.PatientRecords;
 import entities.Appointment;
 import entities.Patient;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -192,13 +194,18 @@ public class DoctorView implements ViewInterface{
         inputScanner.nextLine(); // Consume newline
         String medications = inputScanner.nextLine();
         System.out.print("Enter Medications QTY (comma-separated), Enter 0 if none: ");
-        inputScanner.nextLine(); // Consume newline
-        String medicationsQTY = inputScanner.nextLine();
+        //inputScanner.nextLine(); // Consume newline
+        String inputLine = inputScanner.nextLine();  // Read the whole line
+        String[] tokens = inputLine.split(",");      // Split by comma
+        List<Integer> medicationsQTYList = new ArrayList<>();
+        for (String token : tokens) {
+            medicationsQTYList.add(Integer.parseInt(token));  // Convert to Integer and add to list
+        }
         System.out.print("Enter Consultation Notes: ");
         String notes = inputScanner.nextLine();
 
         boolean success = doctorControl.recordAppointmentOutcome(
-                appointmentId, date, serviceType, List.of(medications.split(",")), medicationsQTY, notes);
+                appointmentId, date, serviceType, List.of(medications.split(",")), medicationsQTYList, notes);
         
         System.out.println(success ? "Outcome recorded successfully." : "Failed to record outcome.");
     }   

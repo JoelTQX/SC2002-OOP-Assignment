@@ -106,7 +106,7 @@ public class PatientView implements ViewInterface{
 	private void viewAvailableSlots() 
 	{
 		System.out.println("------ Available Appointment Slots ------");
-		System.out.println("Input Appointment Date (YYYY-MM-DD): ");
+		System.out.println("Input Appointment Date (DD/MM/YYYY): ");
 		String date = inputScanner.next();
 		List<String> availableSlots = patientControl.getAvailableSlots(date);
 		if (availableSlots.isEmpty()) {

@@ -1,2 +1,2 @@
 Appointment ID,Patient ID,Doctor ID,Appointment Status,Appointment Date,Appointment Time,Appointment Type,Prescribed Medications,Consultation Notes
-AP0001,NULL,NULL,AVAILABLE,11/13/2024,13:00,NULL,,NULL
+AP0001,NULL,NULL,AVAILABLE,11/13/2024,13:00,NULL,NULL,NULL

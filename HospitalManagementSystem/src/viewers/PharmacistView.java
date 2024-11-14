@@ -81,8 +81,6 @@ public class PharmacistView implements ViewInterface{
         pharmacistControl.updatePrescriptionStatus(appointmentId, medicineName);
     }
 
-
-	
 	private void submitReplenishment() {
 		// TODO Auto-generated method stub
 		List<Medicine> medicineRecords = pharmacistControl.getInventory().getMedicineRecords();
@@ -100,7 +98,16 @@ public class PharmacistView implements ViewInterface{
 		while(true) {
 			//Get User Input
 			System.out.print("Select Option: ");
-			medicineChoice = inputScanner.nextInt();
+			
+			//Error in Input
+			try {
+				medicineChoice = inputScanner.nextInt();
+			}catch(Exception e) {
+				System.out.println("Invalid Input... Re-enter Choice...");
+				inputScanner.next(); //Clear Scanner Buffer
+				medicineChoice = -1;
+			}
+			
 			if(medicineChoice == medicineRecords.size()+1) {
 				System.out.println("Returning to menu...");
 				return;
@@ -114,7 +121,13 @@ public class PharmacistView implements ViewInterface{
 		//Print Cancel Condition
 		System.out.println("To Cancel Replenishment Enter Values LESS OR EQUAL TO 0");
 		System.out.print("Enter Quantity to Replenish: ");
-		medicineQuantity = inputScanner.nextInt();
+		try {
+			medicineQuantity = inputScanner.nextInt();
+		}catch(Exception e) {
+			System.out.println("Invalid Input... Returning to Main Menu");
+			inputScanner.next(); //Clear Scanner Buffer
+			medicineQuantity = -1;
+		}
 		if(medicineQuantity <= 0) return;
 		pharmacistControl.createReplenishmentRequest(medicineChoice-1, medicineQuantity);
 		System.out.println("Replenishment Request Submitted... Returning to menu...");

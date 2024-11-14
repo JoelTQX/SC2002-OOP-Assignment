@@ -85,12 +85,14 @@ public class AdministratorController implements ControllerInterface{
 	
 	public void addStock(String medicineName, int quantity) {
 	    // Add stock to the specified medicine
-	    this.adminControl.getInventory().addStock(medicineName, quantity);
+		MedicineController medicineControl = new MedicineController(this.dataStorage.getInventory());
+		medicineControl.addStock(medicineName, quantity);
 	}
 
 	public void updateLowStockAlert(String medicineName, int newThreshold) {
 	    // Update the low stock alert threshold for the specified medicine
-	    this.adminControl.getInventory().updateLowStockAlert(medicineName, newThreshold);
+		MedicineController medicineControl = new MedicineController(this.dataStorage.getInventory());
+		medicineControl.adjustStockAlert(medicineName, newThreshold);
 	}
 
 	public void removeStock(String medicineName, int quantity) {
@@ -99,10 +101,8 @@ public class AdministratorController implements ControllerInterface{
 	        System.out.println("Quantity must be positive.");
 	        return;
 	    }
-	    boolean success = this.adminControl.getInventory().removeStock(medicineName, quantity);
-	    if (!success) {
-	        System.out.println("Error: Insufficient stock or invalid medicine name.");
-	    }
+	    MedicineController medicineControl = new MedicineController(this.dataStorage.getInventory());
+	    medicineControl.removeStock(medicineName, quantity);
 	}
 
 }

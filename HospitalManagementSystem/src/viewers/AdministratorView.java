@@ -156,12 +156,7 @@ public class AdministratorView implements ViewInterface{
 	    System.out.print("Enter Quantity to Add: ");
 	    int quantityToAdd = inputScanner.nextInt();
 	    
-	    boolean success = adminControl.getInventory().addStock(medicineName, quantityToAdd);
-	    if (success) {
-	        System.out.println("Stock added successfully.");
-	    } else {
-	        System.out.println("Error adding stock. Please check if the medicine name is correct.");
-	    }
+	    adminControl.addStock(medicineName, quantityToAdd);
 	}
 	
 	private void removeStock() {
@@ -172,12 +167,7 @@ public class AdministratorView implements ViewInterface{
 	    System.out.print("Enter Quantity to Remove: ");
 	    int quantityToRemove = inputScanner.nextInt();
 	    
-	    boolean success = adminControl.getInventory().removeStock(medicineName, quantityToRemove);
-	    if (success) {
-	        System.out.println("Stock removed successfully.");
-	    } else {
-	        System.out.println("Error removing stock. Please check if the medicine name and quantity are correct.");
-	    }
+	    adminControl.removeStock(medicineName, quantityToRemove);
 	}
 	
 	private void updateLowStockAlert() {
@@ -188,12 +178,7 @@ public class AdministratorView implements ViewInterface{
 	    System.out.print("Enter New Low Stock Threshold: ");
 	    int newThreshold = inputScanner.nextInt();
 	    
-	    boolean success = adminControl.getInventory().updateLowStockAlert(medicineName, newThreshold);
-	    if (success) {
-	        System.out.println("Low stock alert updated successfully.");
-	    } else {
-	        System.out.println("Error updating low stock alert. Please check if the medicine name is correct.");
-	    }
+	    adminControl.updateLowStockAlert(medicineName, newThreshold);
 	}
 	
 	private void manageHospitalStaff() {

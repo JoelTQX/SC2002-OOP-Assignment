@@ -30,8 +30,15 @@ public class DoctorView implements ViewInterface{
         System.out.println("(7) Record Appointment Outcome");
         System.out.println("(8) Logout");
         
-        int userChoice = inputScanner.nextInt();
-		
+        int userChoice;
+        
+		try {
+			userChoice = inputScanner.nextInt();
+		}catch(Exception e) {
+        	System.out.println("Invalid Option... Please Try Again...\n");
+        	inputScanner.next(); //Clear Scanner Buffer
+        	return true;
+		}
 
         switch (userChoice) {
             case 1:

@@ -24,21 +24,30 @@ public class UserView implements ViewInterface {
     }
     
     public boolean displayMenu() {
-    	
         System.out.println("--- Welcome to Hospital Management System ---");
         System.out.println("1. Login ");
         System.out.println("2. Exit ");
         System.out.print("Choice: ");
-        int userChoice = inputScanner.nextInt();
-        switch(userChoice) {
-            case 1:
-                displayLogin();
-                return true;
-            case 2: return false;
-            default:
-                System.out.println("Invalid Option... Please Try Again...\n");
-                return true;
-        }
+
+        int userChoice;
+		//Error Handling
+		try {
+			userChoice = inputScanner.nextInt();
+		}catch(Exception e) {
+        	System.out.println("Invalid Option... Please Try Again...\n");
+        	inputScanner.next(); //Clear Scanner Buffer
+        	return true;
+		}
+		
+		switch(userChoice) {
+        case 1:
+            displayLogin();
+            return true;
+        case 2: return false;
+        default:
+            System.out.println("Invalid Option... Please Try Again...\n");
+            return true;
+		}
     }
     
     public void switchView(DataStorage dataStorage) {

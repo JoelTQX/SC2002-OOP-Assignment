@@ -27,7 +27,15 @@ public class PatientView implements ViewInterface{
 		System.out.println("9. Logout ");
 		System.out.println("What Do You Want To Do?: ");
 		
-		int userChoice = inputScanner.nextInt();
+		int userChoice;
+		//Error Handling
+		try {
+			userChoice = inputScanner.nextInt();
+		}catch(Exception e) {
+        	System.out.println("Invalid Option... Please Try Again...\n");
+        	inputScanner.next(); //Clear Scanner Buffer
+        	return true;
+		}
 		
 		switch(userChoice){
 			case 1: 

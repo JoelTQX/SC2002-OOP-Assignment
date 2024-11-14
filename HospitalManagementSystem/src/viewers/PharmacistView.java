@@ -25,7 +25,16 @@ public class PharmacistView implements ViewInterface{
 		System.out.println("4. Submit Replenishment Request");
 		System.out.println("5. Logout");
 		
-		int userChoice = inputScanner.nextInt();
+		int userChoice;
+		//Error Handling
+		try {
+			userChoice = inputScanner.nextInt();
+		}catch(Exception e) {
+        	System.out.println("Invalid Option... Please Try Again...\n");
+        	inputScanner.next(); //Clear Scanner Buffer
+        	return true;
+		}
+		
 		switch(userChoice) {
 			case 1: 
 				viewAppointmentOutcomeRecord();

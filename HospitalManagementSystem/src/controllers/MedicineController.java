@@ -16,10 +16,12 @@ public class MedicineController {
 	public void adjustName(String medicineName, String newName) {
 		Medicine medicine = inventory.getMedicineByName(medicineName);
 		if(medicine == null) {
-			throw new IllegalArgumentException("Medicine cannot be NULL");
+			System.out.println("Medicine Not Found... Please Check The Name");
+    		return;
 		}
 		else if(newName == null || newName.isBlank()) {
-			throw new IllegalArgumentException("New Name cannot be NULL or BLANK");
+			System.out.println("New Medicine Name cannot be empty...");
+    		return;
 		}
 		
 		String oldName = medicine.getMedicineName();
@@ -31,7 +33,8 @@ public class MedicineController {
     public void adjustStock(String medicineName, int newAmount) {
     	Medicine medicine = inventory.getMedicineByName(medicineName);
     	if(medicine == null) {
-			throw new IllegalArgumentException("Medicine cannot be NULL");
+    		System.out.println("Medicine Not Found... Please Check The Name");
+    		return;
 		}
         medicine.setMedicineStock(newAmount);
         System.out.println(medicine.getMedicineName() + " stock adjusted to " + newAmount);
@@ -41,7 +44,8 @@ public class MedicineController {
     public void adjustStockAlert(String medicineName, int newStockAlert) {
     	Medicine medicine = inventory.getMedicineByName(medicineName);
     	if(medicine == null) {
-			throw new IllegalArgumentException("Medicine cannot be NULL");
+    		System.out.println("Medicine Not Found... Please Check The Name");
+    		return;
 		}
         medicine.setMedicineStockAlert(newStockAlert);
         System.out.println(medicine.getMedicineName() + " stock alert adjusted to " + newStockAlert);
@@ -52,7 +56,8 @@ public class MedicineController {
 		// TODO Auto-generated method stub
 		Medicine medicine = inventory.getMedicineByName(medicineName);
     	if(medicine == null) {
-			throw new IllegalArgumentException("Medicine cannot be NULL");
+    		System.out.println("Medicine Not Found... Please Check The Name");
+    		return;
 		}
         medicine.setMedicineStock((medicine.getMedicineStock()+quantity));
         System.out.println(medicine.getMedicineName() + " stock replenished to " + medicine.getMedicineStock());
@@ -63,7 +68,8 @@ public class MedicineController {
 		// TODO Auto-generated method stub
 		Medicine medicine = inventory.getMedicineByName(medicineName);
     	if(medicine == null) {
-			throw new IllegalArgumentException("Medicine cannot be NULL");
+    		System.out.println("Medicine Not Found... Please Check The Name");
+    		return;
 		}
     	// Check for sufficient Medicine to dispense
     	if(quantityToDispense > medicine.getMedicineStock()) {
@@ -72,5 +78,34 @@ public class MedicineController {
     	}
         medicine.setMedicineStock((medicine.getMedicineStock()-quantityToDispense));
         System.out.println(medicine.getMedicineName() + " remaining stock :  " + medicine.getMedicineStock());
+	}
+	
+	// Add Stock to Medicine
+	public void addStock(String medicineName, int quantity) {
+		// TODO Auto-generated method stub
+		Medicine medicine = inventory.getMedicineByName(medicineName);
+    	if(medicine == null) {
+    		System.out.println("Medicine Not Found... Please Check The Name");
+    		return;
+		}
+    	int updatedAmount = medicine.getMedicineStock() + quantity;
+        medicine.setMedicineStock(updatedAmount);
+        System.out.println(medicine.getMedicineName() + " stock adjusted to " + updatedAmount);
+	}
+	// Decrease Stock of Medicine
+	public void removeStock(String medicineName, int quantity) {
+		// TODO Auto-generated method stub
+		Medicine medicine = inventory.getMedicineByName(medicineName);
+    	if(medicine == null) {
+    		System.out.println("Medicine Not Found... Please Check The Name");
+    		return;
+		}
+    	if(medicine.getMedicineStock() < quantity) {
+    		System.out.println("Error: Insufficient stock...");
+    		return;
+    	}
+		int updatedAmount = medicine.getMedicineStock() - quantity;
+		medicine.setMedicineStock(updatedAmount);
+		System.out.println(medicine.getMedicineName() + " stock adjusted to " + updatedAmount);
 	}
 }

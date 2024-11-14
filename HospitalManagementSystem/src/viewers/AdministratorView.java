@@ -124,27 +124,78 @@ public class AdministratorView implements ViewInterface{
 		// TODO Auto-generated method stub
 		int userChoice;
 		
-		System.out.println("1. Joel's Cock");
-		System.out.println("2. Joel's Hair");
-		System.out.println("3. Joel's Shota");
+		System.out.println("1. Adding stock levels");
+		System.out.println("2. Removing stock levels");
+		System.out.println("3. Updating Low stock alert");
 		System.out.println("4. Return To Inventory Management");
+		System.out.print("Enter Option: ");
 		userChoice = inputScanner.nextInt();
 		switch(userChoice) {
 			case 1:
-				
+				addStock();
 				break;
 			case 2:
-				
+				removeStock();
 				break;
 			case 3:
-				
+				updateLowStockAlert();
 				break;
 			case 4:
-				break;
+				return;
 			default:
+				System.out.println("Invalid Option... Re-enter Choice...");
+				break;
 		}
 	}
 
+	private void addStock() {
+	    System.out.print("Enter Medicine Name to Add Stock: ");
+	    inputScanner.nextLine(); // Clear the buffer
+	    String medicineName = inputScanner.nextLine();
+	    
+	    System.out.print("Enter Quantity to Add: ");
+	    int quantityToAdd = inputScanner.nextInt();
+	    
+	    boolean success = adminControl.getInventory().addStock(medicineName, quantityToAdd);
+	    if (success) {
+	        System.out.println("Stock added successfully.");
+	    } else {
+	        System.out.println("Error adding stock. Please check if the medicine name is correct.");
+	    }
+	}
+	
+	private void removeStock() {
+	    System.out.print("Enter Medicine Name to Remove Stock: ");
+	    inputScanner.nextLine(); // Clear the buffer
+	    String medicineName = inputScanner.nextLine();
+	    
+	    System.out.print("Enter Quantity to Remove: ");
+	    int quantityToRemove = inputScanner.nextInt();
+	    
+	    boolean success = adminControl.getInventory().removeStock(medicineName, quantityToRemove);
+	    if (success) {
+	        System.out.println("Stock removed successfully.");
+	    } else {
+	        System.out.println("Error removing stock. Please check if the medicine name and quantity are correct.");
+	    }
+	}
+	
+	private void updateLowStockAlert() {
+	    System.out.print("Enter Medicine Name to Set Low Stock Alert: ");
+	    inputScanner.nextLine(); // Clear the buffer
+	    String medicineName = inputScanner.nextLine();
+	    
+	    System.out.print("Enter New Low Stock Threshold: ");
+	    int newThreshold = inputScanner.nextInt();
+	    
+	    boolean success = adminControl.getInventory().updateLowStockAlert(medicineName, newThreshold);
+	    if (success) {
+	        System.out.println("Low stock alert updated successfully.");
+	    } else {
+	        System.out.println("Error updating low stock alert. Please check if the medicine name is correct.");
+	    }
+	}
+	
 	private void manageHospitalStaff() {
 		System.out.println("------ Manage Hospital Staff ------");
 		System.out.println("1. View Staff");

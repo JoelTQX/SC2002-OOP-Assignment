@@ -82,5 +82,27 @@ public class AdministratorController implements ControllerInterface{
 		// TODO Auto-generated method stub
 		return dataStorage.getInventory();
 	}
+	
+	public void addStock(String medicineName, int quantity) {
+	    // Add stock to the specified medicine
+	    this.adminControl.getInventory().addStock(medicineName, quantity);
+	}
+
+	public void updateLowStockAlert(String medicineName, int newThreshold) {
+	    // Update the low stock alert threshold for the specified medicine
+	    this.adminControl.getInventory().updateLowStockAlert(medicineName, newThreshold);
+	}
+
+	public void removeStock(String medicineName, int quantity) {
+	    // Remove stock from the specified medicine
+	    if (quantity < 0) {
+	        System.out.println("Quantity must be positive.");
+	        return;
+	    }
+	    boolean success = this.adminControl.getInventory().removeStock(medicineName, quantity);
+	    if (!success) {
+	        System.out.println("Error: Insufficient stock or invalid medicine name.");
+	    }
+	}
 
 }

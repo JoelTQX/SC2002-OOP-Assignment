@@ -116,9 +116,8 @@ public class AdministratorView implements ViewInterface{
 			try {
 				userChoice = inputScanner.nextInt();
 			}catch(Exception e) {
-	        	System.out.println("Invalid Option... Please Try Again...\n");
 	        	inputScanner.next(); //Clear Scanner Buffer
-	        	return;
+	        	userChoice = -1;
 			}
 			
 			switch(userChoice) {
@@ -145,32 +144,33 @@ public class AdministratorView implements ViewInterface{
 		System.out.println("3. Updating Low stock alert");
 		System.out.println("4. Return To Inventory Management");
 		System.out.print("Enter Option: ");
-		 int userChoice;
-		 
+		int userChoice;
+		do{ 
 		//Error Handling
-		try {
-			userChoice = inputScanner.nextInt();
-		}catch(Exception e) {
-        	System.out.println("Invalid Option... Please Try Again...\n");
-        	inputScanner.next(); //Clear Scanner Buffer
-		}
+			try {
+				userChoice = inputScanner.nextInt();
+			}catch(Exception e) {
+	        	inputScanner.next(); //Clear Scanner Buffer
+	        	userChoice = -1;
+			}
 		
-		switch(userChoice) {
-			case 1:
-				addStock();
-				break;
-			case 2:
-				removeStock();
-				break;
-			case 3:
-				updateLowStockAlert();
-				break;
-			case 4:
-				return;
-			default:
-				System.out.println("Invalid Option... Re-enter Choice...");
-				break;
-		}
+			switch(userChoice) {
+				case 1:
+					addStock();
+					break;
+				case 2:
+					removeStock();
+					break;
+				case 3:
+					updateLowStockAlert();
+					break;
+				case 4:
+					return;
+				default:
+					System.out.println("Invalid Option... Re-enter Choice...");
+					break;
+			}
+		}while(userChoice != 4);
 	}
 
 	private void addStock() {
@@ -212,8 +212,15 @@ public class AdministratorView implements ViewInterface{
 		System.out.println("2. Add Staff");
 		System.out.println("3. Remove Staff");
 		
-		int userChoice = inputScanner.nextInt();
-		
+		int userChoice;
+		//Error Handling
+		try {
+			userChoice = inputScanner.nextInt();
+		}catch(Exception e) {
+			System.out.println("Invalid Option... Please Try Again...\n");
+        	inputScanner.next(); //Clear Scanner Buffer
+        	return;
+		}
 		switch(userChoice) {
 			case 1:
 				viewStaff();

@@ -34,8 +34,16 @@ public class AdministratorView implements ViewInterface{
 		System.out.println("5. Logout ");
 		System.out.println("What Do You Want To Do?: ");
 		
-		int userChoice = inputScanner.nextInt();
+		int userChoice;
 		
+		//Error Handling
+		try {
+			userChoice = inputScanner.nextInt();
+		}catch(Exception e) {
+			System.out.println("Invalid Option... Please Try Again...\n");
+			inputScanner.next(); //Clear Scanner Buffer
+			return true;
+		}
 		switch(userChoice){
 			case 1: 
 				manageHospitalStaff();
@@ -103,7 +111,16 @@ public class AdministratorView implements ViewInterface{
 			System.out.println("2. Manage Inventory");
 			System.out.println("3. Return To Menu");
 			System.out.print("Enter Option: ");
-			userChoice = inputScanner.nextInt();
+			
+			//Error Handling
+			try {
+				userChoice = inputScanner.nextInt();
+			}catch(Exception e) {
+	        	System.out.println("Invalid Option... Please Try Again...\n");
+	        	inputScanner.next(); //Clear Scanner Buffer
+	        	return;
+			}
+			
 			switch(userChoice) {
 				case 1:
 					adminControl.getInventory().viewInventory();
@@ -122,14 +139,22 @@ public class AdministratorView implements ViewInterface{
 	
 	private void manageInventory() {
 		// TODO Auto-generated method stub
-		int userChoice;
 		
 		System.out.println("1. Adding stock levels");
 		System.out.println("2. Removing stock levels");
 		System.out.println("3. Updating Low stock alert");
 		System.out.println("4. Return To Inventory Management");
 		System.out.print("Enter Option: ");
-		userChoice = inputScanner.nextInt();
+		 int userChoice;
+		 
+		//Error Handling
+		try {
+			userChoice = inputScanner.nextInt();
+		}catch(Exception e) {
+        	System.out.println("Invalid Option... Please Try Again...\n");
+        	inputScanner.next(); //Clear Scanner Buffer
+		}
+		
 		switch(userChoice) {
 			case 1:
 				addStock();

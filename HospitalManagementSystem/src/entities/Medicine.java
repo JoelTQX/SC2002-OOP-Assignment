@@ -25,7 +25,7 @@ public class Medicine {
 		return this.stockAlert;
 	}
 	public boolean isLowStock() {
-		return this.stock < this.stockAlert;
+		return this.stock <= this.stockAlert;
 	}
 	
 	public void setMedicineName(String name) {

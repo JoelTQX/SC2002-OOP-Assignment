@@ -108,4 +108,19 @@ public class MedicineController {
 		medicine.setMedicineStock(updatedAmount);
 		System.out.println(medicine.getMedicineName() + " stock adjusted to " + updatedAmount);
 	}
+
+	// Check for sufficient stock to dispense
+	public boolean isSufficient(String medicineName, int medicineQuantity) {
+		// TODO Auto-generated method stub
+		Medicine medicine = inventory.getMedicineByName(medicineName);
+		if(medicine == null) {
+    		System.out.println("Error: Medicine Not Found... Please Check The Name");
+    		return false;
+		}
+		if(medicine.getMedicineStock() < medicineQuantity) {
+    		System.out.println("Error: Insufficient stock for " + medicineName + "...");
+    		return false;
+    	}
+		return true;
+	}
 }

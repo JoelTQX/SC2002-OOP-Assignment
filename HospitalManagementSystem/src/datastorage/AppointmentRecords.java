@@ -204,9 +204,9 @@ public List<String> getSlots(String date) {
         }
         return completedAppointments;
     }
-
-
-
-
-
+    // Return AppointmentRecords
+	public List<Appointment> getAppointmentRecords() {
+		// TODO Auto-generated method stub
+		return this.AppointmentRecords;
+	}
 }

@@ -73,12 +73,18 @@ public class PharmacistView implements ViewInterface{
 
 	 // Option 2: Update the prescription status of a medicine in an appointment
 	 private void updatePrescriptionStatus() {
+		System.out.println("------ Update Prescription Status ------");
+        System.out.print("Enter Appointment ID: ");
+        String appointmentId = inputScanner.next();
+        pharmacistControl.updatePrescriptionStatus(appointmentId);
+		/*
         System.out.println("------ Update Prescription Status ------");
         System.out.print("Enter Appointment ID: ");
         String appointmentId = inputScanner.next();
         System.out.print("Enter Medicine Name: ");
         String medicineName = inputScanner.next();
         pharmacistControl.updatePrescriptionStatus(appointmentId, medicineName);
+        */
     }
 
 	private void submitReplenishment() {

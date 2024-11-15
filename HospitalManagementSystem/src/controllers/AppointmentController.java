@@ -1,7 +1,9 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import datastorage.AppointmentRecords;
 import datastorage.DataStorage;
 import entities.Appointment;
 import entities.Appointment.AppointmentStatus;
@@ -10,15 +12,13 @@ import entities.Patient;
 import entities.User;
 import javax.security.auth.login.AppConfigurationEntry;
 
-public class AppointmentController {
-    private User user; 
-    private DataStorage dataStorage;
+public class AppointmentController { 
+    private AppointmentRecords appointmentRecords;
     // is reposnbile for all modification of the appointment 
     // handles the modifcaiton of a SINGLE appointment 
     
-    public AppointmentController() {
-
-    
+    public AppointmentController(DataStorage dataStorage) {
+    	this.appointmentRecords = dataStorage.getAppointmentRecords();
     }
        // Method to update consultation notes and mark the appointment as completed
     public void completeAppointment(Appointment appointment, String consultationNotes) {
@@ -201,6 +201,33 @@ public class AppointmentController {
 	
 		return "A" + hexTimestamp.toUpperCase() + hexCounter.toUpperCase();
     }
+    
+    //Access Appointment Records to Retrieve desired Appointment
+	public Appointment getAppointmentByID(String appointmentID) {
+		// TODO Auto-generated method stub
+		Appointment appointment = this.appointmentRecords.getAppointmentByID(appointmentID);
+		if(appointment == null) {
+			System.out.println("Appointment not found... Please Try Again...");
+			return null;
+		}
+		return appointment;	
+	}
+	public List<Appointment> getAppointmentRecords() {
+		// TODO Auto-generated method stub
+		return this.appointmentRecords.getAppointmentRecords();
+	}
+	
+	public List<Appointment> getCompletedAppointments() {
+		// TODO Auto-generated method stub
+        List<Appointment> completedAppointments = new ArrayList<>();
+        for (Appointment appointment : this.appointmentRecords.getAppointmentRecords()) {
+            if(appointment.getStatus() == Appointment.AppointmentStatus.COMPLETED) {
+                completedAppointments.add(appointment);
+            }
+        }
+        return completedAppointments;
+	    }
+	}
 
 }
 

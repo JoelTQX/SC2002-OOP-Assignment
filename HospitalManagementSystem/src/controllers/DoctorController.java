@@ -22,7 +22,7 @@ public class DoctorController {
     public DoctorController(User user, DataStorage dataStorage) {
         this.user = (Doctor)user;
         this.dataStorage = dataStorage;
-        this.appointmentController = new AppointmentController(); // Instantiating AppointmentController
+        this.appointmentController = new AppointmentController(dataStorage); // Instantiating AppointmentController
         this.appointmentRecords = dataStorage.getAppointmentRecords(); // Retrieve AppointmentRecords from dataStorage
     }
 

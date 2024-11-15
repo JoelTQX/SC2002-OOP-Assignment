@@ -1,16 +1,12 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import datastorage.AppointmentRecords;
 import datastorage.DataStorage;
 import entities.Appointment;
 import entities.Appointment.AppointmentStatus;
 import entities.Appointment.PrescribedMedication;
-import entities.Patient;
-import entities.User;
-import javax.security.auth.login.AppConfigurationEntry;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppointmentController { 
     private AppointmentRecords appointmentRecords;
@@ -226,8 +222,6 @@ public class AppointmentController {
             }
         }
         return completedAppointments;
-	    }
-	}
-
+    }
 }
 

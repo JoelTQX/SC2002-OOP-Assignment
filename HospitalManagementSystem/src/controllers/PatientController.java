@@ -17,7 +17,7 @@ public class PatientController {
     public PatientController(User user, DataStorage dataStorage) {
         this.user = (Patient) user;
         this.dataStorage = dataStorage;
-        this.appointmentController = new AppointmentController(); // Instantiate AppointmentController
+        this.appointmentController = new AppointmentController(dataStorage); // Instantiate AppointmentController
         this.appointmentRecords = dataStorage.getAppointmentRecords(); // Retrieve AppointmentRecords from DataStorage
     }
 

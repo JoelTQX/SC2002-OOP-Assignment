@@ -83,12 +83,16 @@ public class PharmacistView implements ViewInterface{
         	}catch(Exception e) {
         		System.out.println("Invalid Format... Please Input An Integer");
         		inputScanner.next(); //Clear Buffer;
+        		continue;
         	}
         	if(userChoice > completedAppointments.size()) {
+        		if(userChoice == completedAppointments.size()+1) break;
         		System.out.println("Invalid Option... Please Try Again...");
+        		continue;
         	}
         	Appointment chosenAppointment = completedAppointments.get(userChoice-1);
         	viewAppointmentDetails(chosenAppointment);
+        	return;
         }while(userChoice != completedAppointments.size());
         System.out.println("Returning to menu...");
     }
@@ -104,7 +108,7 @@ public class PharmacistView implements ViewInterface{
 		for(PrescribedMedication prescribedMedicine : chosenAppointment.getPrescribedMedications()) {
 			System.out.print(prescribedMedicine.getMedicationName());
 			System.out.print(" | Quantity: " + prescribedMedicine.getMedicineQuantity());
-			System.out.println(" | Status: " + prescribedMedicine.getStatus());
+			System.out.println(" | Status: " + prescribedMedicine.getMedicineStatus());
 		}
 		System.out.println("Appointment Type:" + chosenAppointment.getAppointmentType());
 		System.out.println("Consultion Note:" + chosenAppointment.getConsultationNotes());
@@ -116,8 +120,8 @@ public class PharmacistView implements ViewInterface{
 	 private void updatePrescriptionStatus() {
 		System.out.println("------ Update Prescription Status ------");
         System.out.print("Enter Appointment ID: ");
-        String appointmentId = inputScanner.next();
-        pharmacistControl.updatePrescriptionStatus(appointmentId);
+        String appointmentID = inputScanner.next();
+        pharmacistControl.updatePrescriptionStatus(appointmentID);
     }
 
 	private void submitReplenishment() {

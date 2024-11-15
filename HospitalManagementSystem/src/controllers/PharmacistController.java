@@ -52,10 +52,8 @@ public class PharmacistController {
 			String medicineName = medicationToDispense.getMedicationName();
 			int medicineQuantity = medicationToDispense.getMedicineQuantity();
 			medicineControl.dispenseMedicine(medicineName, medicineQuantity);
+			medicationToDispense.setMedicineStatus("Dispensed");
 		}
-		
-		//Set Appointment Status to Dispensed
-		appointmentControl.setStatus(appointment, Appointment.AppointmentStatus.COMPLETED);
 		
 		System.out.println("Medicine for " + appointmentID + " has been successfully dispensed.");
 		return;

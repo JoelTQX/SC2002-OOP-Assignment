@@ -137,7 +137,7 @@ public class PatientView implements ViewInterface{
 		System.out.print("Enter Doctor ID: ");
 		String doctorId = inputScanner.next();
 		//String datesAvailable = getAvailableSlots()
-		System.out.print("Enter Appointment Date (YYYY-MM-DD): ");
+		System.out.print("Enter Appointment Date (DD/MM/YYYY): ");
 		String date = inputScanner.next();
 		System.out.print("Enter Appointment Time (HH:MM): ");
 		String time = inputScanner.next();
@@ -156,7 +156,7 @@ public class PatientView implements ViewInterface{
 		System.out.println("------ Reschedule an Appointment ------");
 		System.out.print("Enter Appointment ID to reschedule: ");
 		String appointmentId = inputScanner.next();
-		System.out.print("Enter New Appointment Date (YYYY-MM-DD): ");
+		System.out.print("Enter New Appointment Date (DD/MM/YYYY): ");
 		String newDate = inputScanner.next();
 		System.out.print("Enter New Appointment Time (HH:MM): ");
 		String newTime = inputScanner.next();
@@ -215,7 +215,5 @@ private void viewAppointmentOutcomeRecord() {
 }
 
 
-
-	
 
 }

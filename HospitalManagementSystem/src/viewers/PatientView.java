@@ -79,6 +79,7 @@ public class PatientView implements ViewInterface{
 		System.out.println("Patient Gender: " + patientControl.getUserGender());
 		System.out.println("Patient Date Of Birth: " + patientControl.getUserDOB());
 		System.out.println("Patient Email: " + patientControl.getUserContactInfo());
+		System.out.println("Patient Email: " + patientControl.getUserContactNumber());
 		System.out.println("Patient Blood Type: " + patientControl.getUserBloodType());
 		System.out.println("Patient Diagnoses: " + patientControl.getUserDiagnoses());
 		System.out.println("Patient Treatment: " + patientControl.getUserTreatment());

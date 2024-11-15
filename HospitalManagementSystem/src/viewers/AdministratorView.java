@@ -87,6 +87,7 @@ public class AdministratorView implements ViewInterface{
         
         
         do{
+        	System.out.print("Enter Option: ");
         	try{
         		userChoice = inputScanner.nextInt();
         	}catch(Exception e) {
@@ -94,10 +95,13 @@ public class AdministratorView implements ViewInterface{
         		inputScanner.next(); //Clear Buffer;
         	}
         	if(userChoice > allAppointments.size()) {
+        		if(userChoice == allAppointments.size()+1) break;
         		System.out.println("Invalid Option... Please Try Again...");
+        		continue;
         	}
         	Appointment chosenAppointment = allAppointments.get(userChoice-1);
         	viewAppointmentDetails(chosenAppointment);
+        	
         }while(userChoice != allAppointments.size());
         System.out.println("Returning to menu...");
 		
@@ -211,13 +215,13 @@ public class AdministratorView implements ViewInterface{
 			switch(userChoice) {
 				case 1:
 					addStock();
-					break;
+					return;
 				case 2:
 					removeStock();
-					break;
+					return;
 				case 3:
 					updateLowStockAlert();
-					break;
+					return;
 				case 4:
 					return;
 				default:

@@ -11,7 +11,9 @@ import datastorage.Password;
 import datastorage.StaffRecords;
 import hospitalmanagementsystem.HospitalManagementSystem;
 import entities.Staff;
+import entities.Appointment.PrescribedMedication;
 import entities.Administrator;
+import entities.Appointment;
 import entities.Doctor;
 import entities.Pharmacist;
 import entities.Replenishment;
@@ -49,7 +51,7 @@ public class AdministratorView implements ViewInterface{
 				manageHospitalStaff();
 				break;
 			case 2:
-				//viewAppointmentDetails();
+				viewAppointmentDetails();
 				break;
 			case 3: 
 				inventoryManagement();
@@ -64,6 +66,58 @@ public class AdministratorView implements ViewInterface{
 			return false;
 		}
 		return true;
+	}
+
+	private void viewAppointmentDetails() {
+		// TODO Auto-generated method stub
+		List<Appointment> allAppointments = adminControl.getAppointmentRecords();
+        int displayCount = 1;
+        int userChoice = -1;
+    	
+        if (allAppointments.isEmpty()) {
+            System.out.println("No past appointments with recorded outcomes.");
+            return;
+        }
+        System.out.println("------ Past Appointment Outcome Records ------");
+        for (Appointment appointment : allAppointments) {
+            System.out.println(displayCount++ + ". " + appointment.getAppointmentID());
+        }
+        //Exit/Return after last available options
+        System.out.println(displayCount + ". Return to Menu");
+        
+        
+        do{
+        	try{
+        		userChoice = inputScanner.nextInt();
+        	}catch(Exception e) {
+        		System.out.println("Invalid Format... Please Input An Integer");
+        		inputScanner.next(); //Clear Buffer;
+        	}
+        	if(userChoice > allAppointments.size()) {
+        		System.out.println("Invalid Option... Please Try Again...");
+        	}
+        	Appointment chosenAppointment = allAppointments.get(userChoice-1);
+        	viewAppointmentDetails(chosenAppointment);
+        }while(userChoice != allAppointments.size());
+        System.out.println("Returning to menu...");
+		
+	}
+
+	private void viewAppointmentDetails(Appointment chosenAppointment) {
+		// TODO Auto-generated method stub
+		System.out.println("----- Appoint Details -----");
+		System.out.println("Appointment ID: " + chosenAppointment.getAppointmentID());
+		System.out.println("Date & Time : " + chosenAppointment.getAppointmentDate() + " " + chosenAppointment.getAppointmentTime());
+		System.out.println("Appointment Status: " + chosenAppointment.getStatus());
+		System.out.println("Doctor ID: " + chosenAppointment.getDoctorId());
+		System.out.println("Patient ID: " + chosenAppointment.getPatientId());
+		System.out.println("Prescripted Medicines:");
+		for(PrescribedMedication prescribedMedicine : chosenAppointment.getPrescribedMedications()) {
+			System.out.print(prescribedMedicine.getMedicationName());
+			System.out.print(" | Quantity: " + prescribedMedicine.getMedicineQuantity());
+			System.out.print(" | Status: " + prescribedMedicine.getStatus());
+		}
+		System.out.println("-------------------------");
 	}
 
 	private void approveReplenishmentRequests() {

@@ -7,6 +7,7 @@ import datareadwrite.StaffListWriter;
 import datastorage.DataStorage;
 import datastorage.Inventory;
 import datastorage.StaffRecords;
+import entities.Appointment;
 import entities.Replenishment;
 import entities.Staff;
 import entities.User;
@@ -103,6 +104,11 @@ public class AdministratorController implements ControllerInterface{
 	    }
 	    MedicineController medicineControl = new MedicineController(this.dataStorage.getInventory());
 	    medicineControl.removeStock(medicineName, quantity);
+	}
+
+	public List<Appointment> getAppointmentRecords() {
+		AppointmentController appointmentControl = new AppointmentController(this.dataStorage);
+		return appointmentControl.getAppointmentRecords();
 	}
 
 }

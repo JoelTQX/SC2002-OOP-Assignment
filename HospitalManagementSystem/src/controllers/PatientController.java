@@ -69,12 +69,13 @@ public class PatientController {
 
 // Schedule a new appointment with a doctor
 public String scheduleAppointment(String doctorId, String date, String time) {
-    // Check if the desired slot is available
-    List<String> availableSlots = appointmentRecords.getSlots(date);
-    if (!availableSlots.contains(time)) {
-        return null; // Return null if the time slot is already booked
-    }
+   // Get all slots for the specified date
+   List<String> bookedSlots = appointmentRecords.getSlots(date);
 
+   // Check if the desired time slot is already booked
+   if (bookedSlots.contains(time)) {
+       return null; // Deny scheduling
+   }
     // Generate a unique ID for the new appointment
     String appointmentId = appointmentController.generateAppointmentID();
     Appointment newAppointment = new Appointment(

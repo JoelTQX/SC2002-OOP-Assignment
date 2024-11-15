@@ -12,7 +12,7 @@ import entities.Medicine;
 import entities.Patient;
 
 public class PatientWriter implements DataWriter<Patient>{
-	private int noOfHeaders = 9; // Number of Headers in CSV
+	private int noOfHeaders = 11; // Number of Headers in CSV
 	private String csvFile = "dataFiles/Patient_List.csv"; //File Path
 	@Override
 	public void saveRecords(DataStorage dataStorage) {
@@ -22,13 +22,13 @@ public class PatientWriter implements DataWriter<Patient>{
 		//Create Header and add to rowsToWrite
 		String[] cellsToWrite = createHeader();
 		rowsToWrite.add(cellsToWrite);
-		System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | "+ cellsToWrite[3] + " | "+ cellsToWrite[4] + " | "+ cellsToWrite[5] + " | "+ cellsToWrite[6] + " | "+ cellsToWrite[7] + " | "+ cellsToWrite[8] + " | ");
+		System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | "+ cellsToWrite[3] + " | "+ cellsToWrite[4] + " | "+ cellsToWrite[5] + " | "+ cellsToWrite[6] + " | "+ cellsToWrite[7] + " | "+ cellsToWrite[8] + " | "+ cellsToWrite[9] + " | "+ cellsToWrite[10] + " | ");
 		
 		//
 		for(Patient patient : recordToSave) {
 			cellsToWrite = createCells(patient);
 			rowsToWrite.add(cellsToWrite);
-			System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | "+ cellsToWrite[3] + " | "+ cellsToWrite[4] + " | "+ cellsToWrite[5] + " | "+ cellsToWrite[6] + " | "+ cellsToWrite[7] + " | "+ cellsToWrite[8] + " | ");
+			System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | "+ cellsToWrite[3] + " | "+ cellsToWrite[4] + " | "+ cellsToWrite[5] + " | "+ cellsToWrite[6] + " | "+ cellsToWrite[7] + " | "+ cellsToWrite[8] + " | "+ cellsToWrite[9] + " | "+ cellsToWrite[10] + " | ");
 		}
 		
 		//Try to access the csvFile
@@ -58,6 +58,9 @@ public class PatientWriter implements DataWriter<Patient>{
 		headerCells[6] = "Blood Type";
 		headerCells[7] = "Contact Information";
 		headerCells[8] = "Contact Number";
+		headerCells[9] = "Diagnoses";
+		headerCells[10] = "Treatment";
+		
 		return headerCells;
 	}
 
@@ -73,6 +76,9 @@ public class PatientWriter implements DataWriter<Patient>{
 		patientCells[6] = patient.getPatientBloodType();
 		patientCells[7] = patient.getPatientContactInfo();
 		patientCells[8] = patient.getPatientContactNumber();
+		patientCells[9] = patient.getPatientdiagnoses();
+		patientCells[10] = patient.getPatienttreatment();
+		
 		return patientCells;
 	}
 

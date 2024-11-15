@@ -34,6 +34,7 @@ public class DoctorView implements ViewInterface{
         
 		try {
 			userChoice = inputScanner.nextInt();
+			inputScanner.nextLine(); // Clear the buffer
 		}catch(Exception e) {
         	System.out.println("Invalid Option... Please Try Again...\n");
         	inputScanner.next(); //Clear Scanner Buffer
@@ -88,7 +89,7 @@ public class DoctorView implements ViewInterface{
 		System.out.print("Enter Patient ID to update records: ");
 		String patientId = inputScanner.nextLine();
 		
-	
+		
 		System.out.print("Enter new diagnoses: ");
 		String newDiagnoses = inputScanner.nextLine();
 	

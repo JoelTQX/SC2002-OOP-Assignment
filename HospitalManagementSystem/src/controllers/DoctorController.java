@@ -109,10 +109,10 @@ public class DoctorController {
     public boolean updatePatientRecords(String patientId, String newDiagnoses, String prescriptions, String treatmentPlan) {
         Patient patient = dataStorage.getPatientRecords().getPatientByID(patientId);
         if (patient != null) {
-            patient.addDiagnosis(newDiagnoses);
-            patient.addPrescription(prescriptions);
-            patient.setTreatmentPlan(treatmentPlan);
-            dataStorage.updatePatientRecord(patient);
+            patient.addPatientdiagnoses(newDiagnoses);
+            //patient.addPrescription(prescriptions);
+            patient.addPatienttreatment(treatmentPlan);
+            //dataStorage.updatePatientRecord(patient);
             return true;
         }
         return false;

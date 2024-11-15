@@ -41,6 +41,14 @@ public class PatientController {
     public String getUserContactNumber() {
         return ((Patient) user).getPatientContactNumber();
     }
+    
+    public String getUserDiagnoses() {
+        return ((Patient) user).getPatientdiagnoses();
+    }
+    
+    public String getUserTreatment() {
+        return ((Patient) user).getPatienttreatment();
+    }
     public String getUserBloodType() {
         return ((Patient) user).getPatientBloodType();
     }

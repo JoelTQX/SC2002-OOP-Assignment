@@ -1,5 +1,0 @@
-Staff ID,Password,firstlogin,Name,Role,Gender,Age
-D001,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,false,John Smith,Doctor,Male,45
-D002,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,false,Emily Clarke,Doctor,Female,38
-P001,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,false,Mark Lee,Pharmacist,Female,40
-A001,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,false,Sarah Lee,Administrator,Female,40

@@ -99,13 +99,17 @@ public class PharmacistView implements ViewInterface{
 		System.out.println("Appointment ID: " + chosenAppointment.getAppointmentID());
 		System.out.println("Doctor ID: " + chosenAppointment.getDoctorId());
 		System.out.println("Patient ID: " + chosenAppointment.getPatientId());
+		System.out.println("Appointment Date:" + chosenAppointment.getAppointmentDate());
 		System.out.println("Prescripted Medicines:");
 		for(PrescribedMedication prescribedMedicine : chosenAppointment.getPrescribedMedications()) {
 			System.out.print(prescribedMedicine.getMedicationName());
 			System.out.print(" | Quantity: " + prescribedMedicine.getMedicineQuantity());
-			System.out.print(" | Status: " + prescribedMedicine.getStatus());
+			System.out.println(" | Status: " + prescribedMedicine.getStatus());
 		}
+		System.out.println("Appointment Type:" + chosenAppointment.getAppointmentType());
+		System.out.println("Consultion Note:" + chosenAppointment.getConsultationNotes());
 		System.out.println("-------------------------");
+		
 	}
 
 	// Option 2: Update the prescription status of a medicine in an appointment

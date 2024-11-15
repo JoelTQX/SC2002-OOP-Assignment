@@ -5,6 +5,8 @@ import datastorage.DataStorage;
 import entities.Appointment;
 import entities.Appointment.AppointmentStatus;
 import entities.Appointment.PrescribedMedication;
+import entities.Medicine;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,17 +168,37 @@ public class AppointmentController {
 
 
     public String displayDetails(Appointment appointment) {
+    	StringBuilder details = new StringBuilder();
+    	for(Appointment appointment1:appointmentRecords.getAppointmentRecords()) {
+    		 if (appointment1.getPatientId()==appointment.getPatientId()) {
+    	            details.append("Appointment ID: ").append(appointment.getAppointmentID())
+    	                   .append(", Date: ").append(getAppointmentDate(appointment))
+    	                   .append(", Time: ").append(getAppointmentTime(appointment))
+    	                   .append(", Status: ").append(getStatus(appointment))
+    	                   .append(", Prescribed Medicine: ").append(formatMedicineList(appointment.getPrescribedMedications()))
+    	                   .append(", Consultation Notes: ").append(appointment.getConsultationNotes());
 
-        return "Appointment ID: " + appointment.getAppointmentID() +
+    	        }
+    	    }
+    	    return details.toString();
+    	}
+    private String formatMedicineList(List<PrescribedMedication> medications) {
+        if (medications == null || medications.isEmpty()) {
+            return "None";
+        }
 
-               ", Date: " + getAppointmentDate(appointment) +
+        StringBuilder details = new StringBuilder();
+        for (PrescribedMedication meds : medications) {
+            if (details.length() > 0) {
+                details.append(", "); // Add a comma and space before appending the next item
+            }
+            details.append(meds.getMedicationName()); // Replace `toString` with a specific method like `getName()` if necessary
+            details.append(":");
+            details.append(meds.getMedicineQuantity());
+        }
 
-               ", Time: " + getAppointmentTime(appointment) +
-
-               ", Status: " + getStatus(appointment);
-
+        return details.toString();
     }
-
 
 
 

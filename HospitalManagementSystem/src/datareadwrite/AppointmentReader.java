@@ -35,13 +35,12 @@ public class AppointmentReader implements DataReader{
 	                String prescribedMedications = cells[7];
 	                String consultationNotes = cells[8];
 	                
-	                List<PrescribedMedication> medications = parseMedications(prescribedMedications);
-	                
-	                
+	                List<PrescribedMedication> medications = parseMedications(prescribedMedications);               
 	               
 	                Appointment appointment=new Appointment(appointmentID,patientId,doctorId,appointmentStatus,appointmentDate,appointmentTime,appointmentType,medications,consultationNotes);
 	                dataStorage.getAppointmentRecords().addAppointment(appointment);
 	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]+ ", " + cells[3]+ ", " + cells[4]+ ", " + cells[5]+ ", " + cells[6]+ ", " + cells[7]+ ", " + cells[8]);
+	                
 	                }
 			 		
 	                
@@ -53,27 +52,30 @@ public class AppointmentReader implements DataReader{
 
 
 
-		 private List<PrescribedMedication> parseMedications(String prescribedMedications) {
-		        List<PrescribedMedication> medications = new ArrayList<>();
-		        
-		        // Split the input string by newline to get individual medications
-		        String[] medicationEntries = prescribedMedications.split("||");
+	private List<PrescribedMedication> parseMedications(String prescribedMedications) {
+	    List<PrescribedMedication> medications = new ArrayList<>();
+	    
+	    // Split the input string by "||" to get individual medications
+	    String[] medicationEntries = prescribedMedications.split("\\|\\|");
 
-		        for (String entry : medicationEntries) {
-		            // Split each entry to get the medication name and quantity
-		            String[] parts = entry.split("-quantity:");
-		            if (parts.length == 2) {
-		                String name = parts[0].trim();
-		                int quantity = Integer.parseInt(parts[1].trim());
-		                
-		                // Create a new PrescribedMedication object and add to the list
-		                PrescribedMedication medication = new PrescribedMedication(name, quantity);
-		                medications.add(medication);
-		            }
-		        }
+	    for (String entry : medicationEntries) {
+	        // Split each entry by "-quantity:" to separate medication name and quantity
+	        String[] parts = entry.split(" - Quantity: ");
+	        if (parts.length == 2) {
+	            String name = parts[0].trim();
+	            int quantity = Integer.parseInt(parts[1].trim());
+	            
+	            // Create a new PrescribedMedication object and add it to the list
+	            PrescribedMedication medication = new PrescribedMedication(name, quantity);
+	            medications.add(medication);
+	        } else {
+	            System.out.println("Skipping invalid medication entry: " + entry);
+	        }
+	    }
 
-		        return medications;
-		    }
+	    return medications;
+	}
+
 }
 
 

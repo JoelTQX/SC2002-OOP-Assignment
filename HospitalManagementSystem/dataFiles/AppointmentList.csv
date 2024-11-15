@@ -1,3 +1,4 @@
 Appointment ID,Patient ID,Doctor ID,Appointment Status,Appointment Date,Appointment Time,Appointment Type,Prescribed Medications,Consultation Notes
-AP0001,NULL,NULL,AVAILABLE,11/13/2024,13:00,NULL,,NULL
-AP0002,NULL,NULL,AVAILABLE,11/13/2024,13:00,NULL,,NULL
+AP0001,NULL,D001,AVAILABLE,11/13/2024,13:00,NULL,,NULL
+A64A30,P1001,D001,COMPLETED,13/11/2024,13:00,Consultation,Paracetamol - Quantity: 10||Amoxicillin - Quantity: 10||,cock small
+A64A31,P1001,D001,COMPLETED,13/11/2024,13:00,Consultation,Paracetamol - Quantity: 10||,no cock

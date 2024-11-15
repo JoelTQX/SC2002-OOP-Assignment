@@ -108,7 +108,7 @@ public class PharmacistView implements ViewInterface{
 		for(PrescribedMedication prescribedMedicine : chosenAppointment.getPrescribedMedications()) {
 			System.out.print(prescribedMedicine.getMedicationName());
 			System.out.print(" | Quantity: " + prescribedMedicine.getMedicineQuantity());
-			System.out.println(" | Status: " + prescribedMedicine.getStatus());
+			System.out.println(" | Status: " + prescribedMedicine.getMedicineStatus());
 		}
 		System.out.println("Appointment Type:" + chosenAppointment.getAppointmentType());
 		System.out.println("Consultion Note:" + chosenAppointment.getConsultationNotes());

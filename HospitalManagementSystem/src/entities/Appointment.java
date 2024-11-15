@@ -181,7 +181,7 @@ public class Appointment {
             return medicationName;
         }
 
-        public String getStatus() {
+        public String getMedicineStatus() {
             return status;
         }
         
@@ -189,7 +189,7 @@ public class Appointment {
         	return this.medicineQuantity;
         }
 
-        public void setStatus(String status) {
+        public void setMedicineStatus(String status) {
             this.status = status;
         }
 

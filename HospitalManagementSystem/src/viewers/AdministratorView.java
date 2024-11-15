@@ -119,7 +119,7 @@ public class AdministratorView implements ViewInterface{
 		for(PrescribedMedication prescribedMedicine : chosenAppointment.getPrescribedMedications()) {
 			System.out.print(prescribedMedicine.getMedicationName());
 			System.out.print(" | Quantity: " + prescribedMedicine.getMedicineQuantity());
-			System.out.print(" | Status: " + prescribedMedicine.getStatus());
+			System.out.print(" | Status: " + prescribedMedicine.getMedicineStatus());
 		}
 		System.out.println("-------------------------");
 	}

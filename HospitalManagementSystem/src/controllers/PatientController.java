@@ -37,6 +37,10 @@ public class PatientController {
     public String getUserContactInfo() {
         return ((Patient) user).getPatientContactInfo();
     }
+    
+    public String getUserContactNumber() {
+        return ((Patient) user).getPatientContactNumber();
+    }
     public String getUserBloodType() {
         return ((Patient) user).getPatientBloodType();
     }
@@ -44,6 +48,10 @@ public class PatientController {
     // Update Patient Contact Information
     public void setPatientContactInfo(String contactInfo) {
         ((Patient) user).setPatientContactInfo(contactInfo);
+    }
+    
+    public void setPatientContactNumber(String contactNumber) {
+        ((Patient) user).setPatientContactNumber(contactNumber);
     }
 
     // Get available slots for a specific date from AppointmentRecords

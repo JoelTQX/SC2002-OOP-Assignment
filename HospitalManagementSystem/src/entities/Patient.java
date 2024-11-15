@@ -4,15 +4,17 @@ public class Patient extends User{
 	private String dob;
 	private String bloodType;
 	private String contactInfo;
+	private String phoneNumber;
 	
 	
 	
 	
-	public Patient(String userID, String userName,String userPass, boolean firstLogin,String dob,String bloodType,String contactInfo, String gender) {
+	public Patient(String userID, String userName,String userPass, boolean firstLogin,String dob,String bloodType,String contactInfo, String gender, String phoneNumber) {
 		super(userID,userName, userPass, firstLogin,gender);
 		this.dob=dob;
 		this.bloodType=bloodType;
 		this.contactInfo=contactInfo;
+		this.phoneNumber=phoneNumber;
 	}
 	
 	public String getPatientDOB() {
@@ -22,6 +24,9 @@ public class Patient extends User{
 	public String getPatientContactInfo() {
 		return this.contactInfo;
 	}
+	public String getPatientContactNumber() {
+		return this.phoneNumber;
+	}
 
 	public String getPatientBloodType() {
 		// TODO Auto-generated method stub
@@ -30,5 +35,9 @@ public class Patient extends User{
 	
 	public void setPatientContactInfo(String email) {
 		this.contactInfo=(email);
+	}
+	
+	public void setPatientContactNumber(String phoneNumber ) {
+		this.phoneNumber=(phoneNumber);
 	}
 }

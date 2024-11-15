@@ -27,10 +27,11 @@ public class PatientListReader implements DataReader {
 	                String gender=cells[5];
 	                String bloodtype=cells[6];
 	                String contactinfo=cells[7];
+	                String contactnumber=cells[8];
 	                boolean firstlogin=Boolean.parseBoolean(cells[2]);
 	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]);
 	                
-	                Patient patient = new Patient(patientid,name,password, firstlogin,dob,bloodtype,contactinfo,gender);
+	                Patient patient = new Patient(patientid,name,password, firstlogin,dob,bloodtype,contactinfo,gender,contactnumber);
 	                dataStorage.getPatientRecords().addPatient(patient);
 			 }
 		 }catch (Exception e) {

@@ -104,6 +104,9 @@ public class PatientView implements ViewInterface{
 				break;
 			case 2:
 				System.out.println("Enter New Contact Information");
+				Scanner input1=new Scanner(System.in);
+				String newnumber = input1.nextLine();
+				patientControl.setPatientContactNumber(newnumber);
 				break;
 		}
 		

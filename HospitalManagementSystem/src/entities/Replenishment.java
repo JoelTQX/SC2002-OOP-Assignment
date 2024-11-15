@@ -52,8 +52,9 @@ public class Replenishment {
 		return this.replenishAmount;
 	}
 
-	public int getStatus() {
+	public String getStatus() {
 		// TODO Auto-generated method stub
-		return this.status.ordinal();
+		//return this.status.ordinal();
+		return this.status.toString();
 	}
 }

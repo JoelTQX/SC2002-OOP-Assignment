@@ -5,7 +5,9 @@ import java.util.Scanner;
 
 import controllers.PharmacistController;
 import entities.Appointment;
+import entities.Appointment.PrescribedMedication;
 import entities.Medicine;
+import entities.PrescribedMedicine;
 
 public class PharmacistView implements ViewInterface{
 	private PharmacistController pharmacistControl;
@@ -59,32 +61,59 @@ public class PharmacistView implements ViewInterface{
 
 	  // Option 1: View past appointments with recorded outcomes
     private void viewAppointmentOutcomeRecord() {
-        System.out.println("------ Past Appointment Outcome Records ------");
-        List<Appointment> completedAppointments = pharmacistControl.getCompletedAppointments();
-
+    	List<Appointment> completedAppointments = pharmacistControl.getCompletedAppointments();
+        int displayCount = 1;
+        int userChoice = -1;
+    	
         if (completedAppointments.isEmpty()) {
             System.out.println("No past appointments with recorded outcomes.");
-        } else {
-            for (Appointment appointment : completedAppointments) {
-                System.out.println(pharmacistControl.displayDetails(appointment));
-            }
+            return;
         }
+        System.out.println("------ Past Appointment Outcome Records ------");
+        for (Appointment appointment : completedAppointments) {
+            System.out.println(displayCount++ + ". " + appointment.getAppointmentID());
+        }
+        //Exit/Return after last available options
+        System.out.println(displayCount + ". Return to Menu");
+        
+        
+        do{
+        	try{
+        		userChoice = inputScanner.nextInt();
+        	}catch(Exception e) {
+        		System.out.println("Invalid Format... Please Input An Integer");
+        		inputScanner.next(); //Clear Buffer;
+        	}
+        	if(userChoice > completedAppointments.size()) {
+        		System.out.println("Invalid Option... Please Try Again...");
+        	}
+        	Appointment chosenAppointment = completedAppointments.get(userChoice-1);
+        	viewAppointmentDetails(chosenAppointment);
+        }while(userChoice != completedAppointments.size());
+        System.out.println("Returning to menu...");
     }
 
-	 // Option 2: Update the prescription status of a medicine in an appointment
+	 private void viewAppointmentDetails(Appointment chosenAppointment) {
+		// TODO Auto-generated method stub
+		System.out.println("----- Appoint Details -----");
+		System.out.println("Appointment ID: " + chosenAppointment.getAppointmentID());
+		System.out.println("Doctor ID: " + chosenAppointment.getDoctorId());
+		System.out.println("Patient ID: " + chosenAppointment.getPatientId());
+		System.out.println("Prescripted Medicines:");
+		for(PrescribedMedication prescribedMedicine : chosenAppointment.getPrescribedMedications()) {
+			System.out.print(prescribedMedicine.getMedicationName());
+			System.out.print(" | Quantity: " + prescribedMedicine.getMedicineQuantity());
+			System.out.print(" | Status: " + prescribedMedicine.getStatus());
+		}
+		System.out.println("-------------------------");
+	}
+
+	// Option 2: Update the prescription status of a medicine in an appointment
 	 private void updatePrescriptionStatus() {
 		System.out.println("------ Update Prescription Status ------");
         System.out.print("Enter Appointment ID: ");
         String appointmentId = inputScanner.next();
         pharmacistControl.updatePrescriptionStatus(appointmentId);
-		/*
-        System.out.println("------ Update Prescription Status ------");
-        System.out.print("Enter Appointment ID: ");
-        String appointmentId = inputScanner.next();
-        System.out.print("Enter Medicine Name: ");
-        String medicineName = inputScanner.next();
-        pharmacistControl.updatePrescriptionStatus(appointmentId, medicineName);
-        */
     }
 
 	private void submitReplenishment() {

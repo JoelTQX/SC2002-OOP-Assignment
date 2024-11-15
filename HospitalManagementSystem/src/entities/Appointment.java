@@ -173,8 +173,8 @@ public class Appointment {
 
         public PrescribedMedication(String medicationName, int medicineQuantity) {
             this.medicationName = medicationName;
-        this.medicineQuantity = medicineQuantity;
-            this.status = "Pending"; // Default status
+            this.medicineQuantity = medicineQuantity;
+        	this.status = "Pending"; // Default status
         }
 
         public String getMedicationName() {

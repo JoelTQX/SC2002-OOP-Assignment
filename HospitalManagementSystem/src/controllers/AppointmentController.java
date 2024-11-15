@@ -201,12 +201,7 @@ public class AppointmentController {
     //Access Appointment Records to Retrieve desired Appointment
 	public Appointment getAppointmentByID(String appointmentID) {
 		// TODO Auto-generated method stub
-		Appointment appointment = this.appointmentRecords.getAppointmentByID(appointmentID);
-		if(appointment == null) {
-			System.out.println("Appointment not found... Please Try Again...");
-			return null;
-		}
-		return appointment;	
+		return this.appointmentRecords.getAppointmentByID(appointmentID);
 	}
 	public List<Appointment> getAppointmentRecords() {
 		// TODO Auto-generated method stub

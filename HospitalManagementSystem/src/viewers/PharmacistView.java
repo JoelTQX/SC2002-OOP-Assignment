@@ -123,7 +123,13 @@ public class PharmacistView implements ViewInterface{
         String appointmentID = inputScanner.next();
         pharmacistControl.updatePrescriptionStatus(appointmentID);
     }
-
+	
+	 // Option 3: View Medicine Inventory
+	private void viewMedicationInventory() {
+		pharmacistControl.getInventory().viewInventory();
+	}
+	 
+	// Option 4: Submit Replenishment Request 
 	private void submitReplenishment() {
 		// TODO Auto-generated method stub
 		List<Medicine> medicineRecords = pharmacistControl.getInventory().getMedicineRecords();
@@ -174,9 +180,5 @@ public class PharmacistView implements ViewInterface{
 		if(medicineQuantity <= 0) return;
 		pharmacistControl.createReplenishmentRequest(medicineChoice-1, medicineQuantity);
 		System.out.println("Replenishment Request Submitted... Returning to menu...");
-	}
-	
-	private void viewMedicationInventory() {
-		pharmacistControl.getInventory().viewInventory();
 	}
 }

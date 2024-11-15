@@ -107,7 +107,7 @@ public class DoctorView implements ViewInterface{
     // shows the doctor ALL SCHDULED APPOINTMENTS WITH THEIR ID 
 	private void viewPersonalSchedule() {
 		System.out.println("------ Doctor's Personal Schedule ------"); 
-		if(doctorControl.getAppointmentRequests().isEmpty()) {
+		if(doctorControl.getUpcomingAppointments().isEmpty()) {
 			System.out.println("No Upcoming Schedule");
 		}
 		for(Appointment appointment : doctorControl.getUpcomingAppointments()) {

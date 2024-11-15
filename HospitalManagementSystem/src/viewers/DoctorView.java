@@ -120,7 +120,7 @@ public class DoctorView implements ViewInterface{
     // EACH DAY IS 9-5 WHICH IS 9 SLOTS 
     private void setAvailability() {
         System.out.println("------ Set Availability for Appointments ------");
-        System.out.println("Enter date for availability (YYYY-MM-DD): ");
+        System.out.println("Enter date for availability (DD/MM/YYYY): ");
         inputScanner.nextLine(); // Consume newline
         String date = inputScanner.nextLine();
         
@@ -193,7 +193,7 @@ public class DoctorView implements ViewInterface{
         System.out.println("------ Record Appointment Outcome ------");
         System.out.print("Enter Appointment ID: ");
         String appointmentId = inputScanner.next();
-        System.out.print("Enter Date of Appointment (YYYY-MM-DD): ");
+        System.out.print("Enter Date of Appointment (DD/MM/YYYY): ");
         String date = inputScanner.next();
         System.out.print("Enter Type of Service (e.g., Consultation, X-ray): ");
         String serviceType = inputScanner.next();

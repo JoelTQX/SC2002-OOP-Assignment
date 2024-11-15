@@ -196,15 +196,14 @@ public class AdministratorView implements ViewInterface{
 	
 	private void manageInventory() {
 		// TODO Auto-generated method stub
-		
-		System.out.println("1. Adding stock levels");
-		System.out.println("2. Removing stock levels");
-		System.out.println("3. Updating Low stock alert");
-		System.out.println("4. Return To Inventory Management");
-		System.out.print("Enter Option: ");
 		int userChoice;
 		do{ 
-		//Error Handling
+			System.out.println("1. Adding stock levels");
+			System.out.println("2. Removing stock levels");
+			System.out.println("3. Updating Low stock alert");
+			System.out.println("4. Return To Inventory Management");
+			System.out.print("Enter Option: ");
+			//Error Handling
 			try {
 				userChoice = inputScanner.nextInt();
 			}catch(Exception e) {

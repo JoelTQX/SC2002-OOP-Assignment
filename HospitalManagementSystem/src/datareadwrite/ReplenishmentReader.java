@@ -25,7 +25,7 @@ public class ReplenishmentReader implements DataReader{
 			        
 			String medicineName = cells[0];
 			int replenishQuantity = Integer.parseInt(cells[1]);
-			Replenishment.Status status = Status.values()[Integer.parseInt(cells[2])];
+			Replenishment.Status status = Replenishment.Status.valueOf(cells[2]);
 			System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]);
             
             Replenishment replenishment = new Replenishment(medicineName, replenishQuantity, status);

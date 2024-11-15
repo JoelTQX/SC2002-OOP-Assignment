@@ -68,7 +68,7 @@ public class AdministratorController implements ControllerInterface{
 		// TODO Auto-generated method stub
 		List<Replenishment> pendingRequests = new ArrayList<Replenishment>();
 		for(Replenishment replenishment : dataStorage.getReplenishmentRecords().getReplenishmentRecords()) {
-			if(replenishment.getStatus() == 0) pendingRequests.add(replenishment);
+			if(replenishment.getStatus().equals("PENDING")) pendingRequests.add(replenishment);
 		}
 		return pendingRequests;
 	}

@@ -1,15 +1,11 @@
 package viewers;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Scanner;
 
 import controllers.AdministratorController;
-import datareadwrite.StaffListWriter;
-import datastorage.DataStorage;
 import datastorage.Password;
 import datastorage.StaffRecords;
-import hospitalmanagementsystem.HospitalManagementSystem;
 import entities.Staff;
 import entities.Appointment.PrescribedMedication;
 import entities.Administrator;

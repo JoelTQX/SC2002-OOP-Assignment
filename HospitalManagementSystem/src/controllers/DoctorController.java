@@ -26,8 +26,20 @@ public class DoctorController {
 
     /// PATIENT RECORDS METHODS /////////////////////////////////////////////////////////////////////>>>>>>> branch 'main' of https://github.com/JoelTQX/SC2002-OOP-Assignment.git
     public PatientRecords getPatientsRecords() {
-    	PatientRecords allPatientRecords = dataStorage.getPatientRecords();
-        return dataStorage.getPatientRecords();
+    	
+    	PatientRecords doctorPatients = new PatientRecords();
+    	PatientRecords allPatients = dataStorage.getPatientRecords();
+    	for(Appointment appointment : dataStorage.getAppointmentRecords().getAppointmentRecords()) {
+    		if(appointment.getDoctorId().equals(user.getUserID())) {
+    			Patient patient = allPatients.getPatientByID(appointment.getPatientId());
+    			//Check if Patient Exist
+    			if(patient == null) continue;
+    			//Check if Patient already added into doctorPatients
+    			if(doctorPatients.getPatientByID(patient.getUserID()) != null) continue;
+    			doctorPatients.addPatient(allPatients.getPatientByID(appointment.getPatientId()));
+    		}
+    	}
+        return doctorPatients;
     }
 
     // Updates the patient's records with new diagnoses, prescriptions, and treatment plans

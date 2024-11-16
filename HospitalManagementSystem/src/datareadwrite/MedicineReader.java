@@ -2,10 +2,8 @@ package datareadwrite;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import entities.Medicine;
 import datastorage.DataStorage;
-import datastorage.Inventory;
 
 public class MedicineReader implements DataReader {
 	
@@ -14,6 +12,7 @@ public class MedicineReader implements DataReader {
 	
 	public void populateData(DataStorage dataStorage) {
 		 try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
+			 // Read Line to Skip Header
 			 String header = reader.readLine();
 			 while ((line = reader.readLine()) != null) {
 	                String[] cells = line.split(",");

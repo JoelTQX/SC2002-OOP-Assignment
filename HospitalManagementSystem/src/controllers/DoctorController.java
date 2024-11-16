@@ -23,9 +23,10 @@ public class DoctorController {
         this.appointmentController = new AppointmentController(dataStorage); // Instantiating AppointmentController
         this.appointmentRecords = dataStorage.getAppointmentRecords(); // Retrieve AppointmentRecords from dataStorage
     }
-
-    // Fetches patient records from data storage
+    
+    // Fetches patient records who are under him from data storage
     public PatientRecords getPatientsRecords() {
+    	PatientRecords allPatientRecords = dataStorage.getPatientRecords();
         return dataStorage.getPatientRecords();
     }
 

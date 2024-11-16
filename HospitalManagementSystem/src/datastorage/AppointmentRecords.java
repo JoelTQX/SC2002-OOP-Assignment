@@ -135,7 +135,7 @@ public class AppointmentRecords {
     public List<Appointment> getPatientAppointments(String userId, AppointmentStatus status) {
         List<Appointment> pendingAppointments = new ArrayList<>();
         for (Appointment appointment : AppointmentRecords) {
-            if (appointment.getPatientId().equals(userId) && appointment.getStatus() == status) {
+            if (appointment.getPatientId() != null && appointment.getPatientId().equals(userId) && appointment.getStatus() == status) {
                 pendingAppointments.add(appointment);
             }
         }

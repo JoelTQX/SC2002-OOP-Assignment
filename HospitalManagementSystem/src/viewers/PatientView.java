@@ -120,14 +120,15 @@ public class PatientView implements ViewInterface{
 	private void viewAvailableSlots() 
 	{
 		System.out.println("------ Available Appointment Slots ------");
-		System.out.println("Input Appointment Date (DD/MM/YYYY): ");
-		String date = inputScanner.next();
-		List<String> availableSlots = patientControl.getAvailableSlots(date);
+		List<Appointment> availableSlots = patientControl.getAvailableSlots();
 		if (availableSlots.isEmpty()) {
 			System.out.println("No available slots at the moment.");
 		} else {
-			for (String slot : availableSlots) {
-				System.out.println("Slot: " + slot);
+			for (Appointment appointment : availableSlots) {
+				System.out.println("Appointment ID: " + appointment.getAppointmentID() +
+							   ", Date: " + appointment.getAppointmentDate() +
+							   ", Time: " + appointment.getAppointmentTime() +
+							   ", Status: " + appointment.getStatus() );
 			}
 		}
 	}

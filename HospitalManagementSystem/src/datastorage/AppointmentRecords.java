@@ -168,6 +168,21 @@ public List<Appointment> findAppointmentsByPatientId(String patientId) {
 	 // Method to get available appointment slots for a specific day WHERE SLOTS ARE SET TO AVAIL 
     // used by the paitent TO SEE THE DOC SLOTS
     // contingent on the doctor already having indicated AVAIL
+    public List<Appointment> getALLSlots() {
+        List<Appointment> availableSlots = new ArrayList<>();
+    
+        // Filter out slots that are already booked for the specified date
+        for (Appointment appointment : AppointmentRecords) {
+            if (appointment.getStatus() == Appointment.AppointmentStatus.AVAILABLE) {
+                availableSlots.add(appointment); // Remove only the time part
+            }
+        }
+    
+        return availableSlots;  // return the slots as appointment objects
+    }
+
+
+
 public List<String> getSlots(String date) {
     List<String> availableSlots = new ArrayList<>();
 
@@ -181,6 +196,10 @@ public List<String> getSlots(String date) {
 
     return availableSlots;
 }
+
+
+
+
 
 
 	 // Method to retrieve scheduled appointments for a patient

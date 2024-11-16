@@ -63,8 +63,8 @@ public class PatientController {
     }
 
     // Get available slots for a specific date from AppointmentRecords
-    public List<String> getAvailableSlots(String date) {
-        return appointmentRecords.getSlots(date);
+    public List<Appointment> getAvailableSlots() {
+        return appointmentRecords.getALLSlots();
     }
 
 // Schedule a new appointment with a doctor

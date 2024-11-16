@@ -12,7 +12,7 @@ import entities.Staff;
 import entities.User;
 
 
-public class AdministratorController implements ControllerInterface{
+public class AdministratorController {
 	private Staff staffUser;
 	private DataStorage dataStorage;
 	private StaffController staffControl;

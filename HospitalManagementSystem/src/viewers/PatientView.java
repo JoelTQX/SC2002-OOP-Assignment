@@ -126,6 +126,7 @@ public class PatientView implements ViewInterface{
 		} else {
 			for (Appointment appointment : availableSlots) {
 				System.out.println("Appointment ID: " + appointment.getAppointmentID() +
+							   ", Doctor ID: " + appointment.getDoctorId() +
 							   ", Date: " + appointment.getAppointmentDate() +
 							   ", Time: " + appointment.getAppointmentTime() +
 							   ", Status: " + appointment.getStatus() );

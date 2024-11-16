@@ -8,15 +8,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * The `DoctorView` class represents the interface for doctors to interact with the hospital management system.
+ * It provides functionality for viewing and updating patient records, managing personal schedules, 
+ * setting availability, handling appointment requests, and recording appointment outcomes.
+ */
 public class DoctorView implements ViewInterface {
     private DoctorController doctorControl;
     private Scanner inputScanner;
 
+    /**
+     * Constructs a `DoctorView` object.
+     *
+     * @param doctorControl the controller handling doctor-related operations
+     * @param inputScanner  the `code Scanner` instance for user input
+     */
     public DoctorView(DoctorController doctorControl, Scanner inputScanner) {
         this.doctorControl = doctorControl;
         this.inputScanner = inputScanner;
     }
 
+    /**
+     * Displays the main menu for the doctor and processes user inputs to navigate through options.
+     *
+     * @return `true` to continue displaying the menu, `false` to logout
+     */
     @Override
     public boolean displayMenu() {
         System.out.println("Doctor Menu:");
@@ -70,8 +86,9 @@ public class DoctorView implements ViewInterface {
         return true;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /// PATIENT RECORDS METHODS /////////////////////////////////////////////////////////////////////
+    /**
+     * Displays the medical records of all patients accessible to the doctor.
+     */
 
     // OPTION 1: View Patient Medical Records
     private void viewPatientRecords() {
@@ -87,6 +104,10 @@ public class DoctorView implements ViewInterface {
         }
     }
 
+    /**
+     * Updates the medical records of a specific patient.
+     */
+    
     // OPTION 2: Update Patient Medical Records
     private void updatePatientRecords() {
         System.out.println("------ Update Patient Medical Records ------");
@@ -106,8 +127,9 @@ public class DoctorView implements ViewInterface {
         System.out.println(success ? "Patient records updated successfully." : "Failed to update patient records. Please check the Patient ID.");
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /// PERSONAL SCHEDULE METHODS ///////////////////////////////////////////////////////////////////
+    /**
+     * Displays the doctor's personal schedule, listing upcoming appointments.
+     */
 
     // OPTION 3: View Personal Schedule
     private void viewPersonalSchedule() {
@@ -126,6 +148,10 @@ public class DoctorView implements ViewInterface {
         }
     }
 
+    /**
+     * Allows the doctor to set their availability for appointments on a specific date.
+     */
+    
     // OPTION 4: Set Availability for Appointments
     private void setAvailability() {
         System.out.println("------ Set Availability for Appointments ------");
@@ -150,8 +176,9 @@ public class DoctorView implements ViewInterface {
         }
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /// APPOINTMENT MANAGEMENT METHODS //////////////////////////////////////////////////////////////
+    /**
+     * Allows the doctor to accept or decline appointment requests.
+     */
 
     // OPTION 5: Accept or Decline Appointment Requests
     private void acceptOrDeclineAppointment() {
@@ -178,6 +205,10 @@ public class DoctorView implements ViewInterface {
         }
     }
 
+    /**
+     * Displays a list of the doctor's upcoming appointments.
+     */
+    
     // OPTION 6: View Upcoming Appointments
     private void viewUpcomingAppointments() {
         System.out.println("------ Upcoming Appointments ------");
@@ -195,6 +226,10 @@ public class DoctorView implements ViewInterface {
         }
     }
 
+    /**
+     * Records the outcome of a completed appointment.
+     */
+    
     // OPTION 7: Record Appointment Outcome
     private void recordAppointmentOutcome() {
         System.out.println("------ Record Appointment Outcome ------");

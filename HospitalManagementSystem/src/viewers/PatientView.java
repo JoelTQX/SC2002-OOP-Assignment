@@ -1,3 +1,8 @@
+/**
+ * The PatientView class provides the user interface for patient-related functionalities.
+ * It allows patients to view and manage their personal information, appointments,
+ * and medical records through various menu options.
+ */
 package viewers;
 
 import controllers.PatientController;
@@ -5,16 +10,30 @@ import entities.Appointment;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class implements the ViewInterface to display the patient menu and manage
+ * user interactions for patient-related features.
+ */
 public class PatientView implements ViewInterface {
     private PatientController patientControl;
     private Scanner inputScanner;
 
+    /**
+     * Constructs a PatientView object.
+     *
+     * @param patientControl the controller for managing patient operations.
+     * @param inputScanner the scanner for reading user input.
+     */
     public PatientView(PatientController patientControl, Scanner inputScanner) {
         this.patientControl = patientControl;
         this.inputScanner = inputScanner;
     }
 
-    // Display the patient menu
+    /**
+     * Displays the main menu for the patient and processes user input.
+     *
+     * @return true to continue displaying the menu, false to log out.
+     */
     public boolean displayMenu() {
         System.out.println("------ Patient Menu ------");
         System.out.println("1. View Medical Record");
@@ -29,7 +48,6 @@ public class PatientView implements ViewInterface {
         System.out.println("What Do You Want To Do?: ");
 
         int userChoice;
-        // Error Handling
         try {
             userChoice = inputScanner.nextInt();
         } catch (Exception e) {
@@ -72,10 +90,9 @@ public class PatientView implements ViewInterface {
         return true;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /// PATIENT INFORMATION METHODS /////////////////////////////////////////////////////////////////
-
-    // OPTION 1: View Medical Record
+    /**
+     * Displays the medical record of the logged-in patient.
+     */
     private void viewMedicalRecord() {
         System.out.println("Patient ID: " + patientControl.getUserID());
         System.out.println("Patient Name: " + patientControl.getUserName());
@@ -88,7 +105,9 @@ public class PatientView implements ViewInterface {
         System.out.println("Patient Treatment: " + patientControl.getUserTreatment());
     }
 
-    // OPTION 2: Update Personal Information
+    /**
+     * Updates the personal information of the patient.
+     */
     private void updatePersonalInformation() {
         System.out.println("------ Update Personal Information ------");
         System.out.println("1. Email Address");
@@ -125,10 +144,9 @@ public class PatientView implements ViewInterface {
         }
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /// APPOINTMENT MANAGEMENT METHODS //////////////////////////////////////////////////////////////
-
-    // OPTION 3: View Available Appointment Slots
+    /**
+     * Displays the available appointment slots for scheduling.
+     */
     private void viewAvailableSlots() {
         System.out.println("------ Available Appointment Slots ------");
         List<Appointment> availableSlots = patientControl.getAvailableSlots();
@@ -145,7 +163,9 @@ public class PatientView implements ViewInterface {
         }
     }
 
-    // OPTION 4: Schedule an Appointment
+    /**
+     * Allows the patient to schedule a new appointment by providing details.
+     */
     private void scheduleAppointment() {
         System.out.println("------ Schedule an Appointment ------");
         System.out.print("Enter Doctor ID: ");
@@ -164,7 +184,9 @@ public class PatientView implements ViewInterface {
         }
     }
 
-    // OPTION 5: Reschedule an Appointment
+    /**
+     * Allows the patient to reschedule an existing appointment.
+     */
     private void rescheduleAppointment() {
         System.out.println("------ Reschedule an Appointment ------");
         System.out.print("Enter Appointment ID to reschedule: ");
@@ -184,7 +206,9 @@ public class PatientView implements ViewInterface {
         }
     }
 
-    // OPTION 6: Cancel an Appointment
+    /**
+     * Allows the patient to cancel an existing appointment.
+     */
     private void cancelAppointment() {
         System.out.println("------ Cancel an Appointment ------");
         System.out.print("Enter Appointment ID to cancel: ");
@@ -199,7 +223,9 @@ public class PatientView implements ViewInterface {
         }
     }
 
-    // OPTION 7: View Scheduled Appointments
+    /**
+     * Displays all scheduled appointments for the patient.
+     */
     private void viewScheduledAppointments() {
         System.out.println("------ Scheduled Appointments ------");
         List<Appointment> appointments = patientControl.getScheduledAppointments();
@@ -217,7 +243,9 @@ public class PatientView implements ViewInterface {
         }
     }
 
-    // OPTION 8: View Past Appointment Outcome Records
+    /**
+     * Displays past appointment outcomes for the patient.
+     */
     private void viewAppointmentOutcomeRecord() {
         System.out.println("------ Past Appointment Outcome Records ------");
         List<Appointment> completedAppointments = patientControl.getCompletedAppointments();

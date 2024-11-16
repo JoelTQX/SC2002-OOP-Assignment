@@ -14,15 +14,38 @@ import entities.Doctor;
 import entities.Pharmacist;
 import entities.Replenishment;
 
+/**
+ * The AdministratorView class provides the user interface for the administrator
+ * to interact with the hospital management system. It allows administrators to 
+ * manage hospital staff, view appointments, manage medication inventory, and approve 
+ * replenishment requests.
+ * Implements the `ViewInterface`.
+ */
+
 public class AdministratorView implements ViewInterface{
+	/** The administrator controller used to manage hospital operations. */
 	private AdministratorController adminControl;
+	
+    /** The scanner used to read user input. */
 	private Scanner inputScanner;
 	
+    /**
+     * Constructor to initialize the AdministratorView with the given controller
+     * and scanner.
+     *
+     * @param administratorControl The controller that handles administrator actions.
+     * @param inputScanner The scanner used for reading user input.
+     */
 	public AdministratorView(AdministratorController administratorControl, Scanner inputScanner) {
 		this.adminControl = administratorControl;
 		this.inputScanner = inputScanner;
 	}
 	
+    /**
+     * Displays the administrator menu and processes user input to perform various actions.
+     * 
+     * @return true if the administrator wants to continue, false to log out and exit.
+     */
 	public boolean displayMenu() {
 		System.out.println("------ Administrator Menu ------");
 		System.out.println("1. View and Manage Hospital Staff");
@@ -64,6 +87,10 @@ public class AdministratorView implements ViewInterface{
 		return true;
 	}
 
+    /**
+     * Displays the details of past appointments and allows the administrator to select one
+     * for further inspection.
+     */
 	private void viewAppointmentDetails() {
 		// TODO Auto-generated method stub
 		List<Appointment> allAppointments = adminControl.getAppointmentRecords();
@@ -103,6 +130,11 @@ public class AdministratorView implements ViewInterface{
 		
 	}
 
+    /**
+     * Displays the detailed information of a selected appointment.
+     *
+     * @param chosenAppointment The appointment whose details will be displayed.
+     */
 	private void viewAppointmentDetails(Appointment chosenAppointment) {
 		// TODO Auto-generated method stub
 		System.out.println("----- Appoint Details -----");
@@ -120,6 +152,9 @@ public class AdministratorView implements ViewInterface{
 		System.out.println("-------------------------");
 	}
 
+    /**
+     * Allows the administrator to approve replenishment requests for medicines.
+     */
 	private void approveReplenishmentRequests() {
 		// TODO Auto-generated method stub
 		List<Replenishment> pendingReplenishments = adminControl.getPendingRequests(); 
@@ -156,6 +191,9 @@ public class AdministratorView implements ViewInterface{
 		
 	}
 
+    /**
+     * Manages the inventory system, allowing the administrator to view or manage inventory.
+     */
 	private void inventoryManagement() {
 		// TODO Auto-generated method stub
 		int userChoice;
@@ -190,6 +228,9 @@ public class AdministratorView implements ViewInterface{
 		}while(userChoice != 3);
 	}
 	
+    /**
+     * Handles stock management by allowing the administrator to add, remove, or update inventory stock.
+     */
 	private void manageInventory() {
 		// TODO Auto-generated method stub
 		int userChoice;
@@ -226,6 +267,9 @@ public class AdministratorView implements ViewInterface{
 		}while(userChoice != 4);
 	}
 
+    /**
+     * Adds stock for a specific medicine.
+     */
 	private void addStock() {
 	    System.out.print("Enter Medicine Name to Add Stock: ");
 	    inputScanner.nextLine(); // Clear the buffer
@@ -237,6 +281,9 @@ public class AdministratorView implements ViewInterface{
 	    adminControl.addStock(medicineName, quantityToAdd);
 	}
 	
+    /**
+     * Removes stock for a specific medicine.
+     */
 	private void removeStock() {
 	    System.out.print("Enter Medicine Name to Remove Stock: ");
 	    inputScanner.nextLine(); // Clear the buffer
@@ -248,6 +295,9 @@ public class AdministratorView implements ViewInterface{
 	    adminControl.removeStock(medicineName, quantityToRemove);
 	}
 	
+    /**
+     * Updates the low stock alert threshold for a specific medicine.
+     */
 	private void updateLowStockAlert() {
 	    System.out.print("Enter Medicine Name to Set Low Stock Alert: ");
 	    inputScanner.nextLine(); // Clear the buffer
@@ -259,6 +309,9 @@ public class AdministratorView implements ViewInterface{
 	    adminControl.updateLowStockAlert(medicineName, newThreshold);
 	}
 	
+    /**
+     * Allows the administrator to manage hospital staff, including viewing, adding, or removing staff members.
+     */
 	private void manageHospitalStaff() {
 		System.out.println("------ Manage Hospital Staff ------");
 		System.out.println("1. View Staff");
@@ -289,6 +342,9 @@ public class AdministratorView implements ViewInterface{
 		}
 	}
 
+    /**
+     * Removes a staff member from the hospital system based on their staff ID.
+     */
 	private void removeStaff() {
 		// TODO Auto-generated method stub
 		System.out.println("------ Remove Staff ------");
@@ -297,6 +353,9 @@ public class AdministratorView implements ViewInterface{
 		adminControl.removeStaffByID(staffIDToRemove);
 	}
 
+    /**
+     * Adds a new staff member to the hospital system after verifying the role and details.
+     */
 	private void addStaff() {
 		System.out.println("------ Add Staff ------");
 		//Continue Loop till Valid Staff ID
@@ -365,6 +424,9 @@ public class AdministratorView implements ViewInterface{
 		
 	}
 
+    /**
+     * Displays a list of all hospital staff members.
+     */
 	private void viewStaff() {
 		System.out.println("------ List of Hospital Staff ------");
 		StaffRecords staffRecords = adminControl.getStaffRecords();

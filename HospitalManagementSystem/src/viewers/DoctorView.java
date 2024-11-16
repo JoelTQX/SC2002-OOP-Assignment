@@ -4,7 +4,6 @@ import controllers.DoctorController;
 import datastorage.PatientRecords;
 import entities.Appointment;
 import entities.Patient;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -127,7 +126,6 @@ public class DoctorView implements ViewInterface{
     private void setAvailability() {
         System.out.println("------ Set Availability for Appointments ------");
         System.out.println("Enter date for availability (DD/MM/YYYY): ");
-        inputScanner.nextLine(); // Consume newline
         String date = inputScanner.nextLine();
         
         // CALL THE GET SLOT FUNCTION TO SHOW THE AMT OF SLOTS ON THAT DAY

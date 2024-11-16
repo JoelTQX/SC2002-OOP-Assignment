@@ -1,16 +1,14 @@
 package controllers;
 
-import datastorage.DataStorage;
 import datastorage.AppointmentRecords;
+import datastorage.DataStorage;
 import datastorage.PatientRecords;
 import entities.Appointment;
 import entities.Appointment.AppointmentStatus;
-import entities.Appointment.PrescribedMedication;
-import entities.Patient;
 import entities.Doctor;
-import java.util.List;
-import java.util.ArrayList;
+import entities.Patient;
 import entities.User;
+import java.util.List;
 
 public class DoctorController {
     private User user; // The logged-in doctor
@@ -43,6 +41,7 @@ public class DoctorController {
             null // No specific type yet
         );
         newAppointment.setStatus(AppointmentStatus.AVAILABLE);
+        newAppointment.setAppointmentDate(date);
         appointmentRecords.addAppointment(newAppointment); // Add new availability slot to records
         return true;
     }

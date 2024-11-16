@@ -3,6 +3,7 @@ package controllers;
 import datastorage.AppointmentRecords;
 import datastorage.DataStorage;
 import entities.Appointment;
+import entities.Appointment.AppointmentStatus;
 import entities.Patient;
 import entities.User;
 import java.util.List;
@@ -70,46 +71,57 @@ public class PatientController {
 // Schedule a new appointment with a doctor
 public String scheduleAppointment(String doctorId, String date, String time) {
    // Get all slots for the specified date
-   List<String> bookedSlots = appointmentRecords.getSlots(date);
+   List<Appointment> Slots = appointmentRecords.getALLSlots();
 
-   // Check if the desired time slot is already booked
-   if (bookedSlots.contains(time)) {
-       return null; // Deny scheduling
+   // Check if the desired time slot is already booked with a status other than AVAILABLE
+   for (Appointment appointment : Slots) 
+   {    // since get all slots returns only available slots, we can check if the time and date are the same
+       if (appointment.getAppointmentTime().equals(time) &&  appointment.getAppointmentDate().equals(date)) {
+           //update the patient ID and status of the appointment
+              appointmentController.setPatientId(appointment, getUserID());
+                appointmentController.setStatus(appointment, Appointment.AppointmentStatus.PENDING);
+                return appointment.getAppointmentID();
+       }
    }
-    // Generate a unique ID for the new appointment
-    String appointmentId = appointmentController.generateAppointmentID();
-    Appointment newAppointment = new Appointment(
-        appointmentId, getUserID(), doctorId, date, time, null // TO BE FILLED IN AT THE END OF THE APPOINTMENT
-    );
-    newAppointment.setStatus(Appointment.AppointmentStatus.PENDING); // Set status to pending until confirmed by the doctor
+   
+   return null; // Return null if the slot is already booked
+   
 
-    // Add new appointment to records
-    appointmentRecords.addAppointment(newAppointment);
-    return appointmentId;
 }
 
 // Reschedule an existing appointment
-public boolean rescheduleAppointment(String appointmentId, String newDate, String newTime) {
+public String rescheduleAppointment( String appointmentId, String newDate, String newTime) {
     // Retrieve the appointment by ID
+    //perform appointment swap 
     Appointment appointment = appointmentRecords.getAppointmentByID(appointmentId);
-
+    List<Appointment> Slots = appointmentRecords.getSlotsForDate(newDate);
     // Check if appointment exists and belongs to the current patient
     if (appointment == null || !appointment.getPatientId().equals(getUserID())) {
-        return false; // Return false if the appointment doesn't exist or doesn't belong to the patient
+        return null; // Return false if the appointment doesn't exist or doesn't belong to the patient
     }
 
     // Check if the new time slot is available
-    List<String> availableSlots = appointmentRecords.getSlots(newDate);
-    if (!availableSlots.contains(newTime)) {
-        return false; // Return false if the new time slot is already booked
+    for(Appointment appointment1 : Slots)
+    {
+        if(appointment1.getAppointmentTime().equals(newTime) && appointment1.getStatus().equals(Appointment.AppointmentStatus.AVAILABLE))   // slot is available
+        {
+             // write the data to the new appointment slot 
+         String newAppointmentID = appointment1.getAppointmentID();
+         
+         // Update appointment details with new date and time
+        appointmentController.setPatientId(appointment1, getUserID()); // Update the patient ID
+        appointmentController.setStatus(appointment1, Appointment.AppointmentStatus.PENDING); // Mark as pending for reconfirmation by doctor
+        
+        // reset the old appointment
+        appointmentController.setStatus(appointment, Appointment.AppointmentStatus.AVAILABLE); // Mark old slot as available
+        appointmentController.setPatientId(appointment, null);
+        return appointment1.getAppointmentID(); // Return true if rescheduling was successful
+            
+        }
+        
     }
-
-    // Update appointment details with new date and time
-    appointmentController.setAppointmentDate(appointment, newDate);
-    appointmentController.SetAppointmentTime(appointment, newTime);
-    appointmentController.setStatus(appointment, Appointment.AppointmentStatus.PENDING); // Mark as pending for reconfirmation by doctor
     
-    return true; // Return true if rescheduling was successful
+   return null; // Return false if the new time slot is already booked
 }
 
 
@@ -118,6 +130,23 @@ public boolean rescheduleAppointment(String appointmentId, String newDate, Strin
         Appointment appointment = appointmentRecords.getAppointmentByID(appointmentId);
         if (appointment != null && appointment.getPatientId().equals(getUserID())) {
             appointmentController.setStatus(appointment, Appointment.AppointmentStatus.CANCELLED);
+            //create a new appointment with the same details as the cancelled appointment
+           // calls appointment constructor used in doctor controller
+            String doctorId =  appointment.getDoctorId();
+            String date = appointment.getAppointmentDate();
+            String time = appointment.getAppointmentTime();
+            Appointment newAppointment = new Appointment(
+            appointmentController.generateAppointmentID(),
+            null, // No patient yet
+            doctorId,
+            date,
+            time,
+            null // No specific type yet
+        );
+        newAppointment.setStatus(AppointmentStatus.AVAILABLE);
+        newAppointment.setAppointmentDate(date);
+        appointmentRecords.addAppointment(newAppointment); // Add new availability slot to records
+
             return true;
         }
         return false;

@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import entities.Appointment;
+import entities.Appointment.AppointmentStatus;
 // note: The records do not modify the controller 
 
 public class AppointmentRecords {
@@ -162,6 +163,35 @@ public List<Appointment> findAppointmentsByPatientId(String patientId) {
 
 
 
+
+ // Method to delete an appointment by its ID
+ public boolean deleteAppointment( String appointmentId) {
+    // because the appointment id is created by the doctor after available is indicated
+    // there is already a pre-existing appointment ID for that time and date 
+    // this means we need overwrite that appointment ID with null
+    for (Appointment appointment : AppointmentRecords) {
+      
+            if (appointment.getAppointmentID().equals(appointmentId)) {
+                // Set all fields of the appointment to null
+                appointment.setAppointmentID(null);
+                appointment.setPatientId(null);
+                appointment.setDoctorId(null);
+                appointment.setStatus(AppointmentStatus.NULL);
+                appointment.setAppointmentDate(null);
+                appointment.setAppointmentTime(null);
+                appointment.setAppointmentType(null);
+                appointment.setConsultationNotes(null);
+    
+     
+                return true; // Return true if the appointment was found and deleted
+            }
+        }
+        return false; // Return false if the appointment was not found
+
+    }
+        
+
+
 	// PATIENT SPECIFIC 
 
 
@@ -174,7 +204,7 @@ public List<Appointment> findAppointmentsByPatientId(String patientId) {
         // Filter out slots that are already booked for the specified date
         for (Appointment appointment : AppointmentRecords) {
             if (appointment.getStatus() == Appointment.AppointmentStatus.AVAILABLE) {
-                availableSlots.add(appointment); // Remove only the time part
+                availableSlots.add(appointment);
             }
         }
     
@@ -183,14 +213,14 @@ public List<Appointment> findAppointmentsByPatientId(String patientId) {
 
 
 
-public List<String> getSlots(String date) {
-    List<String> availableSlots = new ArrayList<>();
+public List<Appointment> getSlotsForDate(String date) {
+    List<Appointment> availableSlots = new ArrayList<>();
 
     // Filter out slots that are already booked for the specified date
     for (Appointment appointment : AppointmentRecords) {
         if (appointment.getAppointmentDate().equals(date) &&
             appointment.getStatus() == Appointment.AppointmentStatus.AVAILABLE) {
-            availableSlots.add(appointment.getAppointmentTime()); // Remove only the time part
+            availableSlots.add(appointment); // add the available slots to the list
         }
     }
 

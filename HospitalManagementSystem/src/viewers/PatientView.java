@@ -150,7 +150,7 @@ public class PatientView implements ViewInterface{
 		String success = patientControl.scheduleAppointment(doctorId, date, time);
 	
 		if (success != null) {		// creation failed 
-			System.out.println("Appointment No: " + success + "is now pending.");
+			System.out.println("Appointment No: " + success + " is now pending.");
 		} else {
 			System.out.println("Failed to schedule appointment. Please check the details or try another slot.");
 		}
@@ -166,10 +166,11 @@ public class PatientView implements ViewInterface{
 		System.out.print("Enter New Appointment Time (HH:MM): ");
 		String newTime = inputScanner.next();
 	
-		boolean success = patientControl.rescheduleAppointment(appointmentId, newDate, newTime);
+		String success = patientControl.rescheduleAppointment( appointmentId, newDate, newTime);
 	
-		if (success) {
-			System.out.println("Appointment No: " + appointmentId+" rescheduled successfully.");
+		if (success != null) {
+			System.out.println("Appointment No: " + appointmentId +" rescheduled successfully.");
+			System.out.println("New Appointment No: " + success + " is now pending.");
 		} else {
 			System.out.println("Failed to reschedule appointment. Please check the details or slot availability.");
 		}

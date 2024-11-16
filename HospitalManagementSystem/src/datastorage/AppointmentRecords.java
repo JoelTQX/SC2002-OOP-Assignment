@@ -6,237 +6,92 @@ import java.util.ArrayList;
 import java.util.List;
 import entities.Appointment;
 import entities.Appointment.AppointmentStatus;
-// note: The records do not modify the controller 
 
 public class AppointmentRecords {
-	static int lastAppointmentID = 0;
-	private List<Appointment> AppointmentRecords;					// holds a list of appointment
-	
-	public AppointmentRecords() {
-		AppointmentRecords = new ArrayList<Appointment>();
-	}
-	
-	public Appointment getAppointmentByID(String appointmentID) {
-		for(Appointment appointment : AppointmentRecords) {
-			if(appointment.getAppointmentID().equals(appointmentID)) {
-				return appointment;
-			}
-		}
-		return null; //Patient Not Found
-	}
-	
-	public int getLastAppointmentID() {
-		return lastAppointmentID;
-	}
-	
-	public List<Appointment> getFullAppointmentList() {
-		return AppointmentRecords;
-	}
-	
-	public void addAppointment(Appointment appointment) {
-		AppointmentRecords.add(appointment);
-		lastAppointmentID++;
-	}
-	
-	public void removeAppointment(Appointment appointment) {
-		AppointmentRecords.remove(appointment);
-	}
+    static int lastAppointmentID = 0;
+    private List<Appointment> AppointmentRecords; // holds a list of appointments
 
-// METHOD TO MODIFY THE LISTS
-
-	  // Method to get available appointment slots for a specific day
-    // used by the doc to CREATE THE SLOT
-    // THIS IS WHERE THE SLOT CREATION HAPPENS
-public List<String> getEmptySlots(String date) {
-    // List of all possible hourly slots from 09:00 to 17:00
-    List<String> allSlots = List.of(
-        "09:00",
-        "10:00",
-        "11:00",
-        "12:00",
-        "13:00",
-        "14:00",
-        "15:00",
-        "16:00",
-        "17:00"
-    );
-
-    // Start with all possible slots for the day
-    List<String> emptySlots = new ArrayList<>(allSlots);
-
-    // Iterate through each appointment in AppointmentRecords
-    for (Appointment appointment : AppointmentRecords) {
-        // Check if the appointment is on the specified date and has a valid status
-        if (appointment.getAppointmentDate().equals(date) && appointment.getStatus() != null) {
-            // Get the time portion of the appointment (e.g., "09:00")
-            String bookedTime = appointment.getAppointmentTime();
-            
-            // Remove the booked time from emptySlots if it exists
-            emptySlots.remove(bookedTime);
-        }
+    public AppointmentRecords() {
+        AppointmentRecords = new ArrayList<Appointment>();
     }
 
-    // Return the list of slots that remain unbooked
-    return emptySlots;
-}
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    /// APPOINTMENT RETRIEVAL METHODS ///////////////////////////////////////////////////////////////
 
-
-
-	// HELPER METHODS
-
-    // Method to find all appointments for a specific patient ID
-public List<Appointment> findAppointmentsByPatientId(String patientId) {
-    List<Appointment> patientAppointments = new ArrayList<>();
-    
-    for (Appointment appointment : AppointmentRecords) {
-        if (appointment.getPatientId() != null && appointment.getPatientId().equals(patientId)) {
-            patientAppointments.add(appointment);
-        }
-    }
-
-    return patientAppointments;
-}
-   
-    //  helper function to return the appointment based on status 
-
-    public List<Appointment> getDocAppointments(String userId, Appointment.AppointmentStatus status ) {
-        List<Appointment> pendingAppointments = new ArrayList<>();
+    // Method to get an appointment by its ID
+    public Appointment getAppointmentByID(String appointmentID) {
         for (Appointment appointment : AppointmentRecords) {
-            if (appointment.getDoctorId().equals(userId) && appointment.getStatus() == status)  // is doctor requesting 
-            {
-                pendingAppointments.add(appointment);
+            if (appointment.getAppointmentID().equals(appointmentID)) {
+                return appointment;
             }
         }
-        return pendingAppointments;
+        return null; // Appointment Not Found
     }
 
-    //  helper function to return the appointment based on status 
-
-    public List<Appointment> getPatientAppointments(String userId, Appointment.AppointmentStatus status ) {
-        List<Appointment> pendingAppointments = new ArrayList<>();
-        for (Appointment appointment : AppointmentRecords) {
-            if (appointment.getPatientId().equals(userId) && appointment.getStatus() == status)  // is patient requesting 
-            {
-                pendingAppointments.add(appointment);
-            }
-        }
-        return pendingAppointments;
+    // Method to get the last appointment ID
+    public int getLastAppointmentID() {
+        return lastAppointmentID;
     }
 
-	   // GENERAL Method to get appointments for a specific date
+    // Method to get the full list of appointments
+    public List<Appointment> getFullAppointmentList() {
+        return AppointmentRecords;
+    }
 
-	   public List<Appointment> getAppointmentsForDate(String date) {
-
+    // Method to get appointments for a specific date
+    public List<Appointment> getAppointmentsForDate(String date) {
         List<Appointment> appointmentsForDate = new ArrayList<>();
-
         for (Appointment appointment : AppointmentRecords) {
-
             if (appointment.getAppointmentDate().equals(date)) {
-
                 appointmentsForDate.add(appointment);
-
             }
-
         }
-
         return appointmentsForDate;
-	}
-	
-
-     // Helper method to generate hourly slots from startTime to endTime for a specific date
- private List<String> generateHourlySlots(String date, String startTime, String endTime) {
-    List<String> slots = new ArrayList<>();
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    
-    // Parse start and end times
-    LocalTime start = LocalTime.parse(startTime, timeFormatter);
-    LocalTime end = LocalTime.parse(endTime, timeFormatter);
-
-    // Generate slots on the hour
-    while (!start.isAfter(end)) {
-        slots.add(date + " " + start.format(timeFormatter));
-        start = start.plusHours(1); // Increment by one hour
     }
 
-    return slots;
-}
-
-
-
-
- // Method to delete an appointment by its ID
- public boolean deleteAppointment( String appointmentId) {
-    // because the appointment id is created by the doctor after available is indicated
-    // there is already a pre-existing appointment ID for that time and date 
-    // this means we need overwrite that appointment ID with null
-    for (Appointment appointment : AppointmentRecords) {
-      
-            if (appointment.getAppointmentID().equals(appointmentId)) {
-                // Set all fields of the appointment to null
-                appointment.setAppointmentID(null);
-                appointment.setPatientId(null);
-                appointment.setDoctorId(null);
-                appointment.setStatus(AppointmentStatus.NULL);
-                appointment.setAppointmentDate(null);
-                appointment.setAppointmentTime(null);
-                appointment.setAppointmentType(null);
-                appointment.setConsultationNotes(null);
-    
-     
-                return true; // Return true if the appointment was found and deleted
+    // Method to get available appointment slots for a specific day
+    public List<String> getEmptySlots(String date) {
+        List<String> allSlots = List.of(
+            "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"
+        );
+        List<String> emptySlots = new ArrayList<>(allSlots);
+        for (Appointment appointment : AppointmentRecords) {
+            if (appointment.getAppointmentDate().equals(date) && appointment.getStatus() != null) {
+                String bookedTime = appointment.getAppointmentTime();
+                emptySlots.remove(bookedTime);
             }
         }
-        return false; // Return false if the appointment was not found
-
+        return emptySlots;
     }
-        
 
-
-	// PATIENT SPECIFIC 
-
-
-	 // Method to get available appointment slots for a specific day WHERE SLOTS ARE SET TO AVAIL 
-    // used by the paitent TO SEE THE DOC SLOTS
-    // contingent on the doctor already having indicated AVAIL
+    // Method to get all available slots
     public List<Appointment> getALLSlots() {
         List<Appointment> availableSlots = new ArrayList<>();
-    
-        // Filter out slots that are already booked for the specified date
         for (Appointment appointment : AppointmentRecords) {
-            if (appointment.getStatus() == Appointment.AppointmentStatus.AVAILABLE) {
+            if (appointment.getStatus() == AppointmentStatus.AVAILABLE) {
                 availableSlots.add(appointment);
             }
         }
-    
-        return availableSlots;  // return the slots as appointment objects
+        return availableSlots;
     }
 
-
-
-public List<Appointment> getSlotsForDate(String date) {
-    List<Appointment> availableSlots = new ArrayList<>();
-
-    // Filter out slots that are already booked for the specified date
-    for (Appointment appointment : AppointmentRecords) {
-        if (appointment.getAppointmentDate().equals(date) &&
-            appointment.getStatus() == Appointment.AppointmentStatus.AVAILABLE) {
-            availableSlots.add(appointment); // add the available slots to the list
+    // Method to get available slots for a specific date
+    public List<Appointment> getSlotsForDate(String date) {
+        List<Appointment> availableSlots = new ArrayList<>();
+        for (Appointment appointment : AppointmentRecords) {
+            if (appointment.getAppointmentDate().equals(date) &&
+                appointment.getStatus() == AppointmentStatus.AVAILABLE) {
+                availableSlots.add(appointment);
+            }
         }
+        return availableSlots;
     }
 
-    return availableSlots;
-}
-
-
-
-
-
-
-	 // Method to retrieve scheduled appointments for a patient
-	 public List<Appointment> getScheduledAppointments(String patientId) {
+    // Method to retrieve scheduled appointments for a patient
+    public List<Appointment> getScheduledAppointments(String patientId) {
         List<Appointment> scheduledAppointments = new ArrayList<>();
         for (Appointment appointment : AppointmentRecords) {
-            if (appointment.getPatientId().equals(patientId) && appointment.getStatus() == Appointment.AppointmentStatus.SCHEDULED) {
+            if (appointment.getPatientId().equals(patientId) && appointment.getStatus() == AppointmentStatus.SCHEDULED) {
                 scheduledAppointments.add(appointment);
             }
         }
@@ -247,15 +102,80 @@ public List<Appointment> getSlotsForDate(String date) {
     public List<Appointment> getCompletedAppointments(String patientId) {
         List<Appointment> completedAppointments = new ArrayList<>();
         for (Appointment appointment : AppointmentRecords) {
-            if (appointment.getPatientId().equals(patientId) && appointment.getStatus() == Appointment.AppointmentStatus.COMPLETED) {
+            if (appointment.getPatientId().equals(patientId) && appointment.getStatus() == AppointmentStatus.COMPLETED) {
                 completedAppointments.add(appointment);
             }
         }
         return completedAppointments;
     }
-    // Return AppointmentRecords
-	public List<Appointment> getAppointmentRecords() {
-		// TODO Auto-generated method stub
-		return this.AppointmentRecords;
-	}
+
+    // Method to find all appointments for a specific patient ID
+    public List<Appointment> findAppointmentsByPatientId(String patientId) {
+        List<Appointment> patientAppointments = new ArrayList<>();
+        for (Appointment appointment : AppointmentRecords) {
+            if (appointment.getPatientId() != null && appointment.getPatientId().equals(patientId)) {
+                patientAppointments.add(appointment);
+            }
+        }
+        return patientAppointments;
+    }
+
+    // Method to get appointments for a doctor based on status
+    public List<Appointment> getDocAppointments(String userId, AppointmentStatus status) {
+        List<Appointment> pendingAppointments = new ArrayList<>();
+        for (Appointment appointment : AppointmentRecords) {
+            if (appointment.getDoctorId().equals(userId) && appointment.getStatus() == status) {
+                pendingAppointments.add(appointment);
+            }
+        }
+        return pendingAppointments;
+    }
+
+    // Method to get appointments for a patient based on status
+    public List<Appointment> getPatientAppointments(String userId, AppointmentStatus status) {
+        List<Appointment> pendingAppointments = new ArrayList<>();
+        for (Appointment appointment : AppointmentRecords) {
+            if (appointment.getPatientId().equals(userId) && appointment.getStatus() == status) {
+                pendingAppointments.add(appointment);
+            }
+        }
+        return pendingAppointments;
+    }
+
+    // Method to get all appointment records
+    public List<Appointment> getAppointmentRecords() {
+        return this.AppointmentRecords;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    /// APPOINTMENT MODIFICATION METHODS ///////////////////////////////////////////////////////////
+
+    // Method to add an appointment
+    public void addAppointment(Appointment appointment) {
+        AppointmentRecords.add(appointment);
+        lastAppointmentID++;
+    }
+
+    // Method to remove an appointment
+    public void removeAppointment(Appointment appointment) {
+        AppointmentRecords.remove(appointment);
+    }
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    /// HELPER METHODS //////////////////////////////////////////////////////////////////////////////
+
+    // Helper method to generate hourly slots from startTime to endTime for a specific date
+    private List<String> generateHourlySlots(String date, String startTime, String endTime) {
+        List<String> slots = new ArrayList<>();
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime start = LocalTime.parse(startTime, timeFormatter);
+        LocalTime end = LocalTime.parse(endTime, timeFormatter);
+        while (!start.isAfter(end)) {
+            slots.add(date + " " + start.format(timeFormatter));
+            start = start.plusHours(1); // Increment by one hour
+        }
+        return slots;
+    }
 }

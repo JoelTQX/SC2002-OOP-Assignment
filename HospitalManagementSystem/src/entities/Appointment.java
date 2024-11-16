@@ -8,12 +8,12 @@ public class Appointment {
 
     // Enum for appointment status
     public enum AppointmentStatus {
-        SCHEDULED,          // doctor cfm , patient confirmed 
-        NULL,          // FOR EMPTY APPOINTMENTS
-        CANCELLED,          //  DOCTOR CANCELED CUZ NOT FREE
+        SCHEDULED,          // doctor confirmed, patient confirmed 
+        NULL,               // For empty appointments
+        CANCELLED,          // Doctor canceled because not free
         COMPLETED,          // Marked done by doctor after consult notes added 
-        PENDING,             // patient cfm , doctor yet to cfm 
-        AVAILABLE           // doctor indicates availbilty, USE TO INDICATE FREE SLOTS BY THE PATIENT TOO
+        PENDING,            // Patient confirmed, doctor yet to confirm 
+        AVAILABLE           // Doctor indicates availability, use to indicate free slots by the patient too
     }
 
     // Attributes
@@ -28,73 +28,38 @@ public class Appointment {
     private String consultationNotes;
 
     // Constructor
-    // TO BE CALLED BY DOCTOR AFTER SET AVAIL 
+    // To be called by doctor after setting availability
     public Appointment(String appointmentID, String patientId, String doctorId, String appointmentDate, String appointmentTime, String appointmentType) {
         this.appointmentID = appointmentID;
-    	this.patientId = patientId;   // TO BE FILLED IN LTR
+        this.patientId = patientId;   // To be filled in later
         this.doctorId = doctorId;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;   
-        this.appointmentType = appointmentType; // TO BE FILLED IN LTR 
-        this.status = AppointmentStatus.AVAILABLE;          // DOC SETS THE APT AVAIL FIRST 
-        this.prescribedMedications = new ArrayList<>(); // PASS EMPTY ARRAY 
+        this.appointmentType = appointmentType; // To be filled in later 
+        this.status = AppointmentStatus.AVAILABLE; // Doctor sets the appointment as available first 
+        this.prescribedMedications = new ArrayList<>(); // Pass empty array 
     }
 
-    public Appointment(String appointmentID, String patientId, String doctorId, AppointmentStatus status, String appointmentDate, String appointmentTime, String appointmentType,List<PrescribedMedication> prescribedMedications2,String consultationNotes) {
+    public Appointment(String appointmentID, String patientId, String doctorId, AppointmentStatus status, String appointmentDate, String appointmentTime, String appointmentType, List<PrescribedMedication> prescribedMedications2, String consultationNotes) {
         this.appointmentID = appointmentID;
-    	this.patientId = patientId;   // TO BE FILLED IN LTR
+        this.patientId = patientId;   // To be filled in later
         this.doctorId = doctorId;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;   
-        this.appointmentType = appointmentType; // TO BE FILLED IN LTR 
-        this.status = status;         // DOC SETS THE APT AVAIL FIRST 
-        this.prescribedMedications = prescribedMedications2; // PASS EMPTY ARRAY 
-        this.consultationNotes=consultationNotes;
+        this.appointmentType = appointmentType; // To be filled in later 
+        this.status = status; // Doctor sets the appointment as available first 
+        this.prescribedMedications = prescribedMedications2; // Pass empty array 
+        this.consultationNotes = consultationNotes;
     }
 
-   
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    /// APPOINTMENT STATUS METHODS //////////////////////////////////////////////////////////////////
+
     // Method to update consultation notes and mark the appointment as completed
     public void completeAppointment(String consultationNotes) {
         this.consultationNotes = consultationNotes;
         this.status = AppointmentStatus.COMPLETED;
     }
-    
-    // Getter for appointment ID
-    public String getAppointmentID() {
-    	return this.appointmentID;
-    }
-
-    // setter for appointment ID
-    public boolean setAppointmentID(String appointmentId) {
-        this.appointmentID = appointmentId; 
-    	return true;
-    }    
-    
-
-    
-    // Getter for patient ID
-    public String getPatientId() {
-        return this.patientId;
-    }
-
-    // Setter for patient ID
-    public void setPatientId(String patientId) {
-        this.patientId = patientId;
-    }
-    
-
-    // Getter for doctor ID
-    public String getDoctorId() {
-        return this.doctorId;
-    }
-
-  // setter for doctor ID
-    public boolean setDoctorId( String doctorId) {
-     this.doctorId = doctorId;
-     return true;
-    }       
-
- 
 
     // Getter for appointment status
     public AppointmentStatus getStatus() {
@@ -106,25 +71,39 @@ public class Appointment {
         this.status = status;
     }
 
-    // Getter for consultation notes
-    public String getConsultationNotes() {
-        return this.consultationNotes;
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    /// APPOINTMENT DETAILS METHODS /////////////////////////////////////////////////////////////////
+
+    // Getter for appointment ID
+    public String getAppointmentID() {
+        return this.appointmentID;
     }
 
-    // Setter for appointment type
-     public boolean setConsultationNotes(String notes) {
-        this.consultationNotes = notes;
+    // Setter for appointment ID
+    public boolean setAppointmentID(String appointmentId) {
+        this.appointmentID = appointmentId; 
         return true;
     }
 
-    // Getter for prescribed medications
-    public List<PrescribedMedication> getPrescribedMedications() {
-        return this.prescribedMedications;
+    // Getter for patient ID
+    public String getPatientId() {
+        return this.patientId;
     }
 
-    // setter for prescribed medication
-    public void addPrescribedMedication(String medicationName, int medicineQuantity) {
-        prescribedMedications.add(new PrescribedMedication(medicationName, medicineQuantity));  // uses a List.add() method to append to the list 
+    // Setter for patient ID
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
+    // Getter for doctor ID
+    public String getDoctorId() {
+        return this.doctorId;
+    }
+
+    // Setter for doctor ID
+    public boolean setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
+        return true;
     }
 
     // Getter for appointment date
@@ -132,9 +111,8 @@ public class Appointment {
         return this.appointmentDate;
     }
 
-    // setter for appointment date 
-    public boolean setAppointmentDate( String date)
-    {  
+    // Setter for appointment date 
+    public boolean setAppointmentDate(String date) {  
         this.appointmentDate = date; 
         return true; 
     }
@@ -144,11 +122,10 @@ public class Appointment {
         return this.appointmentTime;
     }
 
-     // setter for appointment time
-     public boolean setAppointmentTime(String time) {
-            this.appointmentTime = time;
-            return true; 
-          
+    // Setter for appointment time
+    public boolean setAppointmentTime(String time) {
+        this.appointmentTime = time;
+        return true; 
     }
 
     // Getter for appointment type
@@ -156,14 +133,41 @@ public class Appointment {
         return this.appointmentType;
     }
 
-     // setter for appointment type
-     public boolean setAppointmentType(String Type) {
-        this.appointmentType = Type ;
+    // Setter for appointment type
+    public boolean setAppointmentType(String type) {
+        this.appointmentType = type;
         return true;
     }
 
-    
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    /// CONSULTATION NOTES METHODS //////////////////////////////////////////////////////////////////
 
+    // Getter for consultation notes
+    public String getConsultationNotes() {
+        return this.consultationNotes;
+    }
+
+    // Setter for consultation notes
+    public boolean setConsultationNotes(String notes) {
+        this.consultationNotes = notes;
+        return true;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    /// PRESCRIBED MEDICATION METHODS ///////////////////////////////////////////////////////////////
+
+    // Getter for prescribed medications
+    public List<PrescribedMedication> getPrescribedMedications() {
+        return this.prescribedMedications;
+    }
+
+    // Setter for prescribed medication
+    public void addPrescribedMedication(String medicationName, int medicineQuantity) {
+        prescribedMedications.add(new PrescribedMedication(medicationName, medicineQuantity)); // Uses a List.add() method to append to the list 
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    /// NESTED CLASS FOR PRESCRIBED MEDICATION //////////////////////////////////////////////////////
 
     // Nested class to represent a prescribed medication
     public static class PrescribedMedication {
@@ -174,7 +178,7 @@ public class Appointment {
         public PrescribedMedication(String medicationName, int medicineQuantity) {
             this.medicationName = medicationName;
             this.medicineQuantity = medicineQuantity;
-        	this.status = "Pending"; // Default status
+            this.status = "Pending"; // Default status
         }
 
         public String getMedicationName() {
@@ -186,7 +190,7 @@ public class Appointment {
         }
         
         public int getMedicineQuantity() {
-        	return this.medicineQuantity;
+            return this.medicineQuantity;
         }
 
         public void setMedicineStatus(String status) {
@@ -198,6 +202,4 @@ public class Appointment {
             return medicationName + " (Status: " + status + ")";
         }
     }
-
-
 }

@@ -23,12 +23,28 @@ public class DoctorController {
         this.appointmentController = new AppointmentController(dataStorage); // Instantiating AppointmentController
         this.appointmentRecords = dataStorage.getAppointmentRecords(); // Retrieve AppointmentRecords from dataStorage
     }
-    
-    // Fetches patient records who are under him from data storage
+
+    /// PATIENT RECORDS METHODS /////////////////////////////////////////////////////////////////////>>>>>>> branch 'main' of https://github.com/JoelTQX/SC2002-OOP-Assignment.git
     public PatientRecords getPatientsRecords() {
     	PatientRecords allPatientRecords = dataStorage.getPatientRecords();
         return dataStorage.getPatientRecords();
     }
+
+    // Updates the patient's records with new diagnoses, prescriptions, and treatment plans
+    public boolean updatePatientRecords(String patientId, String newDiagnoses, String prescriptions, String treatmentPlan) {
+        Patient patient = dataStorage.getPatientRecords().getPatientByID(patientId);
+        if (patient != null) {
+            patient.addPatientdiagnoses(newDiagnoses);
+            //patient.addPrescription(prescriptions);
+            patient.addPatienttreatment(treatmentPlan);
+            //dataStorage.updatePatientRecord(patient);
+            return true;
+        }
+        return false;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    /// APPOINTMENT MANAGEMENT METHODS //////////////////////////////////////////////////////////////
 
     // Sets availability by creating empty slots (appointments) for specific dates and times
     public boolean setAvailability(String date, String time) {
@@ -53,8 +69,6 @@ public class DoctorController {
     }
 
     // Retrieves all pending appointment requests for the logged-in doctor
-	// doctor is to confirm 
-
     public List<Appointment> getAppointmentRequests() {
         return appointmentRecords.getDocAppointments(user.getUserID(), AppointmentStatus.PENDING);
     }
@@ -100,19 +114,6 @@ public class DoctorController {
                 int quantity = i < medicationQTY.size() ? medicationQTY.get(i) : 1; // Default quantity if not specified
                 appointmentController.addPrescribedMedication(appointment, medicationName, quantity);
             }
-            return true;
-        }
-        return false;
-    }
-    
-    // Updates the patient's records with new diagnoses, prescriptions, and treatment plans
-    public boolean updatePatientRecords(String patientId, String newDiagnoses, String prescriptions, String treatmentPlan) {
-        Patient patient = dataStorage.getPatientRecords().getPatientByID(patientId);
-        if (patient != null) {
-            patient.addPatientdiagnoses(newDiagnoses);
-            //patient.addPrescription(prescriptions);
-            patient.addPatienttreatment(treatmentPlan);
-            //dataStorage.updatePatientRecord(patient);
             return true;
         }
         return false;

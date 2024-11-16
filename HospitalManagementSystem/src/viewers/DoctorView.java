@@ -78,6 +78,8 @@ public class DoctorView implements ViewInterface{
 			System.out.println("Blood Type: " + patient.getPatientBloodType());
 			System.out.println("DOB: " + patient.getPatientDOB());
 			System.out.println("Gender: " + patient.getUserGender());
+			System.out.println("Gender: " + patient.getPatientdiagnoses());
+			System.out.println("Gender: " + patient.getPatienttreatment());
             System.out.println("    ");     // line spacing 
 		}
 	}

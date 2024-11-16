@@ -2,12 +2,10 @@ package controllers;
 
 import java.util.List;
 
-import datastorage.AppointmentRecords;
 import datastorage.DataStorage;
 import datastorage.Inventory;
 import entities.Appointment;
 import entities.Appointment.PrescribedMedication;
-import entities.Medicine;
 import entities.Pharmacist;
 import entities.Replenishment;
 import entities.User;
@@ -21,6 +19,7 @@ public class PharmacistController {
 		this.user = (Pharmacist) user;
 		this.dataStorage = dataStorage; 
 	}
+	
 	public Inventory getInventory() {
 		return this.dataStorage.getInventory();
 	}

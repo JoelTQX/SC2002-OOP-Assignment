@@ -9,6 +9,7 @@ public class Appointment {
     // Enum for appointment status
     public enum AppointmentStatus {
         SCHEDULED,          // doctor cfm , patient confirmed 
+        NULL,          // FOR EMPTY APPOINTMENTS
         CANCELLED,          //  DOCTOR CANCELED CUZ NOT FREE
         COMPLETED,          // Marked done by doctor after consult notes added 
         PENDING,             // patient cfm , doctor yet to cfm 

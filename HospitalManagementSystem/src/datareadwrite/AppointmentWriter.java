@@ -11,11 +11,29 @@ import datastorage.DataStorage;
 import entities.Appointment;
 import entities.Patient;
 import entities.Appointment.PrescribedMedication;
-
+/**
+ * AppointmentWriter class is used to write appointment attributes to a CSV file.
+ * Implements the {@link DataWriter} interface for the {@link Appointment} type.
+ * The CSV file header will be populated by "Appointment ID", "Patient ID", "Doctor ID", "Appointment Status", "Appointment Date", "Appointment Time", "Appointment Type", "Prescribed Medications", "Consultation Notes"
+ * This class reads {@link Appointment} records from a {@link DataStorage} object and writes
+ * them to a CSV file named {@code AppointmentList.csv}. It adds the data row by row, and 
+ * each patient's attributes are separated into cells based on the defined headers.
+ * </p>
+ * 
+ * @see DataWriter
+ * @see Appointment
+ * @see DataStorage
+ * 
+ */
 public class AppointmentWriter implements DataWriter<Appointment>{
 	private int noOfHeaders = 9; // Number of Headers in CSV
 	private String csvFile = "dataFiles/AppointmentList.csv"; //File Path
 	@Override
+	/**
+     * Write the list of appointments from {@link DataStorage} to the CSV file row by row.
+     * 
+     * @param dataStorage the {@link DataStorage} object containing list of appointment data
+     */
 	public void saveRecords(DataStorage dataStorage) {
 		List<Appointment> recordToSave = dataStorage.getAppointmentRecords().getFullAppointmentList();
 		List<String[]> rowsToWrite = new ArrayList<>();
@@ -48,6 +66,11 @@ public class AppointmentWriter implements DataWriter<Appointment>{
 	}
 
 	@Override
+	/**
+     * Generates the header row for the appointment CSV file.
+     * 
+     * @return a string array containing the column headers
+     */
 	public String[] createHeader() {
 		String[] headerCells = new String[noOfHeaders];
 		headerCells[0] = "Appointment ID";
@@ -61,7 +84,13 @@ public class AppointmentWriter implements DataWriter<Appointment>{
 		headerCells[8] = "Consultation Notes";
 		return headerCells;
 	}
-
+	
+	/**
+     * This class creates array of appointment attributes to be saved. Example: appointmentCells[0]=AppointmentID of this appointment.
+     * 
+     * @param appointment the {@link Appointment} object containing appointment attributes
+     * @return a string array representing a single row of attributes for the CSV file separated into columns
+     */
 	@Override
 	public String[] createCells(Appointment appointment) {
 		String[] appointmentCells = new String[noOfHeaders];

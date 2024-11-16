@@ -10,10 +10,42 @@ import java.util.List;
 import datastorage.DataStorage;
 import entities.Patient;
 import entities.Staff;
-
+/**
+ * {@code StaffWriter} is a class responsible for writing staff data to a CSV file.
+ * This class implements the {@link DataWriter} interface for the {@link Staff} type.
+ * 
+ * <p>
+ * The CSV file is expected to have the following columns:
+ * <ul>
+ *   <li>Staff ID</li>
+ *   <li>Password</li>
+ *   <li>First Login (boolean)</li>
+ *   <li>Name</li>
+ *   <li>Role</li>
+ *   <li>Gender</li>
+ *   <li>Age</li>
+ * </ul>
+ * </p>
+ * The class writes the header row and the corresponding staff data rows to the specified CSV file.
+ * 
+ * @see DataWriter
+ * @see DataStorage
+ * @see Staff
+ * 
+ */
 public class StaffWriter implements DataWriter<Staff>{
 	private int noOfHeaders = 7; // Number of Headers in CSV
 	private String csvFile = "dataFiles/Staff_List.csv"; //File Path
+	/**
+     * Writes the staff records from {@link DataStorage} to the CSV file.
+     * <p>
+     * This method retrieves the staff records from {@link DataStorage}, prepares the data with headers,
+     * and writes it to the specified CSV file. Each staff member's data is written as a row with appropriate
+     * columns such as Staff ID, Password, First Login status, Name, Role, Gender, and Age.
+     * </p>
+     * 
+     * @param dataStorage the {@link DataStorage} object containing staff records to be written
+     */
 	@Override
 	public void saveRecords(DataStorage dataStorage) {
 		List<Staff> recordToSave = dataStorage.getStaffRecords().getStaffList();
@@ -46,7 +78,11 @@ public class StaffWriter implements DataWriter<Staff>{
 		System.out.println("Staff Records saved successfully");
 		
 	}
-
+	/**
+     * Creates the header for the CSV file.
+     * 
+     * @return an array of strings representing the header row for the staff records
+     */
 	@Override
 	public String[] createHeader() {
 		String[] headerCells = new String[noOfHeaders];
@@ -59,7 +95,12 @@ public class StaffWriter implements DataWriter<Staff>{
 		headerCells[6] = "Age";
 		return headerCells;
 	}
-
+	/**
+     * Creates a row of data for a specific {@link Staff} member.
+     * 
+     * @param staff the {@link Staff} object whose data will be written to a row
+     * @return an array of strings representing the staff member's data row
+     */
 	@Override
 	public String[] createCells(Staff staff) {
 		String[] staffCells = new String[noOfHeaders];

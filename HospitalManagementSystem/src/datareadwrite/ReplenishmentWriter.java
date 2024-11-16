@@ -8,12 +8,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import datastorage.DataStorage;
+import entities.Appointment;
+import entities.Patient;
 import entities.Replenishment;
-
+/**
+ * ReplenishmentWriter class is used to write Replenishment attributes to a CSV file.
+ * Implements the {@link DataWriter} interface for the {@link Replenishment} type.
+ * The CSV file header will be populated by "Medicine To Replenish","Replenishment Quantity","Replenishment Status"
+ * 
+ * This class reads {@link Replenishment} records from a {@link DataStorage} object and writes
+ * them to a CSV file named {@codeReplenishment_List.csv}. It adds the data row by row, and 
+ * each Replenishment attributes are separated into cells based on the defined headers.
+ * </p>
+ * 
+ * @see DataWriter
+ * @see Replenishment
+ * @see DataStorage
+ */
 public class ReplenishmentWriter implements DataWriter<Replenishment>{
 	private String csvFile = "dataFiles/Replenishment_List.csv"; //File Path
 	private int noOfHeaders = 3; // Number of Headers in CSV
-	
+	/**
+     * Write the list of Replenishment from {@link DataStorage} to the CSV file row by row.
+     * 
+     * @param dataStorage the {@link DataStorage} object containing list of Replenishment attribute
+     */
 	@Override
 	public void saveRecords(DataStorage dataStorage) {
 		// TODO Auto-generated method stub
@@ -47,7 +66,11 @@ public class ReplenishmentWriter implements DataWriter<Replenishment>{
 		System.out.println("Replenishment Records saved successfully");
 		
 	}
-
+	/**
+     * Generates the header row for the Replenishment CSV file.
+     * 
+     * @return a string array containing the column headers
+     */
 	@Override
 	public String[] createHeader() {
 		// TODO Auto-generated method stub
@@ -57,7 +80,12 @@ public class ReplenishmentWriter implements DataWriter<Replenishment>{
 		headerCells[2] = "Replenishment Status";
 		return headerCells;
 	}
-
+	/**
+     * This class creates array of Replenishment attributes to be saved. Example: rowCells[0]=MedicineName of this Replenishment.
+     * 
+     * @param Replenishment the {@link Appointment} object containing Replenishment attributes
+     * @return a string array representing a single row of attributes for the CSV file separated into columns
+     */
 	@Override
 	public String[] createCells(Replenishment replenish) {
 		// TODO Auto-generated method stub

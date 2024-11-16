@@ -1,8 +1,5 @@
 package entities;
 
-import datareadwrite.PatientListWriter;
-import datareadwrite.StaffListWriter;
-
 public abstract class User {
 	private String userID;
 	private String userPass;
@@ -45,16 +42,6 @@ public abstract class User {
 	public void changePassword(String newUserPass) {
 		this.firstLogin = false;
 		this.userPass = newUserPass;
-		
-		/*if (this instanceof Patient) {
-			PatientListWriter writer = new PatientListWriter();
-			writer.write(this.userID,1,newUserPass);
-			writer.write(this.userID,2,"FALSE");
-		}else if (this instanceof Staff) {
-			StaffListWriter writer = new StaffListWriter();
-			writer.write(this.userID,1,newUserPass);
-			writer.write(this.userID,2,"FALSE");
-		}*/
 	}
 	
 	public void resetPassword() {

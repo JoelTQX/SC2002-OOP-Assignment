@@ -10,9 +10,6 @@ public class Patient extends User{
 	private ArrayList<String> diagnoses;
 	private ArrayList<String> treatment;
 	
-	
-	
-	
 	public Patient(String userID, String userName,String userPass, boolean firstLogin,String dob,String bloodType,String contactInfo, String gender, String phoneNumber,ArrayList<String> diagnoses,ArrayList<String> treatments) {
 		super(userID,userName, userPass, firstLogin,gender);
 		this.dob=dob;
@@ -70,13 +67,11 @@ public class Patient extends User{
 	    }
 	}
 	
-	public String getPatientdiagnoses( ) {
-		String diagnosesString;
-		return  diagnosesString = String.join(";", this.diagnoses);
+	public String getPatientdiagnoses(){
+		return String.join(";", this.diagnoses);
 	}
 
 	public String getPatienttreatment() {
-		String diagnosesString;
-		return  diagnosesString = String.join(";", this.treatment);
+		return String.join(";", this.treatment);
 	}
 }

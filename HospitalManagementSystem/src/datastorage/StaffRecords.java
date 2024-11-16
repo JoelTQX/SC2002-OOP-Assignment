@@ -3,10 +3,6 @@ package datastorage;
 import java.util.ArrayList;
 import java.util.List;
 
-import controllers.StaffController;
-import datareadwrite.StaffListWriter;
-import entities.Doctor;
-import entities.Patient;
 import entities.Staff;
 import entities.User;
 
@@ -31,9 +27,6 @@ public class StaffRecords {
 	}
 	public void addStaff(Staff staff) {
 		this.staffRecords.add(staff);
-		//Update CSV
-		//StaffListWriter writer=new StaffListWriter();
-		//writer.addStaff(staff.getUserID(), staff.getPassword(),staff.getUserName(),staff.getRole(),staff.getUserGender(),staff.getAge());
 	}
 
 	public List<Staff> getStaffList() {

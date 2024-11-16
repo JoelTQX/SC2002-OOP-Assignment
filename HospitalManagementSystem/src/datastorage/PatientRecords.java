@@ -2,10 +2,7 @@ package datastorage;
 import java.util.ArrayList;
 import java.util.List;
 
-import controllers.PatientController;
-import entities.Medicine;
 import entities.Patient;
-import entities.User;
 
 public class PatientRecords {
 	private List<Patient> patientRecords;

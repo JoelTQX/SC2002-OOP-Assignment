@@ -7,7 +7,6 @@ import controllers.PharmacistController;
 import entities.Appointment;
 import entities.Appointment.PrescribedMedication;
 import entities.Medicine;
-import entities.PrescribedMedicine;
 
 public class PharmacistView implements ViewInterface{
 	private PharmacistController pharmacistControl;

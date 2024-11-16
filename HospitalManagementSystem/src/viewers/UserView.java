@@ -1,7 +1,6 @@
 package viewers;
 
 import controllers.AdministratorController;
-import controllers.AppointmentController;
 import controllers.DoctorController;
 import controllers.PatientController;
 import controllers.PharmacistController;

@@ -1,7 +1,6 @@
 package datastorage;
 import java.security.NoSuchAlgorithmException;
 
-import datastorage.Password;
 import entities.User;
 
 public class Authenticator {

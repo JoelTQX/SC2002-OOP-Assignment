@@ -8,13 +8,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import datastorage.DataStorage;
+import entities.Appointment;
 import entities.Medicine;
-
+import entities.Patient;
+/**
+ * MedicineWriter class is used to write Medicine attributes to a CSV file.
+ * Implements the {@link DataWriter} interface for the {@link Medicine} type.
+ * The CSV file header will be populated by "Medicine Name", "Available Stock", "Low Stock Alert"
+ * This class reads {@link Medicine} records from a {@link DataStorage} object and writes
+ * them to a CSV file named {@code Medicine_List.csv}. It adds the data row by row, and 
+ * each patient's attributes are separated into cells based on the defined headers.
+ * </p>
+ * 
+ * @see DataWriter
+ * @see Medicine
+ * @see DataStorage
+ * 
+ */
 public class MedicineWriter implements DataWriter<Medicine>{
 	private int noOfHeaders = 3; // Number of Headers in CSV
 	private String csvFile = "dataFiles/Medicine_List.csv"; //File Path
 	
-	//Save Records to CSV
+	/**
+     * Write the list of Medicine from {@link DataStorage} to the CSV file row by row.
+     * 
+     * @param dataStorage the {@link DataStorage} object containing list of Medicine attribute
+     */
 	@Override
 	public void saveRecords(DataStorage dataStorage) {
 		List<Medicine> recordToSave = dataStorage.getInventory().getMedicineRecords();
@@ -47,7 +66,11 @@ public class MedicineWriter implements DataWriter<Medicine>{
 		System.out.println("Medicine Records saved successfully");
 	}
 	
-	//Generate header for Medicine Record
+	/**
+     * Generates the header row for the Medicine CSV file.
+     * 
+     * @return a string array containing the column headers
+     */
 	@Override
 	public String[] createHeader() {
 		String[] headerCells = new String[noOfHeaders];
@@ -57,7 +80,12 @@ public class MedicineWriter implements DataWriter<Medicine>{
 		return headerCells;
 	}
 	
-	//Generate cells for Medicine Object
+	/**
+     * This class creates array of Medicine attributes to be saved. Example: MedicineCells[0]=MedicineStock of this Medicine.
+     * 
+     * @param Medicine the {@link Appointment} object containing Medicine attributes
+     * @return a string array representing a single row of attributes for the CSV file separated into columns
+     */
 	@Override
 	public String[] createCells(Medicine medicine) {
 		String[] medicineCells = new String[noOfHeaders];

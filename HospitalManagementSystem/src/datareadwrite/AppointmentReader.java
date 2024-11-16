@@ -11,13 +11,48 @@ import entities.Appointment;
 import entities.Appointment.AppointmentStatus;
 import entities.Appointment.PrescribedMedication;
 import entities.Doctor;
+import entities.Medicine;
 import entities.Pharmacist;
 import entities.Staff;
-
+/**
+ * The {@code AppointmentReader} class implements the {@link DataReader} interface to read and
+ * load Appointment data from a CSV file into the system's data storage.
+ * <p>
+ * This class is responsible for parsing the contents of a CSV file containing Appointment attributes,
+ * such as the patientid, date, and time etc. It then creates {@link Appointment} objects
+ * and adds them to the system's inventory.
+ * </p>
+ * 
+ * <p>
+ * It reads the data from the {@code Medicine_List.csv} file, which is expected to have the following
+ * format:
+ * </p>
+ * <pre>
+ * Appointment ID	Patient ID	Doctor ID	Appointment Status	Appointment Date	Appointment Time	Appointment Type	Prescribed Medications	Consultation Notes
+ * </pre>
+ * 
+ * <p>
+ * The {@code populateData} method processes each line in the CSV, creates a {@link Appointment} object
+ * for each entry, and stores it in the {@link DataStorage} object's inventory.
+ * </p>
+ * 
+ * @see DataStorage
+ * @see Appointment
+ * @see DataReader
+ * 
+ * 
+ */
 public class AppointmentReader implements DataReader{
 	String csvFile = "dataFiles/AppointmentList.csv";
     String line;
-	
+    /**
+     * Reads appointment records from a "AppointmentList.csv" CSV file and populates the provided 
+     * {@code DataStorage} with {@code Appointment} objects.
+     * 
+     * This class will be called at system startup to create the objects based on the CSV file
+     * 
+     * @param dataStorage the {@code DataStorage} object to be populated with appointment attribute
+     */
 	public void populateData(DataStorage dataStorage) {
 		 try (BufferedReader reader = new BufferedReader(new FileReader(csvFile))) {
 			 String header = reader.readLine();
@@ -50,7 +85,13 @@ public class AppointmentReader implements DataReader{
 		 }
 		 }
 
-
+	/**
+     * Helper class to Parses a string of prescribed medications into a list of {@code PrescribedMedication} objects as when data is read from CSV, it is in String format.
+     * 
+     * @param prescribedMedications a string containing medication details, formatted as 
+     *                              "MedicationName - Quantity: X || ..."
+     * @return a list of {@code PrescribedMedication} objects parsed from the input string
+     */
 
 	private List<PrescribedMedication> parseMedications(String prescribedMedications) {
 	    List<PrescribedMedication> medications = new ArrayList<>();

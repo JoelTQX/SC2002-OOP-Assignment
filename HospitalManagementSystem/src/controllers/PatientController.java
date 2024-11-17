@@ -221,46 +221,53 @@ public class PatientController {
      * @throws IllegalArgumentException If the appointment is not found or the status is not pending or scheduled.
      * @throws IllegalStateException If the appointment does not have a patient ID.
      */
+// Cancel an appointment
 public boolean cancelAppointment(String appointmentId) {
-    Appointment appointment = appointmentRecords.getAppointmentByID(appointmentId);
-    if (appointment == null) {
-        throw new IllegalArgumentException("Appointment not found.");
-    }
+    try {
+        Appointment appointment = appointmentRecords.getAppointmentByID(appointmentId);
+        if (appointment == null) {
+            throw new IllegalArgumentException("Appointment not found.");
+        }
 
-    if(appointment.getStatus() != AppointmentStatus.PENDING || appointment.getStatus() != AppointmentStatus.SCHEDULED)
-    {
-        throw new IllegalArgumentException("Make sure appointment is Pending or Schdeuled");
-        // checks if the appointment is pending or scheduled in cases patient tries to cancel an appointment that is already completed or cancelled 
-    }
+        if (appointment.getStatus() != AppointmentStatus.PENDING && appointment.getStatus() != AppointmentStatus.SCHEDULED) {
+            throw new IllegalArgumentException("Appointment must be Pending or Scheduled to be cancelled.");
+             // checks if the appointment is pending or scheduled in cases patient tries to cancel an appointment that is already completed or cancelled 
+        }
 
-    String patientId = appointment.getPatientId();
-    if (patientId == null) {
-        throw new IllegalStateException("Appointment does not have a patient ID.");
-    }
+        String patientId = appointment.getPatientId();
+        if (patientId == null) {
+            throw new IllegalStateException("Appointment does not have a patient ID.");
+        }
 
-    if (patientId.equals(getUserID())) {
-        appointmentController.setStatus(appointment, AppointmentStatus.CANCELLED);
-        // Create a new appointment with the same details as the cancelled appointment
-        // Calls appointment constructor used in doctor controller
-        String doctorId = appointment.getDoctorId();
-        String date = appointment.getAppointmentDate();
-        String time = appointment.getAppointmentTime();
-        Appointment newAppointment = new Appointment(
-            appointmentController.generateAppointmentID(),
-            null, // No patient yet
-            doctorId,
-            date,
-            time,
-            null // No specific type yet
-        );
-        newAppointment.setStatus(AppointmentStatus.AVAILABLE);
-        newAppointment.setAppointmentDate(date);
-        appointmentRecords.addAppointment(newAppointment); // Add new availability slot to records
+        if (patientId.equals(getUserID())) {
+            appointmentController.setStatus(appointment, AppointmentStatus.CANCELLED);
+            // Create a new appointment with the same details as the cancelled appointment
+            // Calls appointment constructor used in doctor controller
+            String doctorId = appointment.getDoctorId();
+            String date = appointment.getAppointmentDate();
+            String time = appointment.getAppointmentTime();
+            Appointment newAppointment = new Appointment(
+                appointmentController.generateAppointmentID(),
+                null, // No patient yet
+                doctorId,
+                date,
+                time,
+                null // No specific type yet
+            );
+            newAppointment.setStatus(AppointmentStatus.AVAILABLE);
+            newAppointment.setAppointmentDate(date);
+            appointmentRecords.addAppointment(newAppointment); // Add new availability slot to records
 
-        return true;
+            return true;
+        } else {
+            throw new IllegalArgumentException("You can only cancel your own appointments.");
+        }
+    } catch (IllegalArgumentException | IllegalStateException e) {
+        System.out.println("Error: " + e.getMessage());
+        return false;
     }
-    return false;
 }
+
 
 	/**
 	 * Retrieves a list of scheduled appointments for the logged-in patient.

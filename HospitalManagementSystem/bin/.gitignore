@@ -1,3 +1,5 @@
-/datastorage/
+/datareadwrite/
+/entities/
 /controllers/
+/datastorage/
 /viewers/

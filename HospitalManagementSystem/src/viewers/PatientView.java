@@ -1,39 +1,28 @@
+package viewers;
+
+import controllers.PatientController;
+import entities.Appointment;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * The PatientView class provides the user interface for patient-related functionalities.
  * It allows patients to view and manage their personal information, appointments,
  * and medical records through various menu options.
  */
-package viewers;
-
-import controllers.PatientController;
-import entities.Appointment;
-import java.util.List;
-import java.util.Scanner;
-
-/**
- * This class implements the ViewInterface to display the patient menu and manage
- * user interactions for patient-related features.
- */
 public class PatientView implements ViewInterface {
     private PatientController patientControl;
     private Scanner inputScanner;
 
-    /**
-     * Constructs a PatientView object.
-     *
-     * @param patientControl the controller for managing patient operations.
-     * @param inputScanner the scanner for reading user input.
-     */
     public PatientView(PatientController patientControl, Scanner inputScanner) {
         this.patientControl = patientControl;
         this.inputScanner = inputScanner;
     }
 
-    /**
-     * Displays the main menu for the patient and processes user input.
-     *
-     * @return true to continue displaying the menu, false to log out.
-     */
+    @Override
     public boolean displayMenu() {
         System.out.println("------ Patient Menu ------");
         System.out.println("1. View Medical Record");
@@ -50,6 +39,7 @@ public class PatientView implements ViewInterface {
         int userChoice;
         try {
             userChoice = inputScanner.nextInt();
+            inputScanner.nextLine(); // Clear the buffer
         } catch (Exception e) {
             System.out.println("Invalid Option... Please Try Again...\n");
             inputScanner.next(); // Clear Scanner Buffer
@@ -90,24 +80,6 @@ public class PatientView implements ViewInterface {
         return true;
     }
 
-    /**
-     * Displays the medical record of the logged-in patient.
-     */
-    private void viewMedicalRecord() {
-        System.out.println("Patient ID: " + patientControl.getUserID());
-        System.out.println("Patient Name: " + patientControl.getUserName());
-        System.out.println("Patient Gender: " + patientControl.getUserGender());
-        System.out.println("Patient Date Of Birth: " + patientControl.getUserDOB());
-        System.out.println("Patient Email: " + patientControl.getUserContactInfo());
-        System.out.println("Patient Contact Number: " + patientControl.getUserContactNumber());
-        System.out.println("Patient Blood Type: " + patientControl.getUserBloodType());
-        System.out.println("Patient Diagnoses: " + patientControl.getUserDiagnoses());
-        System.out.println("Patient Treatment: " + patientControl.getUserTreatment());
-    }
-
-    /**
-     * Updates the personal information of the patient.
-     */
     private void updatePersonalInformation() {
         System.out.println("------ Update Personal Information ------");
         System.out.println("1. Email Address");
@@ -117,6 +89,7 @@ public class PatientView implements ViewInterface {
         int userChoice;
         try {
             userChoice = inputScanner.nextInt();
+            inputScanner.nextLine(); // Clear the buffer
         } catch (Exception e) {
             System.out.println("Invalid Option... Please Try Again...\n");
             inputScanner.next(); // Clear Scanner Buffer
@@ -144,36 +117,39 @@ public class PatientView implements ViewInterface {
         }
     }
 
-    /**
-     * Displays the available appointment slots for scheduling.
-     */
-    private void viewAvailableSlots() {
-        System.out.println("------ Available Appointment Slots ------");
-        List<Appointment> availableSlots = patientControl.getAvailableSlots();
-        if (availableSlots.isEmpty()) {
-            System.out.println("No available slots at the moment.");
-        } else {
-            for (Appointment appointment : availableSlots) {
-                System.out.println("Appointment ID: " + appointment.getAppointmentID() +
-                        ", Doctor ID: " + appointment.getDoctorId() +
-                        ", Date: " + appointment.getAppointmentDate() +
-                        ", Time: " + appointment.getAppointmentTime() +
-                        ", Status: " + appointment.getStatus());
-            }
-        }
-    }
-
-    /**
-     * Allows the patient to schedule a new appointment by providing details.
-     */
     private void scheduleAppointment() {
         System.out.println("------ Schedule an Appointment ------");
         System.out.print("Enter Doctor ID: ");
         String doctorId = inputScanner.next();
         System.out.print("Enter Appointment Date (DD/MM/YYYY): ");
         String date = inputScanner.next();
+
+        // Validate date format
+        if (!date.matches("\\d{2}/\\d{2}/\\d{4}")) {
+            System.out.println("Invalid date format. Please use DD/MM/YYYY.");
+            return;
+        }
+
+        // Validate if the date is a valid calendar date
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            LocalDate parsedDate = LocalDate.parse(date, dateFormatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid date. Please enter a valid date.");
+            return;
+        }
+
         System.out.print("Enter Appointment Time (HH:MM): ");
         String time = inputScanner.next();
+
+        // List of designated time slots
+        List<String> allSlots = List.of("09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00");
+
+        // Validate time format and check if it is within the designated time slots
+        if (!time.matches("\\d{2}:\\d{2}") || !allSlots.contains(time)) {
+            System.out.println("Invalid time. Please enter a valid time slot (e.g., 09:00, 10:00, etc.).");
+            return;
+        }
 
         String success = patientControl.scheduleAppointment(doctorId, date, time);
 
@@ -184,17 +160,40 @@ public class PatientView implements ViewInterface {
         }
     }
 
-    /**
-     * Allows the patient to reschedule an existing appointment.
-     */
     private void rescheduleAppointment() {
         System.out.println("------ Reschedule an Appointment ------");
         System.out.print("Enter Appointment ID to reschedule: ");
         String appointmentId = inputScanner.next();
+
         System.out.print("Enter New Appointment Date (DD/MM/YYYY): ");
         String newDate = inputScanner.next();
+
+        // Validate date format
+        if (!newDate.matches("\\d{2}/\\d{2}/\\d{4}")) {
+            System.out.println("Invalid date format. Please use DD/MM/YYYY.");
+            return;
+        }
+
+        // Validate if the date is a valid calendar date
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            LocalDate parsedDate = LocalDate.parse(newDate, dateFormatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid date. Please enter a valid date.");
+            return;
+        }
+
         System.out.print("Enter New Appointment Time (HH:MM): ");
         String newTime = inputScanner.next();
+
+        // List of designated time slots
+        List<String> allSlots = List.of("09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00");
+
+        // Validate time format and check if it is within the designated time slots
+        if (!newTime.matches("\\d{2}:\\d{2}") || !allSlots.contains(newTime)) {
+            System.out.println("Invalid time. Please enter a valid time slot (e.g., 09:00, 10:00, etc.).");
+            return;
+        }
 
         String success = patientControl.rescheduleAppointment(appointmentId, newDate, newTime);
 
@@ -206,9 +205,6 @@ public class PatientView implements ViewInterface {
         }
     }
 
-    /**
-     * Allows the patient to cancel an existing appointment.
-     */
     private void cancelAppointment() {
         System.out.println("------ Cancel an Appointment ------");
         System.out.print("Enter Appointment ID to cancel: ");
@@ -223,9 +219,6 @@ public class PatientView implements ViewInterface {
         }
     }
 
-    /**
-     * Displays all scheduled appointments for the patient.
-     */
     private void viewScheduledAppointments() {
         System.out.println("------ Scheduled Appointments ------");
         List<Appointment> appointments = patientControl.getScheduledAppointments();
@@ -243,9 +236,6 @@ public class PatientView implements ViewInterface {
         }
     }
 
-    /**
-     * Displays past appointment outcomes for the patient.
-     */
     private void viewAppointmentOutcomeRecord() {
         System.out.println("------ Past Appointment Outcome Records ------");
         List<Appointment> completedAppointments = patientControl.getCompletedAppointments();
@@ -255,6 +245,34 @@ public class PatientView implements ViewInterface {
         } else {
             for (Appointment appointment : completedAppointments) {
                 System.out.println(patientControl.displayDetails(appointment));
+            }
+        }
+    }
+
+    private void viewMedicalRecord() {
+        System.out.println("Patient ID: " + patientControl.getUserID());
+        System.out.println("Patient Name: " + patientControl.getUserName());
+        System.out.println("Patient Gender: " + patientControl.getUserGender());
+        System.out.println("Patient Date Of Birth: " + patientControl.getUserDOB());
+        System.out.println("Patient Email: " + patientControl.getUserContactInfo());
+        System.out.println("Patient Contact Number: " + patientControl.getUserContactNumber());
+        System.out.println("Patient Blood Type: " + patientControl.getUserBloodType());
+        System.out.println("Patient Diagnoses: " + patientControl.getUserDiagnoses());
+        System.out.println("Patient Treatment: " + patientControl.getUserTreatment());
+    }
+
+    private void viewAvailableSlots() {
+        System.out.println("------ Available Appointment Slots ------");
+        List<Appointment> availableSlots = patientControl.getAvailableSlots();
+        if (availableSlots.isEmpty()) {
+            System.out.println("No available slots at the moment.");
+        } else {
+            for (Appointment appointment : availableSlots) {
+                System.out.println("Appointment ID: " + appointment.getAppointmentID() +
+                        ", Doctor ID: " + appointment.getDoctorId() +
+                        ", Date: " + appointment.getAppointmentDate() +
+                        ", Time: " + appointment.getAppointmentTime() +
+                        ", Status: " + appointment.getStatus());
             }
         }
     }

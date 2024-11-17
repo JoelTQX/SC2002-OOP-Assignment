@@ -4,6 +4,9 @@ import controllers.DoctorController;
 import datastorage.PatientRecords;
 import entities.Appointment;
 import entities.Patient;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -21,7 +24,7 @@ public class DoctorView implements ViewInterface {
      * Constructs a `DoctorView` object.
      *
      * @param doctorControl the controller handling doctor-related operations
-     * @param inputScanner  the `code Scanner` instance for user input
+     * @param inputScanner  the `Scanner` instance for user input
      */
     public DoctorView(DoctorController doctorControl, Scanner inputScanner) {
         this.doctorControl = doctorControl;
@@ -89,8 +92,6 @@ public class DoctorView implements ViewInterface {
     /**
      * Displays the medical records of all patients accessible to the doctor.
      */
-
-    // OPTION 1: View Patient Medical Records
     private void viewPatientRecords() {
         PatientRecords patientRecords = doctorControl.getPatientsRecords();
         for (Patient patient : patientRecords.getPatientList()) {
@@ -107,8 +108,6 @@ public class DoctorView implements ViewInterface {
     /**
      * Updates the medical records of a specific patient.
      */
-    
-    // OPTION 2: Update Patient Medical Records
     private void updatePatientRecords() {
         System.out.println("------ Update Patient Medical Records ------");
         System.out.print("Enter Patient ID to update records: ");
@@ -130,8 +129,6 @@ public class DoctorView implements ViewInterface {
     /**
      * Displays the doctor's personal schedule, listing upcoming appointments.
      */
-
-    // OPTION 3: View Personal Schedule
     private void viewPersonalSchedule() {
         System.out.println("------ Doctor's Personal Schedule ------");
         List<Appointment> upcomingAppointments = doctorControl.getUpcomingAppointments();
@@ -151,12 +148,25 @@ public class DoctorView implements ViewInterface {
     /**
      * Allows the doctor to set their availability for appointments on a specific date.
      */
-    
-    // OPTION 4: Set Availability for Appointments
     private void setAvailability() {
         System.out.println("------ Set Availability for Appointments ------");
         System.out.print("Enter date for availability (DD/MM/YYYY): ");
         String date = inputScanner.nextLine();
+
+        // Validate date format
+        if (!date.matches("\\d{2}/\\d{2}/\\d{4}")) {
+            System.out.println("Invalid date format. Please use DD/MM/YYYY.");
+            return;
+        }
+
+        // Validate if the date is a valid calendar date
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            LocalDate parsedDate = LocalDate.parse(date, dateFormatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid date. Please enter a valid date.");
+            return;
+        }
 
         // Display available slots for the specified date
         System.out.println("Slots available are:");
@@ -167,6 +177,13 @@ public class DoctorView implements ViewInterface {
         while (continueSetting) {
             System.out.print("Enter available time slot (HH:MM) (e.g., 09:00): ");
             String timeSlot = inputScanner.nextLine();
+
+            // Validate time format
+            if (!timeSlot.matches("\\d{2}:\\d{2}")) {
+                System.out.println("Invalid time format. Please use HH:MM.");
+                return;
+            }
+
             boolean success = doctorControl.setAvailability(date, timeSlot); // call the apt constructor
             System.out.println(success ? "Availability set successfully." : "Failed to set availability. Please try again.");
 
@@ -179,8 +196,6 @@ public class DoctorView implements ViewInterface {
     /**
      * Allows the doctor to accept or decline appointment requests.
      */
-
-    // OPTION 5: Accept or Decline Appointment Requests
     private void acceptOrDeclineAppointment() {
         System.out.println("------ Accept/Decline Appointment Requests ------");
         List<Appointment> requests = doctorControl.getAppointmentRequests(); // fetch the list of doctor APT
@@ -208,8 +223,6 @@ public class DoctorView implements ViewInterface {
     /**
      * Displays a list of the doctor's upcoming appointments.
      */
-    
-    // OPTION 6: View Upcoming Appointments
     private void viewUpcomingAppointments() {
         System.out.println("------ Upcoming Appointments ------");
         List<Appointment> upcomingAppointments = doctorControl.getUpcomingAppointments();
@@ -229,19 +242,36 @@ public class DoctorView implements ViewInterface {
     /**
      * Records the outcome of a completed appointment.
      */
-    
-    // OPTION 7: Record Appointment Outcome
     private void recordAppointmentOutcome() {
         System.out.println("------ Record Appointment Outcome ------");
         System.out.print("Enter Appointment ID: ");
         String appointmentId = inputScanner.next();
+
         System.out.print("Enter Date of Appointment (DD/MM/YYYY): ");
         String date = inputScanner.next();
+
+        // Validate date format
+        if (!date.matches("\\d{2}/\\d{2}/\\d{4}")) {
+            System.out.println("Invalid date format. Please use DD/MM/YYYY.");
+            return;
+        }
+
+        // Validate if the date is a valid calendar date
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            LocalDate parsedDate = LocalDate.parse(date, dateFormatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid date. Please enter a valid date.");
+            return;
+        }
+
         System.out.print("Enter Type of Service (e.g., Consultation, X-ray): ");
         String serviceType = inputScanner.next();
+
         System.out.print("Enter any Prescribed Medications (comma-separated): ");
         inputScanner.nextLine(); // Consume newline
         String medications = inputScanner.nextLine();
+
         System.out.print("Enter Medications QTY (comma-separated), Enter 0 if none: ");
         String inputLine = inputScanner.nextLine(); // Read the whole line
         String[] tokens = inputLine.split(","); // Split by comma
@@ -254,6 +284,7 @@ public class DoctorView implements ViewInterface {
                 return;
             }
         }
+
         System.out.print("Enter Consultation Notes: ");
         String notes = inputScanner.nextLine();
 

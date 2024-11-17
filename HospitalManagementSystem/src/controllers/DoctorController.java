@@ -58,22 +58,33 @@ public class DoctorController {
     /////////////////////////////////////////////////////////////////////////////////////////////////
     /// APPOINTMENT MANAGEMENT METHODS //////////////////////////////////////////////////////////////
 
-    // Sets availability by creating empty slots (appointments) for specific dates and times
-    public boolean setAvailability(String date, String time) {
-        String doctorId = user.getUserID();
-        Appointment newAppointment = new Appointment(
-            appointmentController.generateAppointmentID(),
-            null, // No patient yet
-            doctorId,
-            date,
-            time,
-            null // No specific type yet
-        );
-        newAppointment.setStatus(AppointmentStatus.AVAILABLE);
-        newAppointment.setAppointmentDate(date);
-        appointmentRecords.addAppointment(newAppointment); // Add new availability slot to records
-        return true;
+   // Sets availability by creating empty slots (appointments) for specific dates and times
+public boolean setAvailability(String date, String time) {
+    String doctorId = user.getUserID();
+
+    // Check for existing slot for the same doctor at the same time and date
+    List<Appointment> existingAppointments = appointmentRecords.getAppointmentsForDate(date);
+    for (Appointment appointment : existingAppointments) {
+        if (appointment.getDoctorId().equals(doctorId) && appointment.getAppointmentTime().equals(time)) {
+            System.out.println("An appointment slot already exists for the same doctor at the same time and date.");
+            return false;
+        }
     }
+
+    // Create new appointment slot
+    Appointment newAppointment = new Appointment(
+        appointmentController.generateAppointmentID(),
+        null, // No patient yet
+        doctorId,
+        date,
+        time,
+        null // No specific type yet
+    );
+    newAppointment.setStatus(AppointmentStatus.AVAILABLE);
+    newAppointment.setAppointmentDate(date);
+    appointmentRecords.addAppointment(newAppointment); // Add new availability slot to records
+    return true;
+}
 
     // Retrieves empty slots for a specific date, so the doctor can view availability options
     public List<String> getEmptySlots(String date) {

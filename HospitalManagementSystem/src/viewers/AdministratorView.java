@@ -92,43 +92,50 @@ public class AdministratorView implements ViewInterface{
      * for further inspection.
      */
 	private void viewAppointmentDetails() {
-		// TODO Auto-generated method stub
-		List<Appointment> allAppointments = adminControl.getAppointmentRecords();
-        int displayCount = 1;
-        int userChoice = -1;
-    	
-        if (allAppointments.isEmpty()) {
-            System.out.println("No past appointments with recorded outcomes.");
-            return;
-        }
-        System.out.println("------ Past Appointment Outcome Records ------");
-        for (Appointment appointment : allAppointments) {
-            System.out.println(displayCount++ + ". " + appointment.getAppointmentID());
-        }
-        //Exit/Return after last available options
-        System.out.println(displayCount + ". Return to Menu");
-        
-        
-        do{
-        	System.out.print("Enter Option: ");
-        	try{
-        		userChoice = inputScanner.nextInt();
-        	}catch(Exception e) {
-        		System.out.println("Invalid Format... Please Input An Integer");
-        		inputScanner.next(); //Clear Buffer;
-        	}
-        	if(userChoice > allAppointments.size()) {
-        		if(userChoice == allAppointments.size()+1) break;
-        		System.out.println("Invalid Option... Please Try Again...");
-        		continue;
-        	}
-        	Appointment chosenAppointment = allAppointments.get(userChoice-1);
-        	viewAppointmentDetails(chosenAppointment);
-        	
-        }while(userChoice != allAppointments.size());
-        System.out.println("Returning to menu...");
-		
+	    List<Appointment> allAppointments = adminControl.getAppointmentRecords();
+	    int displayCount = 1;
+	    int userChoice = -1;
+
+	    if (allAppointments.isEmpty()) {
+	        System.out.println("No past appointments with recorded outcomes.");
+	        return;
+	    }
+	    System.out.println("------ Past Appointment Outcome Records ------");
+	    for (Appointment appointment : allAppointments) {
+	        System.out.println(displayCount++ + ". " + appointment.getAppointmentID());
+	    }
+	    // Exit/Return after last available options
+	    System.out.println(displayCount + ". Return to Menu");
+
+	    do {
+	        System.out.print("Enter Option: ");
+	        try {
+	            userChoice = inputScanner.nextInt();
+	        } catch (Exception e) {
+	            System.out.println("Invalid Format... Please Input An Integer");
+	            inputScanner.next(); // Clear Buffer;
+	        }
+	        if (userChoice > allAppointments.size()) {
+	            if (userChoice == allAppointments.size() + 1) break; // Exit if "Return to Menu" option selected
+	            System.out.println("Invalid Option... Please Try Again...");
+	            continue;
+	        }
+
+	        Appointment chosenAppointment = allAppointments.get(userChoice - 1);
+	        viewAppointmentDetails(chosenAppointment);  // Show appointment details
+
+	        // Ask user if they want to continue viewing more appointments or return to the menu
+	        System.out.println("\nWould you like to view another appointment? (Y/N): ");
+	        String continueChoice = inputScanner.next();
+	        if (continueChoice.equalsIgnoreCase("N")) {
+	            break; // Exit loop and return to menu
+	        }
+
+	    } while (userChoice != allAppointments.size());
+	    
+	    System.out.println("Returning to menu...");
 	}
+
 
     /**
      * Displays the detailed information of a selected appointment.

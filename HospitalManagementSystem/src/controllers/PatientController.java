@@ -8,13 +8,23 @@ import entities.Patient;
 import entities.User;
 import java.util.List;
 
+/**
+ * The PatientController class handles the operations for managing patient-related actions, 
+ * such as retrieving and updating patient information, scheduling, rescheduling, and canceling appointments.
+ * It also interacts with appointment records and manages appointment status updates for the logged-in patient.
+ */
 public class PatientController {
     private User user;  // Reference to the logged-in patient
     private DataStorage dataStorage;  // Main data storage for access to all records
     private AppointmentController appointmentController;  // Controller for individual appointment operations
     private AppointmentRecords appointmentRecords;  // Record manager for all appointments
 
-    // Constructor
+    /**
+     * Constructs a PatientController for managing patient-specific operations.
+     * 
+     * @param user The logged-in user, which should be a Patient.
+     * @param dataStorage The DataStorage instance that contains all the data for managing appointments.
+     */
     public PatientController(User user, DataStorage dataStorage) {
         this.user = (Patient) user;
         this.dataStorage = dataStorage;
@@ -25,39 +35,83 @@ public class PatientController {
     /////////////////////////////////////////////////////////////////////////////////////////////////
     /// PATIENT INFORMATION GETTERS /////////////////////////////////////////////////////////////////
 
-    // Getters for patient information
+    /**
+     * Retrieves the User ID of the logged-in patient.
+     * 
+     * @return The User ID.
+     */
     public String getUserID() {
         return user.getUserID();
     }
 
+    /**
+     * Retrieves the User Name of the logged-in patient.
+     * 
+     * @return The User Name.
+     */
     public String getUserName() {
         return user.getUserName();
     }
 
+    /**
+     * Retrieves the gender of the logged-in patient.
+     * 
+     * @return The gender of the patient.
+     */
     public String getUserGender() {
         return user.getUserGender();
     }
 
+    /**
+     * Retrieves the date of birth of the logged-in patient.
+     * 
+     * @return The date of birth of the patient.
+     */
     public String getUserDOB() {
         return ((Patient) user).getPatientDOB();
     }
 
+    /**
+     * Retrieves the contact information of the logged-in patient.
+     * 
+     * @return The contact information of the patient.
+     */
     public String getUserContactInfo() {
         return ((Patient) user).getPatientContactInfo();
     }
 
+    /**
+     * Retrieves the contact number of the logged-in patient.
+     * 
+     * @return The contact number of the patient.
+     */
     public String getUserContactNumber() {
         return ((Patient) user).getPatientContactNumber();
     }
 
+    /**
+     * Retrieves the diagnoses of the logged-in patient.
+     * 
+     * @return The diagnoses of the patient.
+     */
     public String getUserDiagnoses() {
         return ((Patient) user).getPatientdiagnoses();
     }
 
+    /**
+     * Retrieves the treatment information of the logged-in patient.
+     * 
+     * @return The treatment information of the patient.
+     */
     public String getUserTreatment() {
         return ((Patient) user).getPatienttreatment();
     }
 
+    /**
+     * Retrieves the blood type of the logged-in patient.
+     * 
+     * @return The blood type of the patient.
+     */
     public String getUserBloodType() {
         return ((Patient) user).getPatientBloodType();
     }
@@ -65,11 +119,20 @@ public class PatientController {
     /////////////////////////////////////////////////////////////////////////////////////////////////
     /// PATIENT INFORMATION SETTERS /////////////////////////////////////////////////////////////////
 
-    // Update Patient Contact Information
+    /**
+     * Updates the contact information of the logged-in patient.
+     * 
+     * @param contactInfo The new contact information to set.
+     */
     public void setPatientContactInfo(String contactInfo) {
         ((Patient) user).setPatientContactInfo(contactInfo);
     }
 
+    /**
+     * Updates the contact number of the logged-in patient.
+     * 
+     * @param contactNumber The new contact number to set.
+     */
     public void setPatientContactNumber(String contactNumber) {
         ((Patient) user).setPatientContactNumber(contactNumber);
     }
@@ -77,12 +140,23 @@ public class PatientController {
     /////////////////////////////////////////////////////////////////////////////////////////////////
     /// APPOINTMENT MANAGEMENT METHODS //////////////////////////////////////////////////////////////
 
-    // Get available slots for a specific date from AppointmentRecords
+    /**
+     * Retrieves all available appointment slots from the appointment records.
+     * 
+     * @return A list of available appointment slots.
+     */
     public List<Appointment> getAvailableSlots() {
         return appointmentRecords.getALLSlots();
     }
 
-    // Schedule a new appointment with a doctor
+    /**
+     * Schedules a new appointment with a doctor.
+     * 
+     * @param doctorId The ID of the doctor for the appointment.
+     * @param date The date for the appointment.
+     * @param time The time for the appointment.
+     * @return The appointment ID if the appointment is successfully scheduled; otherwise, null if the slot is unavailable.
+     */
     public String scheduleAppointment(String doctorId, String date, String time) {
         // Get all slots for the specified date
         List<Appointment> Slots = appointmentRecords.getALLSlots();
@@ -101,7 +175,14 @@ public class PatientController {
         return null; // Return null if the slot is already booked
     }
 
-    // Reschedule an existing appointment
+    /**
+     * Reschedules an existing appointment to a new date and time.
+     * 
+     * @param appointmentId The ID of the appointment to reschedule.
+     * @param newDate The new date for the appointment.
+     * @param newTime The new time for the appointment.
+     * @return The new appointment ID if successfully rescheduled, or null if the new time slot is unavailable.
+     */
     public String rescheduleAppointment(String appointmentId, String newDate, String newTime) {
         // Retrieve the appointment by ID
         //perform appointment swap 
@@ -132,7 +213,14 @@ public class PatientController {
         return null; // Return false if the new time slot is already booked
     }
 
-   // Cancel an appointment
+    /**
+     * Cancels an existing appointment.
+     * 
+     * @param appointmentId The ID of the appointment to cancel.
+     * @return True if the appointment is successfully canceled, or false if the appointment cannot be canceled.
+     * @throws IllegalArgumentException If the appointment is not found or the status is not pending or scheduled.
+     * @throws IllegalStateException If the appointment does not have a patient ID.
+     */
 public boolean cancelAppointment(String appointmentId) {
     Appointment appointment = appointmentRecords.getAppointmentByID(appointmentId);
     if (appointment == null) {
@@ -174,11 +262,20 @@ public boolean cancelAppointment(String appointmentId) {
     return false;
 }
 
-    // Retrieve scheduled appointments for the patient
+	/**
+	 * Retrieves a list of scheduled appointments for the logged-in patient.
+	 * 
+	 * @return A list of scheduled appointments for the patient.
+	 */
     public List<Appointment> getScheduledAppointments() {
         return appointmentRecords.getPatientAppointments(getUserID(), AppointmentStatus.SCHEDULED);
     }
 
+    /**
+     * Retrieves a list of completed appointments for the logged-in patient.
+     * 
+     * @return A list of completed appointments for the patient.
+     */
     // Retrieve completed appointments for the patient
     public List<Appointment> getCompletedAppointments() {
         return appointmentRecords.getPatientAppointments(getUserID(), AppointmentStatus.COMPLETED);
@@ -187,7 +284,12 @@ public boolean cancelAppointment(String appointmentId) {
     /////////////////////////////////////////////////////////////////////////////////////////////////
     /// HELPER METHODS //////////////////////////////////////////////////////////////////////////////
 
-    // Display appointment details
+    /**
+     * Displays the details of an appointment.
+     * 
+     * @param appointment The appointment whose details are to be displayed.
+     * @return A string representation of the appointment's details.
+     */
     public String displayDetails(Appointment appointment) {
         return appointmentController.displayDetails(appointment);
     }

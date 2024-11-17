@@ -4,16 +4,47 @@ import entities.Appointment.AppointmentStatus;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an appointment in the hospital management system.
+ * An appointment is associated with a doctor and a patient, and it tracks the status, date, time, type, prescribed medications, and consultation notes.
+ */
+
 public class Appointment {
 
-    // Enum for appointment status
+    /**
+     * Enum representing the various statuses of an appointment.
+     */
+	
     public enum AppointmentStatus {
-        SCHEDULED,          // doctor confirmed, patient confirmed 
-        NULL,               // For empty appointments
-        CANCELLED,          // Doctor canceled because not free
-        COMPLETED,          // Marked done by doctor after consult notes added 
-        PENDING,            // Patient confirmed, doctor yet to confirm 
-        AVAILABLE           // Doctor indicates availability, use to indicate free slots by the patient too
+        /**
+         * Both doctor and patient have confirmed the appointment.
+         */
+        SCHEDULED,          
+        
+        /**
+         * Represents an empty or unassigned appointment.
+         */
+        NULL,              
+        
+        /**
+         * Indicates the appointment has been canceled by the doctor due to unavailability.
+         */
+        CANCELLED,
+        
+        /**
+         * The appointment has been completed, with consultation notes provided.
+         */
+        COMPLETED,          
+        
+        /**
+         * The patient has confirmed, but the doctor has yet to confirm.
+         */
+        PENDING,            
+        
+        /**
+         * The doctor has marked the slot as available.
+         */
+        AVAILABLE          
     }
 
     // Attributes
@@ -27,8 +58,16 @@ public class Appointment {
     private List<PrescribedMedication> prescribedMedications; // Medications prescribed during the appointment
     private String consultationNotes;
 
-    // Constructor
-    // To be called by doctor after setting availability
+    /**
+     * Constructs an appointment with initial availability, primarily set by a doctor.
+     *
+     * @param appointmentID   Unique identifier for the appointment.
+     * @param patientId       Patient's ID (may be set later).
+     * @param doctorId        Doctor's ID.
+     * @param appointmentDate Date of the appointment.
+     * @param appointmentTime Time of the appointment.
+     * @param appointmentType Type of the appointment.
+     */
     public Appointment(String appointmentID, String patientId, String doctorId, String appointmentDate, String appointmentTime, String appointmentType) {
         this.appointmentID = appointmentID;
         this.patientId = patientId;   // To be filled in later
@@ -40,6 +79,20 @@ public class Appointment {
         this.prescribedMedications = new ArrayList<>(); // Pass empty array 
     }
 
+
+    /**
+     * Constructs an appointment with specified details.
+     *
+     * @param appointmentID           Unique identifier for the appointment.
+     * @param patientId               Patient's ID.
+     * @param doctorId                Doctor's ID.
+     * @param status                  Status of the appointment.
+     * @param appointmentDate         Date of the appointment.
+     * @param appointmentTime         Time of the appointment.
+     * @param appointmentType         Type of the appointment.
+     * @param prescribedMedications   List of prescribed medications.
+     * @param consultationNotes       Consultation notes from the doctor.
+     */
     public Appointment(String appointmentID, String patientId, String doctorId, AppointmentStatus status, String appointmentDate, String appointmentTime, String appointmentType, List<PrescribedMedication> prescribedMedications2, String consultationNotes) {
         this.appointmentID = appointmentID;
         this.patientId = patientId;   // To be filled in later
@@ -52,10 +105,11 @@ public class Appointment {
         this.consultationNotes = consultationNotes;
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /// APPOINTMENT STATUS METHODS //////////////////////////////////////////////////////////////////
-
-    // Method to update consultation notes and mark the appointment as completed
+    /**
+     * Marks the appointment as completed and sets consultation notes.
+     *
+     * @param consultationNotes The doctor's consultation notes.
+     */
     public void completeAppointment(String consultationNotes) {
         this.consultationNotes = consultationNotes;
         this.status = AppointmentStatus.COMPLETED;
@@ -166,15 +220,20 @@ public class Appointment {
         prescribedMedications.add(new PrescribedMedication(medicationName, medicineQuantity)); // Uses a List.add() method to append to the list 
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    /// NESTED CLASS FOR PRESCRIBED MEDICATION //////////////////////////////////////////////////////
-
-    // Nested class to represent a prescribed medication
+    /**
+     * Represents a medication prescribed during an appointment.
+     */
     public static class PrescribedMedication {
         private String medicationName;
         private String status;
         private int medicineQuantity;
 
+        /**
+         * Constructs a prescribed medication with the specified name and quantity.
+         *
+         * @param medicationName  The name of the medication.
+         * @param medicineQuantity The quantity of the medication prescribed.
+         */
         public PrescribedMedication(String medicationName, int medicineQuantity) {
             this.medicationName = medicationName;
             this.medicineQuantity = medicineQuantity;
@@ -197,6 +256,11 @@ public class Appointment {
             this.status = status;
         }
 
+        /**
+         * Returns a string representation of the prescribed medication.
+         *
+         * @return A string containing the medication name and its status.
+         */
         @Override
         public String toString() {
             return medicationName + " (Status: " + status + ")";

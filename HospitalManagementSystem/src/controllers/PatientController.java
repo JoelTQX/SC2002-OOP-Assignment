@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class PatientController {
     private User user;  // Reference to the logged-in patient
-    private DataStorage dataStorage;  // Main data storage for access to all records
     private AppointmentController appointmentController;  // Controller for individual appointment operations
     private AppointmentRecords appointmentRecords;  // Record manager for all appointments
 
@@ -27,7 +26,6 @@ public class PatientController {
      */
     public PatientController(User user, DataStorage dataStorage) {
         this.user = (Patient) user;
-        this.dataStorage = dataStorage;
         this.appointmentController = new AppointmentController(dataStorage); // Instantiate AppointmentController
         this.appointmentRecords = dataStorage.getAppointmentRecords(); // Retrieve AppointmentRecords from DataStorage
     }
@@ -196,9 +194,6 @@ public class PatientController {
         // Check if the new time slot is available
         for (Appointment appointment1 : Slots) {
             if (appointment1.getAppointmentTime().equals(newTime) && appointment1.getStatus().equals(Appointment.AppointmentStatus.AVAILABLE)) { // slot is available
-                // write the data to the new appointment slot 
-                String newAppointmentID = appointment1.getAppointmentID();
-
                 // Update appointment details with new date and time
                 appointmentController.setPatientId(appointment1, getUserID()); // Update the patient ID
                 appointmentController.setStatus(appointment1, Appointment.AppointmentStatus.PENDING); // Mark as pending for reconfirmation by doctor

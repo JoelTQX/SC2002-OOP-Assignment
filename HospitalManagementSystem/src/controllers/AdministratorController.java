@@ -195,5 +195,46 @@ public class AdministratorController {
 		AppointmentController appointmentControl = new AppointmentController(this.dataStorage);
 		return appointmentControl.getAppointmentRecords();
 	}
-
+	
+	/**
+     * Update the name of the staff.
+     * 
+     * @param staff The staff to modify
+     * @param newName The new name of the staff
+     */
+	public void updateStaffName(Staff staff, String newName) {
+		// TODO Auto-generated method stub
+		staffControl.updateStaffName(staff, newName);
+	}
+	
+	/**
+     * Update the age of the staff.
+     * 
+     * @param staff The staff to modify
+     * @param newAge The new age of the staff
+     */
+	public void updateStaffAge(Staff staff, int newAge) {
+		// TODO Auto-generated method stub
+		staffControl.updateStaffAge(staff, newAge);
+	}
+	
+	/**
+     * Update the gender of the staff.
+     * 
+     * @param staff The staff to modify
+     * @param newGender The new gender of the staff
+     */
+	public void updateStaffGender(Staff staff, String newGender) {
+		// TODO Auto-generated method stub
+		staffControl.updateStaffGender(staff, newGender);
+	}
+	
+	/**
+     * Reset the password of the staff.
+     * 
+     * @param staff The staff to modify
+     */
+	public void resetStaffPassword(Staff staff) {
+		staffControl.resetStaffPassword(staff);
+	}
 }

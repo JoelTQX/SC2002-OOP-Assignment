@@ -91,7 +91,7 @@ public class StaffController {
 	}
 	
 	/**
-     * Reset the psasword of the staff.
+     * Reset the password of the staff.
      * 
      * @param staff The staff to modify
      */

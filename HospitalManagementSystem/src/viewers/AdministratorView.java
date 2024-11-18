@@ -78,6 +78,8 @@ public class AdministratorView implements ViewInterface{
 			case 4: 
 				approveReplenishmentRequests();
 				break;
+			default:
+				System.out.println("Invalid Option... Please Try Again...\n");
 		}
 		
 		if(userChoice == 5) {
@@ -320,36 +322,147 @@ public class AdministratorView implements ViewInterface{
      * Allows the administrator to manage hospital staff, including viewing, adding, or removing staff members.
      */
 	private void manageHospitalStaff() {
-		System.out.println("------ Manage Hospital Staff ------");
-		System.out.println("1. View Staff");
-		System.out.println("2. Add Staff");
-		System.out.println("3. Remove Staff");
-		
-		int userChoice;
-		//Error Handling
-		try {
-			userChoice = inputScanner.nextInt();
-		}catch(Exception e) {
-			System.out.println("Invalid Option... Please Try Again...\n");
-        	inputScanner.next(); //Clear Scanner Buffer
-        	return;
-		}
-		switch(userChoice) {
-			case 1:
-				viewStaff();
-				break;
-				
-			case 2:
-				addStaff();
-				break;
+		while(true) {
+			System.out.println("------ Manage Hospital Staff ------");
+			System.out.println("1. View Staff");
+			System.out.println("2. Add Staff");
+			System.out.println("3. Remove Staff");
+			System.out.println("4. Update Staff");
+			System.out.println("5. Return to Menu");
 			
-			case 3:
-				removeStaff();
-				break;
+			int userChoice;
+			//Error Handling
+			try {
+				userChoice = inputScanner.nextInt();
+			}catch(Exception e) {
+				System.out.println("Invalid Option... Please Try Again...\n");
+	        	inputScanner.next(); //Clear Scanner Buffer
+	        	return;
+			}
+			switch(userChoice) {
+				case 1:
+					viewStaff();
+					break;
+					
+				case 2:
+					addStaff();
+					break;
+				
+				case 3:
+					removeStaff();
+					break;
+				case 4:
+					updateStaff();
+					break;
+				case 5:
+					break;
+				default:
+					System.out.println("Invalid Option... Try Again");
+			}
 		}
 	}
-
+	
+	/**
+	 * Prints a list of staffIDs for the administrator to choose from
+	 */
+    private void updateStaff() {
+		// TODO Auto-generated method stub
+    	List<Staff> staffRecords = adminControl.getStaffRecords().getStaffList();
+    	while(true){
+			System.out.println("----- Available Staff -----");
+			int printIndex = 1;
+			int userChoice = 0;
+			for(Staff staff : staffRecords) {
+				System.out.println(printIndex++ + ". " + staff.getUserID());
+			}
+			System.out.println(printIndex + ". Exit");
+			System.out.print("Enter Option: ");
+			try {
+				userChoice = inputScanner.nextInt();
+			}catch(Exception e) {
+				System.out.println("You have entered a invalid format... Please Try Again");
+				inputScanner.next(); // Clear Buffer
+				userChoice = 0;
+			}
+			if(userChoice >= 1 && userChoice <= staffRecords.size()) {
+				Staff chosenStaff = staffRecords.get(userChoice-1);
+				updateStaff(chosenStaff);
+				return;
+				
+			}
+			else if(userChoice == staffRecords.size()+1) {
+				System.out.println("Returning to menu...");
+				return;
+			}
+			System.out.println("Invalid Option... Please Try Again");
+    	}
+	}
+    
     /**
+	 * Get administrator to choose desired particular to change and update the particular for the staff
+	 */
+    private void updateStaff(Staff staff) {
+    	int userChoice = 0;
+    	
+		while(true) {
+			System.out.println("----- " + staff.getUserID() + " -----");
+			System.out.println("1. Update Name");
+			System.out.println("2. Update Gender");
+			System.out.println("3. Update Age");
+			System.out.println("4. Reset Password");
+			System.out.println("5. Cancel Update");
+			System.out.print("Enter Option: ");
+			try {
+				userChoice = inputScanner.nextInt();
+			}catch(Exception e) {
+				System.out.println("You have entered a invalid format... Please Try Again");
+				inputScanner.next(); // Clear Buffer
+				userChoice = 0;
+			}
+			switch(userChoice) {
+				case 1:	inputScanner.nextLine(); // Clear Buffer
+						System.out.print("Enter New Name: ");
+						String newName = inputScanner.nextLine();
+						adminControl.updateStaffName(staff, newName);
+						System.out.println("Staff Name has been updated to " + staff.getUserName());
+						break;
+				case 2: while(true) {
+							System.out.print("Enter New Gender(Male/Female): ");
+							String newGender = inputScanner.next();
+							if(newGender.trim().equals("Male")|| newGender.trim().equals("Female")) {
+								adminControl.updateStaffGender(staff, newGender);
+								break;
+							}
+							System.out.println("Invalid Gender... Please Try Again...");
+						}
+						System.out.println("Staff Gender has been updated to " + staff.getUserGender());
+						break;
+				case 3: while(true) {
+							try {
+								System.out.print("Enter New Age: ");
+								int newAge = inputScanner.nextInt();
+								if(newAge < 16) {
+									System.out.println("Age has to be above 16...");
+									continue;
+								}
+								adminControl.updateStaffAge(staff, newAge);
+								break;
+							}catch(Exception e) {
+								System.out.println("Invalid Format... Please Input Again...");
+								inputScanner.next(); // Clear Buffer
+							}
+						}
+						System.out.println("Staff Age has been updated to " + staff.getAge());
+						break;
+				case 4: adminControl.resetStaffPassword(staff);
+						System.out.println("Staff password has been resetted");
+						break;
+				case 5: break;
+				default: System.out.println("Invalid Option... Please Try Again...");
+			}
+		}
+    }
+	/**
      * Removes a staff member from the hospital system based on their staff ID.
      */
 	private void removeStaff() {

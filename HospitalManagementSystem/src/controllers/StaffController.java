@@ -58,4 +58,44 @@ public class StaffController {
 	        System.out.println("Staff not found in records.");
 	    }
 	}
+	
+	/**
+     * Update the name of the staff.
+     * 
+     * @param staff The staff to modify
+     * @param newName The new name of the staff
+     */
+	public void updateStaffName(Staff staff, String newName) {
+		// TODO Auto-generated method stub
+		staff.setName(newName);
+	}
+	
+	/**
+     * Update the age of the staff.
+     * 
+     * @param staff The staff to modify
+     * @param newAge The new age of the staff
+     */
+	public void updateStaffAge(Staff staff, int newAge) {
+		staff.setAge(newAge);
+	}
+	
+	/**
+     * Update the age of the staff.
+     * 
+     * @param staff The staff to modify
+     * @param newAge The new age of the staff
+     */
+	public void updateStaffGender(Staff staff, String newGender) {
+		staff.setGender(newGender);
+	}
+	
+	/**
+     * Reset the psasword of the staff.
+     * 
+     * @param staff The staff to modify
+     */
+	public void resetStaffPassword(Staff staff) {
+		staff.resetPassword();
+	}
 }

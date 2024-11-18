@@ -53,26 +53,4 @@ public abstract class Staff extends User{
 		return this.age;
 		
 	}
-
-    /**
-     * Adds a staff member to the system.
-     * This method should be overridden by subclasses if required.
-     *
-     * @param staffUser The staff member to be added.
-     */
-	public void add(Staff staffUser) {
-		// TODO Auto-generated method stub
-		
-	}
-
-    /**
-     * Removes a staff member from the system by index.
-     * This method should be overridden by subclasses if required.
-     *
-     * @param indexOfStaff The index of the staff member to be removed.
-     */
-	public void remove(int indexOfStaff) {
-		// TODO Auto-generated method stub
-		
-	}
 }

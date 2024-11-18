@@ -54,16 +54,6 @@ public class AdministratorController {
 	}
 	
     /**
-     * Updates an existing staff member's information.
-     * 
-     * @param staff The current staff member to update
-     * @param updatedStaff The updated staff information
-     */
-	public void updateStaff(Staff staff, Staff updatedStaff) {
-		this.staffControl.updateStaff(staff, updatedStaff);
-	}
-	
-    /**
      * Removes a staff member from the system by their ID.
      * 
      * @param staffID The ID of the staff member to remove

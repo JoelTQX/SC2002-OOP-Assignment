@@ -116,6 +116,26 @@ public abstract class User {
 		this.userPass = newUserPass;
 	}
 	
+	/**
+     * Changes the user's name.
+     *
+     * @param newName The new name to set.
+     */
+	public void setName(String newName) {
+		// TODO Auto-generated method stub
+		this.userName = newName;
+	}
+	
+	/**
+     * Changes the user's gender.
+     *
+     * @param newGender The new gender to set.
+     */
+	public void setGender(String newGender) {
+		// TODO Auto-generated method stub
+		this.gender = newGender;
+	}
+	
     /**
      * Resets the user's password to the default value and marks the user for first login.
      */

@@ -53,4 +53,14 @@ public abstract class Staff extends User{
 		return this.age;
 		
 	}
+	
+	/**
+     * Changes the user's gender.
+     *
+     * @param newGender The new gender to set.
+     */
+	public void setAge(int newAge) {
+		// TODO Auto-generated method stub
+		this.age = newAge;
+	}
 }

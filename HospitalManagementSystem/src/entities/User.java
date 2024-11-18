@@ -1,5 +1,7 @@
 package entities;
 
+import datastorage.Password;
+
 /**
  * Represents a generic user in the hospital management system.
  * This abstract class serves as the base class for all user types.
@@ -141,6 +143,12 @@ public abstract class User {
      */
 	public void resetPassword() {
 		this.firstLogin = true;
-		this.userPass = "password";
+		try {
+			this.userPass = Password.hashPassword("password");
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("Error resetting password");
+		}
+		
 	}
 }

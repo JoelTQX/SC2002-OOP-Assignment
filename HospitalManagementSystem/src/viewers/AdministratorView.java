@@ -260,13 +260,13 @@ public class AdministratorView implements ViewInterface{
 			switch(userChoice) {
 				case 1:
 					addStock();
-					return;
+					break;
 				case 2:
 					removeStock();
-					return;
+					break;
 				case 3:
 					updateLowStockAlert();
-					return;
+					break;
 				case 4:
 					return;
 				default:
@@ -355,7 +355,7 @@ public class AdministratorView implements ViewInterface{
 					updateStaff();
 					break;
 				case 5:
-					break;
+					return;
 				default:
 					System.out.println("Invalid Option... Try Again");
 			}
@@ -457,7 +457,7 @@ public class AdministratorView implements ViewInterface{
 				case 4: adminControl.resetStaffPassword(staff);
 						System.out.println("Staff password has been resetted");
 						break;
-				case 5: break;
+				case 5: return;
 				default: System.out.println("Invalid Option... Please Try Again...");
 			}
 		}

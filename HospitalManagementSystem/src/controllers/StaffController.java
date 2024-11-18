@@ -28,16 +28,6 @@ public class StaffController {
 		this.staffRecords.add(staff);
 	}
 	
-    /**
-     * Updates the information of an existing staff member in the list. 
-     * This method currently does not perform any updates, and needs to be implemented.
-     * 
-     * @param staff The staff member to be updated.
-     * @param updatedStaff The new staff information to replace the existing staff information.
-     */
-	public void updateStaff(Staff staff, Staff updatedStaff) {
-		
-	}
 	
     /**
      * Removes a staff member from the list of staff records.

@@ -7,13 +7,24 @@ import entities.Appointment.AppointmentStatus;
 import entities.Appointment.PrescribedMedication;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * The AppointmentController class provides methods to manage and modify appointments,
+ * including adding, updating, retrieving appointment details, and processing prescribed medications.
+ */
 public class AppointmentController { 
     private AppointmentRecords appointmentRecords;
     
     /**
-     * The AppointmentController class provides methods to manage and modify appointments,
-     * including adding, updating, retrieving appointment details, and processing prescribed medications.
+     * Constructs an {@code AppointmentController} instance with the specified {@link DataStorage}.
+     *
+     * <p>
+     * This constructor initializes the {@code AppointmentController} by retrieving 
+     * appointment records from the provided {@link DataStorage} instance. These records 
+     * are stored internally to manage and process appointments.
+     * </p>
+     *
+     * @param dataStorage the {@link DataStorage} instance used to retrieve appointment records
+     * @throws NullPointerException if {@code dataStorage} is null
      */
     public AppointmentController(DataStorage dataStorage) {
         this.appointmentRecords = dataStorage.getAppointmentRecords();

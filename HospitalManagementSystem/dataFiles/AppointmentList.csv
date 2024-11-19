@@ -1,15 +1,15 @@
 Appointment ID,Patient ID,Doctor ID,Appointment Status,Appointment Date,Appointment Time,Appointment Type,Prescribed Medications,Consultation Notes
-AP0001,NULL,D001,AVAILABLE,11/13/2024,13:00,NULL,,NULL
-AP0002,null,D001,AVAILABLE,13/11/2024,13:00,Consultation,Paracetamol - Quantity: 10||Amoxicillin - Quantity: 10||,NIL
+AP0001,null,D001,AVAILABLE,23/11/2024,13:00,null,,null
+AP0002,null,D001,COMPLETED,22/11/2024,13:00,Consultation,Paracetamol - Quantity: 10||Amoxicillin - Quantity: 10||,NIL
 AP0003,P1001,D001,COMPLETED,13/11/2024,13:00,Consultation,Paracetamol - Quantity: 10||,Ok for now
-AP0004,P1001,D002,COMPLETED,11/13/2024,13:00,X-ray,Paracetamol - Quantity: 20||Amoxicillin - Quantity: 20||,Wait for results
-AP0005,P1001,D001,COMPLETED,10/10/2024,11:00,Consultation, - Quantity: 0||,Need to revisit again
-AP0006,P1001,D001,CANCELLED,10/10/2024,10:00,null,,null
-AP0007,P1001,D001,CANCELLED,10/10/2024,12:00,null,,null
-AP0008,null,D001,AVAILABLE,10/10/2024,10:00,null,,null
-AP0009,P1001,D001,SCHEDULED,12/12/2024,9:00,null,,null
-AP0010,P1001,D001,CANCELLED,12/12/2024,10:00,null,,null
-AP0011,null,D001,AVAILABLE,12/12/2024,11:00,null,,null
-AP0012,P1001,D001,CANCELLED,10/10/2024,12:00,null,,null
-AP0013,null,D001,AVAILABLE,10/10/2024,12:00,null,,null
+AP0004,P1001,D002,COMPLETED,13/11/2024,13:00,X-ray,Paracetamol - Quantity: 20||Amoxicillin - Quantity: 20||,Wait for results
+AP0005,P1001,D001,COMPLETED,13/11/2024,11:00,Consultation,,Need to revisit again
+AP0006,P1001,D001,CANCELLED,25/11/2024,10:00,null,,null
+AP0007,P1001,D001,CANCELLED,25/11/2024,12:00,null,,null
+AP0008,null,D001,AVAILABLE,25/11/2024,10:00,null,,null
+AP0009,P1001,D001,SCHEDULED,28/11/2024,9:00,null,,null
+AP0010,P1001,D001,CANCELLED,28/11/2024,10:00,null,,null
+AP0011,null,D001,AVAILABLE,28/11/2024,11:00,null,,null
+AP0012,P1001,D001,CANCELLED,28/11/2024,12:00,null,,null
+AP0013,null,D001,AVAILABLE,29/11/2024,12:00,null,,null
 AP0014,null,D001,AVAILABLE,30/11/2024,16:00,null,,null

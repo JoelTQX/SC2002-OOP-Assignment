@@ -268,9 +268,13 @@ public class DoctorView implements ViewInterface {
         System.out.print("Enter Type of Service (e.g., Consultation, X-ray): ");
         String serviceType = inputScanner.next();
 
-        System.out.print("Enter any Prescribed Medications (comma-separated): ");
+        System.out.print("Enter any Prescribed Medications (comma-separated), Enter NA if none: ");
         inputScanner.nextLine(); // Consume newline
         String medications = inputScanner.nextLine();
+        if ( medications == "NA"|| medications =="na")
+        {
+            medications = "No medication";
+        }
 
         System.out.print("Enter Medications QTY (comma-separated), Enter 0 if none: ");
         String inputLine = inputScanner.nextLine(); // Read the whole line

@@ -42,13 +42,11 @@ public class ReplenishmentWriter implements DataWriter<Replenishment>{
 		//Create Header and add to rowsToWrite
 		String[] cellsToWrite = createHeader();
 		rowsToWrite.add(cellsToWrite);
-		System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | ");
 		
 		//Populate Rows based on Available Medicine
 		for(Replenishment replenishment : recordToSave) {
 			cellsToWrite = createCells(replenishment);
 			rowsToWrite.add(cellsToWrite);
-			System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | ");
 		}
 		
 		//Try to access the csvFile

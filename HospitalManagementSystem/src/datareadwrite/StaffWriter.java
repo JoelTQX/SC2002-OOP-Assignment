@@ -54,13 +54,13 @@ public class StaffWriter implements DataWriter<Staff>{
 		//Create Header and add to rowsToWrite
 		String[] cellsToWrite = createHeader();
 		rowsToWrite.add(cellsToWrite);
-		System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | "+ cellsToWrite[3] + " | "+ cellsToWrite[4] + " | "+ cellsToWrite[5] + " | "+ cellsToWrite[6] + " | ");
+		
 		
 		//Populate Rows based on Available Medicine
 		for(Staff staff : recordToSave) {
 			cellsToWrite = createCells(staff);
 			rowsToWrite.add(cellsToWrite);
-			System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | "+ cellsToWrite[3] + " | "+ cellsToWrite[4] + " | "+ cellsToWrite[5] + " | "+ cellsToWrite[6] + " | ");
+			
 		}
 		
 		//Try to access the csvFile

@@ -40,13 +40,13 @@ public class MedicineWriter implements DataWriter<Medicine>{
 		//Create Header and add to rowsToWrite
 		String[] cellsToWrite = createHeader();
 		rowsToWrite.add(cellsToWrite);
-		System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | ");
+		
 		
 		//Populate Rows based on Available Medicine
 		for(Medicine medicine : recordToSave) {
 			cellsToWrite = createCells(medicine);
 			rowsToWrite.add(cellsToWrite);
-			System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | ");
+			
 		}
 		
 		//Try to access the csvFile

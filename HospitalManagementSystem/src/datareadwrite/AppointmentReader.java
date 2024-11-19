@@ -74,7 +74,6 @@ public class AppointmentReader implements DataReader{
 	               
 	                Appointment appointment=new Appointment(appointmentID,patientId,doctorId,appointmentStatus,appointmentDate,appointmentTime,appointmentType,medications,consultationNotes);
 	                dataStorage.getAppointmentRecords().addAppointment(appointment);
-	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]+ ", " + cells[3]+ ", " + cells[4]+ ", " + cells[5]+ ", " + cells[6]+ ", " + cells[7]+ ", " + cells[8]);
 	                
 	                }
 			 		
@@ -110,7 +109,6 @@ public class AppointmentReader implements DataReader{
 	            PrescribedMedication medication = new PrescribedMedication(name, quantity);
 	            medications.add(medication);
 	        } else {
-	            System.out.println("Skipping invalid medication entry: " + entry);
 	        }
 	    }
 

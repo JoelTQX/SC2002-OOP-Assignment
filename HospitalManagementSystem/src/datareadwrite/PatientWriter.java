@@ -40,13 +40,13 @@ public class PatientWriter implements DataWriter<Patient>{
 		//Create Header and add to rowsToWrite
 		String[] cellsToWrite = createHeader();
 		rowsToWrite.add(cellsToWrite);
-		System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | "+ cellsToWrite[3] + " | "+ cellsToWrite[4] + " | "+ cellsToWrite[5] + " | "+ cellsToWrite[6] + " | "+ cellsToWrite[7] + " | "+ cellsToWrite[8] + " | "+ cellsToWrite[9] + " | "+ cellsToWrite[10] + " | ");
+		
 		
 		//
 		for(Patient patient : recordToSave) {
 			cellsToWrite = createCells(patient);
 			rowsToWrite.add(cellsToWrite);
-			System.out.println(cellsToWrite[0] + " | " + cellsToWrite[1] + " | " + cellsToWrite[2] + " | "+ cellsToWrite[3] + " | "+ cellsToWrite[4] + " | "+ cellsToWrite[5] + " | "+ cellsToWrite[6] + " | "+ cellsToWrite[7] + " | "+ cellsToWrite[8] + " | "+ cellsToWrite[9] + " | "+ cellsToWrite[10] + " | ");
+			
 		}
 		
 		//Try to access the csvFile

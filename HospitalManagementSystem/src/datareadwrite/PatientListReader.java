@@ -63,7 +63,6 @@ public class PatientListReader implements DataReader {
 	                String diagnosesString=cells[9];
 	                String treatmentString=cells[10];
 	                boolean firstlogin=Boolean.parseBoolean(cells[2]);
-	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]);
 	                ArrayList<String> diagnoses = new ArrayList<>();
 	                if (diagnosesString != null && !diagnosesString.isEmpty()) {
 	                    String[] diagnosesArray = diagnosesString.split(";"); // Assuming ';' is the delimiter

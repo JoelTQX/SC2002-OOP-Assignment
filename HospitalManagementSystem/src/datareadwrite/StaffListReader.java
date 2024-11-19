@@ -82,7 +82,6 @@ public class StaffListReader implements DataReader {
 	                	Staff admin=new Administrator(staffid,name,password,firstlogin,role,gender,age);
 	                	dataStorage.getStaffRecords().addStaff(admin);
 	                }
-	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]);
 	                
 			 }
 		 }catch (Exception e) {

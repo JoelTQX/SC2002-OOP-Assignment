@@ -55,7 +55,6 @@ public class MedicineReader implements DataReader {
 	                String medicineName = cells[0];
 	                int initialStock=Integer.parseInt(cells[1]);
 	                int stockAlert=Integer.parseInt(cells[2]);
-	                System.out.println( cells[0] + ", " + cells[1] + ", " + cells[2]);
 	                
 	                Medicine medicine = new Medicine(medicineName, initialStock, stockAlert);
 	                dataStorage.getInventory().addMedicine(medicine);

@@ -1,24 +1,24 @@
 package datareadwrite;
 
+import datastorage.DataStorage;
+import entities.Replenishment;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import datastorage.DataStorage;
-import entities.Replenishment;
 /**
  * {@code ReplenishmentReader} is a class responsible for reading replenishment data from a CSV file
  * and populating it into the {@link DataStorage} object.
  * This class implements the {@link DataReader} interface to facilitate reading replenishment data.
  * 
- * <p>
- * The CSV file is expected to have the following columns:
+ * 
+ * <p>The CSV file is expected to have the following columns:
  * <ul>
  *   <li>Medicine Name</li>
  *   <li>Replenish Quantity</li>
  *   <li>Status</li>
  * </ul>
- * The class reads the data, processes it, and stores it in the {@link DataStorage}.
- * </p>
+ * The class reads the data, processes it, and stores it in the {@link DataStorage}.</p>
+ * 
  * 
  * @see DataReader
  * @see DataStorage

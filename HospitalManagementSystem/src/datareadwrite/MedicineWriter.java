@@ -1,16 +1,14 @@
 package datareadwrite;
 
+import datastorage.DataStorage;
+import entities.Appointment;
+import entities.Medicine;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
-import datastorage.DataStorage;
-import entities.Appointment;
-import entities.Medicine;
-import entities.Patient;
 /**
  * MedicineWriter class is used to write Medicine attributes to a CSV file.
  * Implements the {@link DataWriter} interface for the {@link Medicine} type.
@@ -18,7 +16,7 @@ import entities.Patient;
  * This class reads {@link Medicine} records from a {@link DataStorage} object and writes
  * them to a CSV file named {@code Medicine_List.csv}. It adds the data row by row, and 
  * each patient's attributes are separated into cells based on the defined headers.
- * </p>
+ * 
  * 
  * @see DataWriter
  * @see Medicine

@@ -1,7 +1,0 @@
-module:HospitalManagementSystem
-controllers
-datareadwrite
-datastorage
-entities
-hospitalmanagementsystem
-viewers

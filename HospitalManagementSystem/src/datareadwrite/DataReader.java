@@ -4,7 +4,7 @@ import java.io.IOException;
 import datastorage.DataStorage;
 /**
  * Interface {@code DataReader} provides a contract for classes that implement this interface.
- * Classes that implement {@code DataReader} must provide implementation for {@link #populateData()} method.
+ * Classes that implement {@code DataReader} must provide implementation for {@link #populateData(DataStorage dataStorage)} method.
  * Classes implementing this interface must provide implementations for the following methods:
  * 
  * <p>

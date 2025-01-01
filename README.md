@@ -42,10 +42,10 @@ This project includes:
 
 ## Acknowledgments
 Contributors
-- JoelTQX
-- Ariesura
-- frieddeli
-- jingjieong
-- Kaifeng
+- @JoelTQX
+- @Ariesura
+- @frieddeli
+- @jingjieong
+- @Kaifeng
 
 ## References

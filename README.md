@@ -42,10 +42,10 @@ This project includes:
 
 ## Acknowledgments
 Contributors
-- <a href="https://example.com" target="_blank">JoelTQX</a>
-- <a href="https://example.com" target="_blank">Ariesura</a>
-- <a href="https://example.com" target="_blank">frieddeli</a>
-- <a href="https://example.com" target="_blank">jingjieong</a>
-- <a href="https://example.com" target="_blank">Kaifeng</a>
+- <a href="https://github.com/JoelTQX" target="_blank">JoelTQX</a>
+- <a href="https://github.com/Ariesura" target="_blank">Ariesura</a>
+- <a href="https://github.com/frieddeli" target="_blank">frieddeli</a>
+- <a href="https://github.com/jingjieong" target="_blank">jingjieong</a>
+- <a href="https://github.com/Kaiiifeng" target="_blank">Kaifeng</a>
 
 ## References

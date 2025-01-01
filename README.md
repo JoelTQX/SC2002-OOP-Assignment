@@ -41,5 +41,10 @@ This project includes:
 - Reflection on development challenges and improvements
 
 ## Acknowledgments
+🤝 Contributors
+Ariesura
+frieddeli
+jingjieong
+Kaifeng
 
 ## References

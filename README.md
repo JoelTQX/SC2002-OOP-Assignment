@@ -42,7 +42,7 @@ This project includes:
 
 ## Acknowledgments
 Contributors
-- @JoelTQX
+- @ JoelTQX
 - @Ariesura
 - @frieddeli
 - @jingjieong

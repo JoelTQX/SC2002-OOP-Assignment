@@ -41,10 +41,11 @@ This project includes:
 - Reflection on development challenges and improvements
 
 ## Acknowledgments
-🤝 Contributors
-Ariesura
-frieddeli
-jingjieong
-Kaifeng
+Contributors
+- JoelTQX
+- Ariesura
+- frieddeli
+- jingjieong
+- Kaifeng
 
 ## References

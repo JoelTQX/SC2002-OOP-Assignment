@@ -42,10 +42,10 @@ This project includes:
 
 ## Acknowledgments
 Contributors
-- @ JoelTQX
-- @Ariesura
-- @frieddeli
-- @jingjieong
-- @Kaifeng
+- <a href="https://example.com" target="_blank">JoelTQX</a>
+- <a href="https://example.com" target="_blank">Ariesura</a>
+- <a href="https://example.com" target="_blank">frieddeli</a>
+- <a href="https://example.com" target="_blank">jingjieong</a>
+- <a href="https://example.com" target="_blank">Kaifeng</a>
 
 ## References
